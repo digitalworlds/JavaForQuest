@@ -1,0 +1,5 @@
+rootProject.projectDir = new File(settingsDir, '../../..')
+rootProject.name = "JavaForQuest_Demo"
+
+include ':', \
+    ':JavaForQuest_Demo:Projects:Android'
