@@ -1,4 +1,4 @@
-# Java For Quest (J4K) Project
+# Java For Quest (J4Q) Project
 Digital Arts & Sciences Programs | Digital Worlds Institute | University of Florida
 
 This project demonstrates how to create a Virtual Reality application for Meta Quest headsets as a Native Android application using Java in Android Studio. This project can be used as a setup for learning how to develop from scratch a basic game engine for Virtual Reality in Java. It can also be used along with a structured curriculum for teaching various topics related to game engine development such as: 3D Transformations using Matrices and Vectors, 3D geometry using triangular mesh, Animation loop, Shaders using GLSL, Controller input, Vibration feedback, and many other topics.   
