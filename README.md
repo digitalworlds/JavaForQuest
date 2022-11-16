@@ -59,7 +59,7 @@ After installing the required software you need to make the following system con
 
 ## Troubleshooting
 
-##### Gradle sync failed: NDK Not Configured
+### Gradle sync failed: NDK Not Configured
 
 Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). After that a file `local.properties` with the parameters `sdk.dir` and `ndk.dir` will automatically be generated inside the folder `JavaForQuest_Demo\Projects\Android`. Copy that file and paste it in the `J4Q_46.0` folder. Then build again the project.
 
