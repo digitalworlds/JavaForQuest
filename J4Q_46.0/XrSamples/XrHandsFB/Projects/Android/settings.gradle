@@ -1,5 +1,0 @@
-rootProject.projectDir = new File(settingsDir, '../../../..')
-rootProject.name = "XrHandsFB"
-
-include ':', \
-	':XrSamples:XrHandsFB:Projects:Android'

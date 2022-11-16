@@ -1,5 +1,0 @@
-rootProject.projectDir = new File(settingsDir, '../../../..')
-rootProject.name = "XrSceneModel"
-
-include ':', \
-    ':XrSamples:XrSceneModel:Projects:Android'
