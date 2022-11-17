@@ -27,11 +27,12 @@ You need to install the following software to be able to compile Android softwar
 ### 3. Run the Java For Quest (J4Q) Project
 
 - Open in Android studio the project file: `J4Q_46.0/JavaForQuest_Demo/Projects/Android/build.gradle`
+- If there errors during the build process, follow our troubleshooting guide at the end of this document.
 - Connect your Quest headset to your development computer using the charging cable.
-- In Quest accept the pop-up permission dialog.
+- In the headset accept the pop-up permission dialog.
 - When your device appears in the device list in Android Studio, click on the Run button to compile the project and install it in your headset.
 - Test the J4Q Demo app in your headset.
-- You can find and start the app in your Quest headset in your Library and select 'Unknown Sources'. 
+- In general, you can find and run the app in your Quest headset in your Library in the category 'Unknown Sources'. 
 
 ## Tested with the following system configuration:
 
@@ -49,10 +50,10 @@ You need to install the following software to be able to compile Android softwar
 
 Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). After that a file `local.properties` with the parameters `sdk.dir` and `ndk.dir` will automatically be generated inside the folder `JavaForQuest_Demo\Projects\Android`. If the file does not contain the `ndk.dir` you can edit the text and append a line after the `sdk.dir=...` with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/21.0.6113669`. Finally, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. Then try again by clicking on the "try again" button on top of the text editor, when viewing the local.properties file.
 
-### Execution failed for task ':JavaForQuest_Demo:Projects:Android:genDebugKeystore'. Process 'command 'python3'' finished with non-zero exit value 1
+### Execution failed for task ':JavaForQuest_Demo:Projects:Android:genDebugKeystore'. Process 'command python3' finished with non-zero exit value 1
 
-This error appears if the file `JavaForQuest_Demo\Projects\Android\android.debug.keystore` is missing, possibly because it was automatically removed when performing Build -> Clean Project or Build -> Rebuild Project. An easy way to fix this is copy the file `JavaForQuest_Demo\Projects\Android\keystore\android.debug.keystore` into the folder `JavaForQuest_Demo\Projects\Android` and then re-run. Otherwise, a more lengthy solution is to open a command line terminal and go to the folder `JavaForQuest_Demo\Projects\Android` and run `python3 ../../../bin/scripts/build/ovrbuild_keystore.py`. This step requires prior installation of python as well as setting the system variables `ANDROID_NDK_HOME` and `ANDROID_HOME`.
+This error appears if the file `JavaForQuest_Demo\Projects\Android\android.debug.keystore` is missing, possibly because it was automatically removed when performing Build -> Clean Project or Build -> Rebuild Project. An easy way to fix this is to copy the file `JavaForQuest_Demo\Projects\Android\keystore\android.debug.keystore` into the folder `JavaForQuest_Demo\Projects\Android` and then re-run. Otherwise, a more lengthy solution is to open a command line terminal and go into the folder `JavaForQuest_Demo\Projects\Android` and run the command `python3 ../../../bin/scripts/build/ovrbuild_keystore.py`. This step requires prior installation of python3 as well as setting the system variables `ANDROID_NDK_HOME` and `ANDROID_HOME`.
 
 ### Setting Android Studio as a Developer Tool in Mac
 
-In MacOS it is helpful if you set Android Studio as a Developer Tool. First, enable Developer Mode by opening the Terminal and typing `spctl developer-mode enable-terminal`. Then in System Preferences go to Security & Privacy and in the Privacy Tab, go to the option Developer Tools and add Android Studio.
+In MacOS it is helpful if you set Android Studio as a Developer Tool. To do that, first enable Developer Mode by opening the Terminal and typing `spctl developer-mode enable-terminal`. Then in System Preferences go to Security & Privacy and in the Privacy Tab, go to the option Developer Tools and add Android Studio.
