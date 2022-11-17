@@ -47,11 +47,11 @@ You need to install the following software to be able to compile Android softwar
 
 ### Gradle sync failed: NDK Not Configured
 
-Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). After that a file `local.properties` with the parameters `sdk.dir` and `ndk.dir` will automatically be generated inside the folder `JavaForQuest_Demo\Projects\Android`. If the file does not contain the `ndk.dir` you can edit the text and append a line after the `sdk.dir=...` with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/21.0.6113669`. Finally, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. Then build again the project by clicking on the "try again" button on top of the text editor, when viewing the local.properties file.
+Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). After that a file `local.properties` with the parameters `sdk.dir` and `ndk.dir` will automatically be generated inside the folder `JavaForQuest_Demo\Projects\Android`. If the file does not contain the `ndk.dir` you can edit the text and append a line after the `sdk.dir=...` with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/21.0.6113669`. Finally, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. Then try again by clicking on the "try again" button on top of the text editor, when viewing the local.properties file.
 
 ### Execution failed for task ':JavaForQuest_Demo:Projects:Android:genDebugKeystore'. Process 'command 'python3'' finished with non-zero exit value 1
 
-In terminal go to the folder `JavaForQuest_Demo\Projects\Android` and run `python3 ../../../bin/scripts/build/ovrbuild_keystore.py`. This step requires prior installation of python as well as setting the system variables `ANDROID_NDK_HOME` and `ANDROID_HOME`.
+This error appears if the file `JavaForQuest_Demo\Projects\Android\android.debug.keystore` is missing, possibly because it was automatically removed when performing Build -> Clean Project or Build -> Rebuild Project. An easy way to fix this is copy the file `JavaForQuest_Demo\Projects\Android\keystore\android.debug.keystore` into the folder `JavaForQuest_Demo\Projects\Android` and then re-run. Otherwise, a more lengthy solution is to open a command line terminal and go to the folder `JavaForQuest_Demo\Projects\Android` and run `python3 ../../../bin/scripts/build/ovrbuild_keystore.py`. This step requires prior installation of python as well as setting the system variables `ANDROID_NDK_HOME` and `ANDROID_HOME`.
 
 ### Setting Android Studio as a Developer Tool in Mac
 
