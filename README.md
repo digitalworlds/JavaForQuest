@@ -27,11 +27,10 @@ After installing the required software you need to make the following system con
 
 - Enable Developer Mode by opening the Terminal and typing `spctl developer-mode enable-terminal`
 - In System Preferences go to Security & Privacy and in the Privacy Tab, go to the option Developer Tools and add Android Studio.
-- Set system variables...?
 
 #### Windows systems
 
-- Set system variables...?
+- There are no additional steps required.
 
 #### Meta Quest headset
 
