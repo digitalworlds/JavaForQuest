@@ -30,7 +30,7 @@ You need to install the following software to be able to compile Android softwar
 - [x] If there errors during the build process, follow our troubleshooting guide at the end of this document.
 - [x] Connect your Quest headset to your development computer using the charging cable.
 - [x] In the headset accept the pop-up permission dialog.
-- [x] When your device appears in the device list in Android Studio, click on the Run button to compile the project and install it in your headset.
+- [x] When the name of your headset device appears in the device list in the toolbar of Android Studio, click on the Run button to compile the project and install it on your headset.
 - [x] Test the J4Q Demo app in your headset.
 - [x] In general, you can find and run the app in your Quest headset in your Library in the category 'Unknown Sources'. 
 
