@@ -49,15 +49,15 @@ You need to install the following software to be able to compile Android softwar
 ### Gradle sync failed: NDK Not Configured
 
 1. Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). 
-2. After that a file `JavaForQuest_Demo\Projects\Android\local.properties` will automatically be generated with the parameters `sdk.dir` and `ndk.dir`. 
+2. After that a file `JavaForQuest_Demo/Projects/Android/local.properties` will automatically be generated with the parameters `sdk.dir` and `ndk.dir`. 
 3. If the file does not contain `ndk.dir` you can edit the text and append a line with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/21.0.6113669`. 
 4. Then, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. 
 5. Finally, try again by clicking on the "try again" button on top of the text editor, when viewing the local.properties file.
 
 ### Execution failed for task ':JavaForQuest_Demo:Projects:Android:genDebugKeystore'. Process 'command python3' finished with non-zero exit value 1
 
-1. This error appears if the file `JavaForQuest_Demo\Projects\Android\android.debug.keystore` is missing, possibly because it was automatically removed when performing Build -> Clean Project or Build -> Rebuild Project. 
-2. An easy way to fix this is to copy the file `JavaForQuest_Demo\Projects\Android\keystore\android.debug.keystore` into the folder `JavaForQuest_Demo\Projects\Android` and then re-run. 
+1. This error appears if the file `JavaForQuest_Demo/Projects/Android/android.debug.keystore` is missing, possibly because it was automatically removed when performing Build -> Clean Project or Build -> Rebuild Project. 
+2. An easy way to fix this is to copy the file `JavaForQuest_Demo/Projects/Android/keystore/android.debug.keystore` into the folder `JavaForQuest_Demo\Projects\Android` and then re-run. 
 
 Otherwise, a more lengthy solution is to open a command line terminal and go into the folder `JavaForQuest_Demo\Projects\Android` and run the command `python3 ../../../bin/scripts/build/ovrbuild_keystore.py`. This step requires prior installation of python3 as well as setting the system variables `ANDROID_NDK_HOME` and `ANDROID_HOME`.
 
