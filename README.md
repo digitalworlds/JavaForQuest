@@ -41,7 +41,7 @@ You need to install the following software to be able to compile Android softwar
 - Gradle 6.1.1
 - NDK 21.0.6113669
 - CMake 3.22.1
-- MacOS 12.5 Monterey (Development system)
+- Development Systems: MacOS 12.5 Monterey (M2 chip), MacOS 11.7.1 Big Sur (Intel chip), Windows 10, Windows 11
 - Meta Quest 1 & 2 (Testing systems)
 
 ## Troubleshooting
