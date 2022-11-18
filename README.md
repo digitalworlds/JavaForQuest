@@ -57,7 +57,7 @@ You need to install the following software to be able to compile Android softwar
 ### Execution failed for task ':JavaForQuest_Demo:Projects:Android:genDebugKeystore'. Process 'command python3' finished with non-zero exit value 1
 
 1. This error appears if the file `JavaForQuest_Demo/Projects/Android/android.debug.keystore` is missing, possibly because it was automatically removed when performing Build -> Clean Project or Build -> Rebuild Project. 
-2. An easy way to fix this is to copy the file `JavaForQuest_Demo/Projects/Android/keystore/android.debug.keystore` into the folder `JavaForQuest_Demo\Projects\Android` and then re-run. 
+2. An easy way to fix this is to copy the file `JavaForQuest_Demo/Projects/Android/keystore/android.debug.keystore` into the folder `JavaForQuest_Demo/Projects/Android` and then re-run. 
 
 Otherwise, a more lengthy solution is to open a command line terminal and go into the folder `JavaForQuest_Demo\Projects\Android` and run the command `python3 ../../../bin/scripts/build/ovrbuild_keystore.py`. This step requires prior installation of python3 as well as setting the system variables `ANDROID_NDK_HOME` and `ANDROID_HOME`.
 
