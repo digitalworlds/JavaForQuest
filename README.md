@@ -49,7 +49,7 @@ You need to install the following software to be able to compile Android softwar
 ### Gradle sync failed: NDK Not Configured
 
 1. Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). 
-2. After that a file `JavaForQuest_Demo/Projects/Android/local.properties` will automatically be generated with the parameters `sdk.dir` and `ndk.dir`. 
+2. After that, the file `JavaForQuest_Demo/Projects/Android/local.properties` will automatically be generated with the parameters `sdk.dir` and `ndk.dir`. 
 3. If the file does not contain `ndk.dir` you can edit the text and append a line with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/21.0.6113669`. 
 4. Then, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. 
 5. Finally, try again by clicking on the "try again" button on top of the text editor, when viewing the local.properties file.
