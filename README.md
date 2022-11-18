@@ -21,18 +21,18 @@ You need to install the following software to be able to compile Android softwar
 
 ### 2. Configure your Meta Quest headset
 
-- Update the headset to the latest firmware and software by going to Quick Settings (where the time and battery status is shown) -> Settings -> Software Update
-- Enable Developer Mode by using the Meta Quest app
+- [x] Update the headset to the latest firmware and software by going to Quick Settings (where the time and battery status is shown) -> Settings -> Software Update
+- [x] Enable Developer Mode by using the Meta Quest app
 
 ### 3. Run the Java For Quest (J4Q) Project
 
-- Open in Android studio the project file: `J4Q_46.0/JavaForQuest_Demo/Projects/Android/build.gradle`
-- If there errors during the build process, follow our troubleshooting guide at the end of this document.
-- Connect your Quest headset to your development computer using the charging cable.
-- In the headset accept the pop-up permission dialog.
-- When your device appears in the device list in Android Studio, click on the Run button to compile the project and install it in your headset.
-- Test the J4Q Demo app in your headset.
-- In general, you can find and run the app in your Quest headset in your Library in the category 'Unknown Sources'. 
+- [x] Open in Android studio the project file: `J4Q_46.0/JavaForQuest_Demo/Projects/Android/build.gradle`
+- [x] If there errors during the build process, follow our troubleshooting guide at the end of this document.
+- [x] Connect your Quest headset to your development computer using the charging cable.
+- [x] In the headset accept the pop-up permission dialog.
+- [x] When your device appears in the device list in Android Studio, click on the Run button to compile the project and install it in your headset.
+- [x] Test the J4Q Demo app in your headset.
+- [x] In general, you can find and run the app in your Quest headset in your Library in the category 'Unknown Sources'. 
 
 ## Tested with the following system configuration:
 
