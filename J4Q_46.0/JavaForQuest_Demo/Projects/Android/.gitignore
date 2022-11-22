@@ -1,0 +1,10 @@
+
+# Gradle files
+.gradle/
+build/
+
+# Android Studio generated files and folders
+.cxx/
+
+# IntelliJ
+.idea/
