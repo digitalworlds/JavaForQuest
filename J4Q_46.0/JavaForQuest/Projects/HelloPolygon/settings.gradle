@@ -2,4 +2,4 @@ rootProject.projectDir = new File(settingsDir, '../../..')
 rootProject.name = "J4Q"
 
 include ':', \
-    ':JavaForQuest:Projects:EndlessUniverse'
+    ':JavaForQuest:Projects:HelloPolygon'
