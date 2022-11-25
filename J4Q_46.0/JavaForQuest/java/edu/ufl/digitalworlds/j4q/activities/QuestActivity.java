@@ -22,6 +22,7 @@ public abstract class QuestActivity extends NativeActivity {
 
     public Model scene=new Model();
     public void appendChild(Model model){scene.appendChild(model);}
+    public void prependChild(Model model){scene.prependChild(model);}
     public void removeChild(Model model){scene.removeChild(model);}
 
     public void _simulate(double elapsedDisplayTime,

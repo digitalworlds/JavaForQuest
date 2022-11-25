@@ -9,14 +9,14 @@ android {
   // -debug.apk or -release.apk appended to it.
   // The filename doesn't effect the Android installation process.
   // Use only letters to remain compatible with the package name.
-  project.archivesBaseName = "j4qdemo"
+  project.archivesBaseName = "hellopolygon"
 
 
   defaultConfig {
     // Gradle replaces the manifest package with this value, which must
     // be unique on a system.  If you don't change it, a new app
     // will replace an older one.
-    applicationId "com.oculus.sdk." + project.archivesBaseName
+    applicationId "com.example.j4q." + project.archivesBaseName
     minSdkVersion 24
     targetSdkVersion 25
     compileSdkVersion 26
