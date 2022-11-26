@@ -30,7 +30,7 @@ public class MainActivity extends QuestActivity {
         });
 
         //from the texture add pixel locations to the vertices
-        square.mesh.setColors(new float[]{
+        square.mesh.setUV(new float[]{
                 0,0,  //vertex #0: lower left pixel
                 1,0,  //vertex #1: lower right pixel
                 1,1,  //vertex #2: upper right pixel
@@ -53,8 +53,8 @@ public class MainActivity extends QuestActivity {
         //add the 3D model to the scene
         appendChild(square);
 
-        //move the square 1 meter along the z-axis (deep into the scene)
-        square.transform.translate(0,0,-1);
+        //move the square 1 meter high and 1 meter along the z-axis (deep into the scene)
+        square.transform.translate(0,1,-1);
 
         //Let's pick a blue shade for background
         background(153/255f,	204/255f,	255/255f);
