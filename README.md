@@ -7,7 +7,7 @@ The project contains several sample VR apps located inside the `J4Q_46.0/JavaFor
 - EndlessUniverse: A full-scale demo of the J4Q API
 - Sandbox: An empty project for you to start experimenting
 - HelloPolygon: An introduction on how to create 3D objects
-- HelloTexture: An example on how to map textures onto 3D geomerty
+- HelloTexture: An example on how to map textures onto 3D geometry
 - HelloNormals: A tutorial on how to encode surface normal vectors
 - HelloAnimation: An example on how to create simple animations
 - HelloObjectMaker: A simple API for composing 3D objects using primitive shapes
