@@ -6,8 +6,8 @@ import edu.ufl.digitalworlds.j4q.J4Q;
 import edu.ufl.digitalworlds.j4q.activities.QuestActivity;
 import edu.ufl.digitalworlds.j4q.models.Mesh;
 import edu.ufl.digitalworlds.j4q.models.Model;
+import edu.ufl.digitalworlds.j4q.shaders.ShadedTextureShader;
 import edu.ufl.digitalworlds.j4q.shaders.Texture;
-import edu.ufl.digitalworlds.j4q.shaders.TextureShader;
 
 public class MainActivity extends QuestActivity {
     @Override
@@ -150,10 +150,10 @@ public class MainActivity extends QuestActivity {
 
 
         //add a shader to the model
-        cube.shader=new TextureShader();
+        cube.shader=new ShadedTextureShader();
 
         //add a texture to the shader
-        ((TextureShader)cube.shader).setTexture(new Texture("textures/box.png"));
+        ((ShadedTextureShader)cube.shader).setTexture(new Texture("textures/box.png"));
 
         //add the 3D model to the scene
         appendChild(cube);
@@ -163,15 +163,18 @@ public class MainActivity extends QuestActivity {
 
         //Let's pick a blue shade for background
         background(153/255f,	204/255f,	255/255f);
+
+        //set light direction downwards
+        setLightDir(0,-1,0);
     }
 
     @Override
     public void Update() {
 
-        //we rotate the cube 2 degrees per second around the Y axis
-        cube.transform.rotateY(2* J4Q.perSec());
+        //we rotate the cube 5 degrees per second around the Y axis
+        cube.transform.rotateY(5*J4Q.perSec());
 
-        //we rotate the cube 2 degrees per second around the X axis
-        cube.transform.rotateX(2* J4Q.perSec());
+        //we rotate the cube 5 degrees per second around the X axis
+        cube.transform.rotateX(5*J4Q.perSec());
     }
 }
