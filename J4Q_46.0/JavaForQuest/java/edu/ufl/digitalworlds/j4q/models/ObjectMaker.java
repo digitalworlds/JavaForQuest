@@ -632,61 +632,61 @@ public class ObjectMaker extends Transform {
     public Model flushTexturedModel(){
         return flushTexturedModel(new Model());
     }
-    public Model flushTexturedModel(Model m){
-        if(m.shader==null)m.shader=new TextureShader();
-        if(m.mesh==null) m.mesh=new Mesh();
-        m.mesh.setXYZ(getXYZ());
+    public Model flushTexturedModel(Model model){
+        if(model.shader==null)model.shader=new TextureShader();
+        if(model.mesh==null) model.mesh=new Mesh();
+        model.mesh.setXYZ(getXYZ());
         //obj.setNormals(getNormals());
-        m.mesh.setTriangles(getTriangles());
-        m.mesh.setUV(getUV());
+        model.mesh.setTriangles(getTriangles());
+        model.mesh.setUV(getUV());
         //obj.setColors(getColors());
         clear();
-        return m;
+        return model;
     }
 
     public Model flushShadedTexturedModel(){
         return flushShadedTexturedModel(new Model());
     }
-    public Model flushShadedTexturedModel(Model m){
-        if(m.shader==null)m.shader=new ShadedTextureShader();
-        if(m.mesh==null) m.mesh=new Mesh();
-        m.mesh.setXYZ(getXYZ());
-        m.mesh.setNormals(getNormals());
-        m.mesh.setTriangles(getTriangles());
-        m.mesh.setUV(getUV());
+    public Model flushShadedTexturedModel(Model model){
+        if(model.shader==null)model.shader=new ShadedTextureShader();
+        if(model.mesh==null) model.mesh=new Mesh();
+        model.mesh.setXYZ(getXYZ());
+        model.mesh.setNormals(getNormals());
+        model.mesh.setTriangles(getTriangles());
+        model.mesh.setUV(getUV());
         //obj.setColors(getColors());
         clear();
-        return m;
+        return model;
     }
 
     public Model flushColoredModel(){
         return flushColoredModel(new Model());
     }
-    public Model flushColoredModel(Model m){
-        if(m.shader==null)m.shader=new ColorShader();
-        if(m.mesh==null) m.mesh=new Mesh();
-        m.mesh.setXYZ(getXYZ());
+    public Model flushColoredModel(Model model){
+        if(model.shader==null)model.shader=new ColorShader();
+        if(model.mesh==null) model.mesh=new Mesh();
+        model.mesh.setXYZ(getXYZ());
         //obj.setNormals(getNormals());
-        m.mesh.setTriangles(getTriangles());
+        model.mesh.setTriangles(getTriangles());
         //obj.setUV(getUV());
-        m.mesh.setColors(getColors());
+        model.mesh.setColors(getColors());
         clear();
-        return m;
+        return model;
     }
 
     public Model flushShadedColoredModel(){
         return flushShadedColoredModel(new Model());
     }
-    public Model flushShadedColoredModel(Model m){
-        if(m.shader==null)m.shader=new ShadedColorShader();
-        if(m.mesh==null) m.mesh=new Mesh();
-        m.mesh.setXYZ(getXYZ());
-        m.mesh.setNormals(getNormals());
-        m.mesh.setTriangles(getTriangles());
+    public Model flushShadedColoredModel(Model model){
+        if(model.shader==null)model.shader=new ShadedColorShader();
+        if(model.mesh==null) model.mesh=new Mesh();
+        model.mesh.setXYZ(getXYZ());
+        model.mesh.setNormals(getNormals());
+        model.mesh.setTriangles(getTriangles());
         //obj.setUV(getUV());
-        m.mesh.setColors(getColors());
+        model.mesh.setColors(getColors());
         clear();
-        return m;
+        return model;
     }
 }
 
