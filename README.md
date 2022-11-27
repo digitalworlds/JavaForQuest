@@ -1,7 +1,19 @@
-# Java For Quest (J4Q) Project
+# J4Q (Java For Quest) Project
 Digital Arts & Sciences Programs | Digital Worlds Institute | University of Florida
 
 The J4Q project demonstrates how to create Virtual Reality apps for Meta Quest headsets as Native Android applications using Java in Android Studio. This project can be used as a setup for learning how to develop from scratch a basic game engine for Virtual Reality in Java. It can also be used along with a structured curriculum for teaching various topics related to game engine development such as: 3D Transformations using Matrices and Vectors, 3D geometry using triangular mesh, Animation loop, Shaders using GLSL, Controller input, Vibration feedback, and many other topics.   
+
+The project contains several sample VR apps located inside the `J4Q_46.0/JavaForQuest/Projects` folder. 
+- EndlessUniverse: A full-scale demo of the J4Q API
+- Sandbox: An empty project for you to start experimenting
+- HelloPolygon: An introduction on how to create 3D objects
+- HelloTexture: An example on how to map textures onto 3D geomerty
+- HelloNormals: A tutorial on how to encode surface normal vectors
+- HelloAnimation: An example on how to create simple animations
+- HelloObjectMaker: A simple API for composing 3D objects using primitive shapes
+- HelloObjectClass: An example on how to define 3D objects as classes using object-oriented programming
+- HelloSolarSystem: A demo of a scene with several animated objects
+- HelloControllers: A tutorial on VR controllers and how to use their input (pose, buttons, squeezes, joysticks) and output (vibration) 
 
 ## How to setup and run J4Q:
 
@@ -24,7 +36,7 @@ You need to install the following software to be able to compile Android softwar
 - [x] Update the headset to the latest firmware and software by going to Quick Settings (where the time and battery status is shown) -> Settings -> Software Update
 - [x] Enable Developer Mode by using the Meta Quest app
 
-### 3. Run the Java For Quest (J4Q) Project
+### 3. Run the J4Q (Java For Quest) Project
 
 - [x] Open in Android studio the project file: `J4Q_46.0/JavaForQuest/Projects/EndlessUniverse/build.gradle`
 - [x] If there are errors during the build process, follow our troubleshooting guide at the end of this document.
@@ -49,7 +61,7 @@ You need to install the following software to be able to compile Android softwar
 ### Gradle sync failed: NDK Not Configured
 
 1. Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). 
-2. After that, the file `JavaForQuest/Projects/Android/local.properties` will automatically be generated with the parameters `sdk.dir` and `ndk.dir`. 
+2. After that, the file `JavaForQuest/Projects/EndlessUniverse/local.properties` will automatically be generated with the parameters `sdk.dir` and `ndk.dir`. 
 3. If the file does not contain `ndk.dir` you can edit the text and append a line with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/21.0.6113669`. 
 4. Then, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. 
 5. Finally, try again by clicking on the "try again" button on top of the text editor, when viewing the local.properties file.
