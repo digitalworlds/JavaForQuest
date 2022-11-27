@@ -16,16 +16,16 @@ public class MainActivity extends QuestActivity {
 
     public void Start(){
         //create a 3D model object
-        Model square=new Model();
+        Model cube=new Model();
 
         //add a 3D mesh to the model
-        square.mesh=new Mesh();
+        cube.mesh=new Mesh();
 
         //add vertices to the model to make a cube.
         //a cube has only 8 vertices, but here we will define them seperately for each face
         //in order to set different orientations (normals) for shading purposes.
         //so, in total we will define 24 vertices.
-        square.mesh.setXYZ(new float[]{
+        cube.mesh.setXYZ(new float[]{
                 -0.5f,0.5f,0.5f, //vertices of the front face
                 0.5f,0.5f,0.5f,
                 -0.5f,-0.5f,0.5f,
@@ -58,7 +58,7 @@ public class MainActivity extends QuestActivity {
         });
 
         //for each vertex we define here its orientation (i.e. the normal vector)
-        square.mesh.setNormals(new float[]{
+        cube.mesh.setNormals(new float[]{
                 0,0,1,//normals of the front face (orientation towards us)
                 0,0,1,
                 0,0,1,
@@ -92,7 +92,7 @@ public class MainActivity extends QuestActivity {
 
         //from the texture add pixel locations to the vertices.
         //here we map the whole texture on each face of the cube.
-        square.mesh.setUV(new float[]{
+        cube.mesh.setUV(new float[]{
                 0,1,//the pixels of the front face
                 1,1,
                 0,0,
@@ -125,7 +125,7 @@ public class MainActivity extends QuestActivity {
         });
 
         //make a triangular mesh
-        square.mesh.setTriangles(new short[]{
+        cube.mesh.setTriangles(new short[]{
                 0,2,1,//two triangles for the front face
                 1,2,3,
 
@@ -147,18 +147,18 @@ public class MainActivity extends QuestActivity {
 
 
         //add a shader to the model
-        square.shader=new TextureShader();
+        cube.shader=new TextureShader();
 
         //add a texture to the shader
-        ((TextureShader)square.shader).setTexture(new Texture("textures/box.png"));
+        ((TextureShader)cube.shader).setTexture(new Texture("textures/box.png"));
 
         //add the 3D model to the scene
-        appendChild(square);
+        appendChild(cube);
 
-        //move the square 1 meter high and 1.5 meters along the z-axis (deep into the scene)
-        square.transform.translate(0,1,-1.5f);
+        //move the cube 1 meter high and 1.5 meters along the z-axis (deep into the scene)
+        cube.transform.translate(0,1,-1.5f);
         //we also rotate the cube to be able to see the shading on the side faces
-        square.transform.rotate(60,1,1,0);
+        cube.transform.rotate(60,1,1,0);
 
         //Let's pick a blue shade for background
         background(153/255f,	204/255f,	255/255f);
