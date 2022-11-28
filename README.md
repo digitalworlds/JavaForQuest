@@ -21,13 +21,13 @@ The project contains several sample VR apps located inside the `J4Q_46.0/JavaFor
 
 The following instructions will guide you step by step on how to setup and run J4Q in your system. The instructions include details for the following steps:
 
-- Install all the required software. 
-- Configure your headset.
-- Open in Android studio the project file: `J4Q_46.0/JavaForQuest/Projects/EndlessUniverse/build.gradle`
+- Installation of required software. 
+- Configuration of headset.
+- Opening in Android studio the project file: `J4Q_46.0/JavaForQuest/Projects/EndlessUniverse/build.gradle`
 
 ### 1. Prerequisites
 
-You need to install the following software to be able to compile Android software for Meta Quest headsets:
+You need to install the following software to be able to compile Android apps for Meta Quest headsets:
 
 - [x] The latest version of Android Studio: https://developer.android.com/studio
 - [x] Open the SDK Manager of Android Studio and install the SDK Platform 8.0 (Oreo) API Level 26
