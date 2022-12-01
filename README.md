@@ -3,6 +3,8 @@ Digital Arts & Sciences Programs | Digital Worlds Institute | University of Flor
 
 The J4Q project demonstrates how to create Virtual Reality apps for Meta Quest headsets as Native Android applications using Java in Android Studio. This project can be used as a setup for learning how to develop from scratch a basic game engine for Virtual Reality in Java. It can also be used along with a structured curriculum for teaching various topics related to game engine development such as: 3D Transformations using Matrices and Vectors, 3D geometry using triangular mesh, Animation loop, Shaders using GLSL, Controller input, Vibration feedback, and many other topics.   
 
+## Contents
+
 The project contains several sample VR apps located inside the `J4Q_46.0/JavaForQuest/Projects` folder. 
 - EndlessUniverse: A full-scale demo of the J4Q API
 - Sandbox: An empty project for you to start experimenting
@@ -19,13 +21,13 @@ The project contains several sample VR apps located inside the `J4Q_46.0/JavaFor
 
 The following instructions will guide you step by step on how to setup and run J4Q in your system. The instructions include details for the following steps:
 
-- Install all the required software. 
-- Configure your headset.
-- Open in Android studio the project file: `J4Q_46.0/JavaForQuest/Projects/EndlessUniverse/build.gradle`
+- Installation of required software. 
+- Configuration of headset.
+- Opening in Android studio the project file: `J4Q_46.0/JavaForQuest/Projects/EndlessUniverse/build.gradle`
 
 ### 1. Prerequisites
 
-You need to install the following software to be able to compile Android software for Meta Quest headsets:
+You need to install the following software to be able to compile Android apps for Meta Quest headsets:
 
 - [x] The latest version of Android Studio: https://developer.android.com/studio
 - [x] Open the SDK Manager of Android Studio and install the SDK Platform 8.0 (Oreo) API Level 26
