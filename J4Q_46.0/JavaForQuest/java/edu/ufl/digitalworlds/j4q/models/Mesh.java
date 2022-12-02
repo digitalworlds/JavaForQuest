@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 
 public class Mesh {
 
@@ -45,13 +46,48 @@ public class Mesh {
         }
     }
 
+    public void setXYZ(ArrayList<Float> vertices){
+        if(vertices==null || vertices.size()==0)return;
+
+        float v[]=new float[vertices.size()];
+        int i = 0;
+        for (Float f : vertices) {
+            v[i++] = f;
+        }
+        setXYZ(v);
+    }
+
     public void setXYZ(float[] vertices){
         if(keep_data)this.xyz=vertices;
         setArrayBuffer3f(vertices,0);
     }
+
+    public void setUV(ArrayList<Float> vertices){
+        if(vertices==null || vertices.size()==0)return;
+
+        float v[]=new float[vertices.size()];
+        int i = 0;
+        for (Float f : vertices) {
+            v[i++] = f;
+        }
+        setUV(v);
+    }
+
     public void setUV(float[] uv){
         setArrayBuffer2f(uv,1);
     }
+
+    public void setNormals(ArrayList<Float> vertices){
+        if(vertices==null || vertices.size()==0)return;
+
+        float v[]=new float[vertices.size()];
+        int i = 0;
+        for (Float f : vertices) {
+            v[i++] = f;
+        }
+        setNormals(v);
+    }
+
     public void setNormals(float[] normals){
         setArrayBuffer3f(normals,2);
     }
@@ -97,6 +133,19 @@ public class Mesh {
 
         GLES30.glBindVertexArray(0);
     }
+
+
+    public void setTriangles(ArrayList<Short> vertices){
+        if(vertices==null || vertices.size()==0)return;
+
+        short v[]=new short[vertices.size()];
+        int i = 0;
+        for (Short f : vertices) {
+            v[i++] = f;
+        }
+        setTriangles(v);
+    }
+
 
 
     public void setTriangles(short[] triangles){

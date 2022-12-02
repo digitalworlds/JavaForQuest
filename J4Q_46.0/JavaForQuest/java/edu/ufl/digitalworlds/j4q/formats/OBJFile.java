@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.ufl.digitalworlds.j4q.J4Q;
+import edu.ufl.digitalworlds.j4q.models.Mesh;
 
 public class OBJFile {
 
@@ -68,6 +69,8 @@ public class OBJFile {
                    break;
                 case"usemtl":
                     if(mesh.Triangles_XYZ!=null){
+                        if(mesh.Triangles_UV.size()==0)mesh.Triangles_UV=null;
+                        if(mesh.Triangles_Normals.size()==0)mesh.Triangles_Normals=null;
                         Meshes.add(mesh);
                     }
                     Triangles_XYZ=new ArrayList<Integer>();
@@ -143,9 +146,17 @@ public class OBJFile {
             line = reader.readLine();
         }
 
+        if(mesh.Triangles_XYZ!=null){
+            if(mesh.Triangles_UV.size()==0)mesh.Triangles_UV=null;
+            if(mesh.Triangles_Normals.size()==0)mesh.Triangles_Normals=null;
+            Meshes.add(mesh);
+        }
 
         reader.close();
 
+
+        if(UV.size()==0)UV=null;
+        if(Normals.size()==0)Normals=null;
         postProcessing(XYZ,UV,Normals, Meshes);
 
     }
@@ -215,7 +226,7 @@ public class OBJFile {
 
         //if(data.mtllib&&data.mtllib.length>0)output.mtllib=data.mtllib;
 
-        HashMap<String,HashMap<String,Integer>> XYZmap=new HashMap<String,HashMap<String,Integer>>();
+        ArrayList<Mesh> parts=new ArrayList<Mesh>();
 
         for(int mi=0;mi<Meshes.size();mi++)
         {
@@ -257,7 +268,6 @@ public class OBJFile {
                 out.numOfVertices+=XYZ.length/3;
 
                 XYZ=[];
-                xyzc=0;
                 UV=[];
                 TRI=[];
                 NRM=[];
@@ -275,251 +285,176 @@ public class OBJFile {
 
              */
 
+            int xyzc=0;
+            ArrayList<Float> newXYZ=new ArrayList<Float>();
+            ArrayList<Float> newUV=new ArrayList<Float>();
+            ArrayList<Float> newNormals=new ArrayList<Float>();
+            ArrayList<Short> Triangles=new ArrayList<Short>();
+            HashMap<Integer,HashMap<Integer,Integer>> XYZmap=new HashMap<Integer,HashMap<Integer,Integer>>();
+            HashMap<Integer,HashMap<Integer,HashMap<Integer,Integer>>> XYZmap3=new HashMap<Integer,HashMap<Integer,HashMap<Integer,Integer>>>();
 
-            for(int i=0;i<M.Triangles_XYZ.size();i++)
+
+            for(int i=0;i<M.Triangles_XYZ.size();i+=3)
             {
-                if(M.Triangles_UV.size()>0 && M.Triangles_Normals.size()>0)
+                if(M.Triangles_UV!=null && M.Triangles_Normals!=null)
                 {
-                    /*var j=M[i];
-                    var ii=map3(j[0]-1,j[3]-1,j[6]-1);
-                    if(ii==xyzc){
 
-                        var jj=3*(j[0]-1);
-                        pushXYZ(jj);
-                        jj=3*(j[6]-1);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        jj=2*(j[3]-1);
-                        UV.push(data.UV[jj]);
-                        UV.push(data.UV[jj+1]);
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                    }
-                    else{
-                        TRI.push(ii);
-                    }
+                    int[] j=new int[]{M.Triangles_XYZ.get(i),M.Triangles_XYZ.get(i+1),M.Triangles_XYZ.get(i+2)} ;
+                    int[] juv=new int[]{M.Triangles_UV.get(i),M.Triangles_UV.get(i+1),M.Triangles_UV.get(i+2)} ;
+                    int[] jnrm=new int[]{M.Triangles_Normals.get(i),M.Triangles_Normals.get(i+1),M.Triangles_Normals.get(i+2)} ;
 
-                    var ii=map3(j[1]-1,j[4]-1,j[7]-1);
-                    if(ii==xyzc){
 
-                        var jj=3*(j[1]-1);
-                        pushXYZ(jj);
-                        jj=3*(j[7]-1);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        jj=2*(j[4]-1);
-                        UV.push(data.UV[jj]);
-                        UV.push(data.UV[jj+1]);
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                    }
-                    else{
-                        TRI.push(ii);
-                    }
+                    //for each of the three vertices in this triangle
+                    for(int vertex=0;vertex<3;vertex++) {
 
-                    var ii=map3(j[2]-1,j[5]-1,j[8]-1);
-                    if(ii==xyzc){
+                        //get a unique ID for this vertex
+                        int id = map3(j[vertex] - 1, juv[vertex]-1,jnrm[vertex]-1, xyzc, XYZmap3);
 
-                        var jj=3*(j[2]-1);
-                        pushXYZ(jj);
-                        jj=3*(j[8]-1);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        jj=2*(j[5]-1);
-                        UV.push(data.UV[jj]);
-                        UV.push(data.UV[jj+1]);
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                        if(xyzc>=65533)makeModel();
+                        if (id == xyzc) {//this vertex has not been indexed before
+                            int jj = 3 * (j[vertex] - 1);
+                            pushXYZ(jj, XYZ, newXYZ);
+
+                            jj = 3 * (jnrm[vertex] - 1);
+                            newNormals.add(Normals.get(jj));
+                            newNormals.add(Normals.get(jj + 1));
+                            newNormals.add(Normals.get(jj + 2));
+
+                            jj = 2 * (juv[vertex] - 1);
+                            newUV.add(UV.get(jj));
+                            newUV.add(UV.get(jj + 1));
+
+                            xyzc += 1;
+                        }
+                        Triangles.add((short)id);
                     }
-                    else{
-                        TRI.push(ii);
-                        if(xyzc>=65533)makeModel();
-                    }*/
                 }
                 else if(M.Triangles_Normals!=null)
                 {
+                    int[] j=new int[]{M.Triangles_XYZ.get(i),M.Triangles_XYZ.get(i+1),M.Triangles_XYZ.get(i+2)} ;
+                    int[] jnrm=new int[]{M.Triangles_Normals.get(i),M.Triangles_Normals.get(i+1),M.Triangles_Normals.get(i+2)} ;
 
+
+                    //for each of the three vertices in this triangle
+                    for(int vertex=0;vertex<3;vertex++) {
+
+                        //get a unique ID for this vertex
+                        int id = map(j[vertex] - 1, jnrm[vertex]-1, xyzc, XYZmap);
+
+                        if (id == xyzc) {//this vertex has not been indexed before
+                            int jj = 3 * (j[vertex] - 1);
+                            pushXYZ(jj, XYZ, newXYZ);
+
+                            jj = 3 * (jnrm[vertex] - 1);
+                            newNormals.add(Normals.get(jj));
+                            newNormals.add(Normals.get(jj + 1));
+                            newNormals.add(Normals.get(jj + 2));
+
+                            if (UV != null) {
+                                jj = 2 * (j[vertex] - 1);
+                                newUV.add(UV.get(jj));
+                                newUV.add(UV.get(jj + 1));
+                            }
+                            xyzc += 1;
+                        }
+                        Triangles.add((short)id);
+                    }
                 }
                 else if(M.Triangles_UV!=null)
                 {
-                    /*var j=M[i];
-                    var ii=map(j[0]-1,j[3]-1);
-                    if(ii==xyzc){
+                    int[] j=new int[]{M.Triangles_XYZ.get(i),M.Triangles_XYZ.get(i+1),M.Triangles_XYZ.get(i+2)} ;
+                    int[] juv=new int[]{M.Triangles_UV.get(i),M.Triangles_UV.get(i+1),M.Triangles_UV.get(i+2)} ;
 
-                        var jj=3*(j[0]-1);
-                        pushXYZ(jj);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        jj=2*(j[3]-1);
-                        UV.push(data.UV[jj]);
-                        UV.push(data.UV[jj+1]);
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                    }
-                    else{
-                        TRI.push(ii);
-                    }
 
-                    var ii=map(j[1]-1,j[4]-1);
-                    if(ii==xyzc){
+                    //for each of the three vertices in this triangle
+                    for(int vertex=0;vertex<3;vertex++) {
 
-                        var jj=3*(j[1]-1);
-                        pushXYZ(jj);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        jj=2*(j[4]-1);
-                        UV.push(data.UV[jj]);
-                        UV.push(data.UV[jj+1]);
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                    }
-                    else{
-                        TRI.push(ii);
+                        //get a unique ID for this vertex
+                        int id = map(j[vertex] - 1, juv[vertex]-1, xyzc, XYZmap);
+
+                        if (id == xyzc) {//this vertex has not been indexed before
+                            int jj = 3 * (j[vertex] - 1);
+                            pushXYZ(jj, XYZ, newXYZ);
+                            if (Normals != null) {
+                                newNormals.add(Normals.get(jj));
+                                newNormals.add(Normals.get(jj + 1));
+                                newNormals.add(Normals.get(jj + 2));
+                            }
+
+                            jj = 2 * (juv[vertex] - 1);
+                            newUV.add(UV.get(jj));
+                            newUV.add(UV.get(jj + 1));
+
+                            xyzc += 1;
+                        }
+                        Triangles.add((short)id);
                     }
 
-                    var ii=map(j[2]-1,j[5]-1);
-                    if(ii==xyzc){
-
-                        var jj=3*(j[2]-1);
-                        pushXYZ(jj);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        jj=2*(j[5]-1);
-                        UV.push(data.UV[jj]);
-                        UV.push(data.UV[jj+1]);
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                        if(xyzc>=65533)makeModel();
-                    }
-                    else{
-                        TRI.push(ii);
-                        if(xyzc>=65533)makeModel();
-                    }*/
                 }
                 else//M.Triangles_UV==null && M.Triangles_Normals==null
                 {
-                    /*var j=M[i];
-                    var ii=map(j[0]-1,'n');
-                    if(ii==xyzc){
+                    int[] j=new int[]{M.Triangles_XYZ.get(i),M.Triangles_XYZ.get(i+1),M.Triangles_XYZ.get(i+2)} ;
 
-                        var jj=3*(j[0]-1);
-                        pushXYZ(jj);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        if(data.RGB&&data.RGB.length>0){
-                            RGB.push(data.RGB[jj]);
-                            RGB.push(data.RGB[jj+1]);
-                            RGB.push(data.RGB[jj+2]);
-                        }
-                        if(data.UV&&data.UV.length>0){
-                            jj=2*(j[0]-1);
-                            UV.push(data.UV[jj]);
-                            UV.push(data.UV[jj+1]);
-                        }
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                    }
-                    else{
-                        TRI.push(ii);
-                    }
+                    //for each of the three vertices in this triangle
+                    for(int vertex=0;vertex<3;vertex++) {
 
-                    var ii=map(j[1]-1,'n');
-                    if(ii==xyzc){
+                        //get a unique ID for this vertex
+                        int id = map(j[vertex] - 1, 0, xyzc, XYZmap);
 
-                        var jj=3*(j[1]-1);
-                        pushXYZ(jj);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        if(data.RGB&&data.RGB.length>0){
-                            RGB.push(data.RGB[jj]);
-                            RGB.push(data.RGB[jj+1]);
-                            RGB.push(data.RGB[jj+2]);
+                        if (id == xyzc) {//this vertex has not been indexed before
+                            int jj = 3 * (j[vertex] - 1);
+                            pushXYZ(jj, XYZ, newXYZ);
+                            if (Normals != null) {
+                                newNormals.add(Normals.get(jj));
+                                newNormals.add(Normals.get(jj + 1));
+                                newNormals.add(Normals.get(jj + 2));
+                            }
+                            if (UV != null) {
+                                jj = 2 * (j[vertex] - 1);
+                                newUV.add(UV.get(jj));
+                                newUV.add(UV.get(jj + 1));
+                            }
+                            xyzc += 1;
                         }
-                        if(data.UV&&data.UV.length>0){
-                            jj=2*(j[1]-1);
-                            UV.push(data.UV[jj]);
-                            UV.push(data.UV[jj+1]);
-                        }
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                    }
-                    else{
-                        TRI.push(ii);
+                        Triangles.add((short)id);
                     }
 
-                    var ii=map(j[2]-1,'n');
-                    if(ii==xyzc){
+                }
 
-                        var jj=3*(j[2]-1);
-                        pushXYZ(jj);
-                        NRM.push(data.Normals[jj]);
-                        NRM.push(data.Normals[jj+1]);
-                        NRM.push(data.Normals[jj+2]);
-                        if(data.RGB&&data.RGB.length>0){
-                            RGB.push(data.RGB[jj]);
-                            RGB.push(data.RGB[jj+1]);
-                            RGB.push(data.RGB[jj+2]);
-                        }
-                        if(data.UV&&data.UV.length>0){
-                            jj=2*(j[2]-1);
-                            UV.push(data.UV[jj]);
-                            UV.push(data.UV[jj+1]);
-                        }
-                        TRI.push(xyzc);
-                        xyzc+=1;
-                        if(xyzc>=65533)makeModel();
-                    }
-                    else{
-                        TRI.push(ii);
-                        if(xyzc>=65533)makeModel();
-                    }*/
+                if(xyzc>=65533){
+                    Mesh m=new Mesh();
+                    m.keepData(true);
+                    m.setXYZ(newXYZ);
+                    m.setUV(newUV);
+                    m.setTriangles(Triangles);
+                    if(newNormals.size()>0) m.setNormals(newNormals);
+                    else m.computeNormals();
+                    parts.add(m);
+
+                    xyzc=0;
+                    newXYZ=new ArrayList<Float>();
+                    newUV=new ArrayList<Float>();
+                    newNormals=new ArrayList<Float>();
+                    Triangles=new ArrayList<Short>();
+                    XYZmap=new HashMap<Integer,HashMap<Integer,Integer>>();
+                    XYZmap3=new HashMap<Integer,HashMap<Integer,HashMap<Integer,Integer>>>();
                 }
             }
 
-            /*makeModel();
-            out.range.X.min=minX;
-            out.range.X.max=maxX;
-            out.range.Y.min=minY;
-            out.range.Y.max=maxY;
-            out.range.Z.min=minZ;
-            out.range.Z.max=maxZ;*/
-        }
-        /*if(output.models.length>0){
-            output.range.X.min=output.models[0].range.X.min;
-            output.range.X.max=output.models[0].range.X.max;
-            output.range.Y.min=output.models[0].range.Y.min;
-            output.range.Y.max=output.models[0].range.Y.max;
-            output.range.Z.min=output.models[0].range.Z.min;
-            output.range.Z.max=output.models[0].range.Z.max;
-            output.numOfTriangles=output.models[0].numOfTriangles;
-            output.numOfVertices=output.models[0].numOfVertices;
-        }
-        for(var i=1;i<output.models.length;i++){
-            if(output.models[i].range.X.min<output.range.X.min)
-                output.range.X.min=output.models[i].range.X.min;
-            if(output.models[i].range.X.max>output.range.X.max)
-                output.range.X.max=output.models[i].range.X.max;
-            if(output.models[i].range.Y.min<output.range.Y.min)
-                output.range.Y.min=output.models[i].range.Y.min;
-            if(output.models[i].range.Y.max>output.range.Y.max)
-                output.range.Y.max=output.models[i].range.Y.max;
-            if(output.models[i].range.Z.min<output.range.Z.min)
-                output.range.Z.min=output.models[i].range.Z.min;
-            if(output.models[i].range.Z.max>output.range.Z.max)
-                output.range.Z.max=output.models[i].range.Z.max;
-            output.numOfTriangles+=output.models[i].numOfTriangles;
-            output.numOfVertices+=output.models[i].numOfVertices;
-        }
-        return output;*/
+            if(newXYZ.size()>0) {
+                Mesh m = new Mesh();
+                m.keepData(true);
+                m.setXYZ(newXYZ);
+                m.setUV(newUV);
+                m.setTriangles(Triangles);
+                if(newNormals.size()>0) m.setNormals(newNormals);
+                else m.computeNormals();
+
+                parts.add(m);
+
+                Log.d("Angelos","Part "+parts.size()+": "+xyzc);
+            }
+        }//For all meshes
+
     }
 
 
