@@ -154,7 +154,6 @@ public class OBJFile {
 
         reader.close();
 
-
         if(UV.size()==0)UV=null;
         if(Normals.size()==0)Normals=null;
         postProcessing(XYZ,UV,Normals, Meshes);
@@ -225,6 +224,8 @@ public class OBJFile {
         //var output={models:[],range:{X:{min:0,max:0},Y:{min:0,max:0},Z:{min:0,max:0}},numOfTriangles:0,numOfVertices:0};
 
         //if(data.mtllib&&data.mtllib.length>0)output.mtllib=data.mtllib;
+
+        Log.d("Angelos","Meshes: "+Meshes.size());
 
         ArrayList<Mesh> parts=new ArrayList<Mesh>();
 
