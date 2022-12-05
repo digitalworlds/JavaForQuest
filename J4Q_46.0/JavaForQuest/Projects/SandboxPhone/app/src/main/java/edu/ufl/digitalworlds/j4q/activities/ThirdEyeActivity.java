@@ -16,6 +16,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.opengl.GLES30;
 import android.opengl.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +31,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import java.util.Arrays;
+
+import javax.microedition.khronos.opengles.GL10;
 
 public abstract class ThirdEyeActivity extends GLActivity implements SensorEventListener {
     private static final int REQUEST_CAMERA_PERMISSION = 200;
@@ -202,14 +205,23 @@ public abstract class ThirdEyeActivity extends GLActivity implements SensorEvent
         }
     }
 
+
     @Override
-    public void setupProjection(int width, int height){
+    public void onSurfaceChanged(GL10 unused, int width, int height) {
+        GLES30.glViewport(0, 0, width, height);
+
+        float[] mProjectionMatrix=new float[16];
         float ratio = (float) width / height;
         Matrix.perspectiveM(mProjectionMatrix,0,40f,ratio,0.1f, 1024);
+        scene.setupProjection(mProjectionMatrix);
+
     }
 
-    public void setupView(){
-        view.identity().multiply(currentRotation).rotateY(90).rotateZ(90).rotateY(rotationAroundY);
+    @Override
+    public void onDrawFrame(GL10 unused) {
+        scene.update();
+        scene.view.identity().multiply(currentRotation).rotateY(90).rotateZ(90).rotateY(rotationAroundY);
+        scene.draw();
     }
 
     @Override

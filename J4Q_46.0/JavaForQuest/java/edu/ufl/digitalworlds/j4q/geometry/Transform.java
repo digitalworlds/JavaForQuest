@@ -23,22 +23,11 @@ public class Transform {
     }
 
     public float[] getNormalMatrix() {
-        float[] t = new float[9];
-        float n = matrix[0], r = matrix[1], o = matrix[2], u = matrix[3], l = matrix[4], e = matrix[5], M = matrix[6], s = matrix[7], i = matrix[8], c = matrix[9], h = matrix[10], S = matrix[11], I = matrix[12], f = matrix[13], x = matrix[14], D = matrix[15];
-        float F = n * e - r * l, m = n * M - o * l, d = n * s - u * l, b = r * M - o * e, v = r * s - u * e, z = o * s - u * M, p = i * f - c * I, w = i * x - h * I, E = i * D - S * I, A = c * x - h * f, P = c * D - S * f, L = h * D - S * x, q = F * L - m * P + d * A + b * E - v * w + z * p;
-        if (q != 0) {
-            q = 1 / q;
-            t[0] = (e * L - M * P + s * A) * q;
-            t[1] = (M * E - l * L - s * w) * q;
-            t[2] = (l * P - e * E + s * p) * q;
-            t[3] = (o * P - r * L - u * A) * q;
-            t[4] = (n * L - o * E + u * w) * q;
-            t[5] = (r * E - n * P - u * p) * q;
-            t[6] = (f * z - x * v + D * b) * q;
-            t[7] = (x * d - I * z - D * m) * q;
-            t[8] = (I * v - f * d + D * F) * q;
-        }
-        return t;
+        float[] inv=new float[16];
+        Matrix.invertM(inv,0,matrix,0);
+        float[] trans=new float[16];
+        Matrix.transposeM(trans,0,inv,0);
+        return trans;
     }
 
     public Transform rotate(float degrees, float x, float y, float z){

@@ -38,14 +38,14 @@ public class MainActivity extends QuestActivity {
 
     public void Start(){
 
-        background(153/255f,	204/255f,	255/255f);
-        setLightDir(-0.5f,0.5f,-0.5f);
+        scene.background(153/255f,	204/255f,	255/255f);
+        scene.setLightDir(-0.5f,0.5f,-0.5f);
 
 
 
 
         my_level=new Level();
-        appendChild(my_level);
+        scene.appendChild(my_level);
 
         //Make the earth
         ObjectMaker om=new ObjectMaker();
@@ -53,7 +53,7 @@ public class MainActivity extends QuestActivity {
         earth=om.flushShadedTexturedModel();
         ((ShadedTextureShader)earth.shader).setTexture(new Texture(this,"textures/earth_1024.jpg"));
         ((ShadedTextureShader)earth.shader).setAmbientColor(new float[]{0.02f,0.02f,0.02f});
-        appendChild(earth);
+        scene.appendChild(earth);
         earth.transform.translate(-320,0,-20);
 
         //Make the moon
@@ -61,7 +61,7 @@ public class MainActivity extends QuestActivity {
         moon=om.flushShadedTexturedModel();
         ((ShadedTextureShader)moon.shader).setTexture(new Texture(this,"textures/moon_1024.jpg"));
         ((ShadedTextureShader)moon.shader).setAmbientColor(new float[]{0.02f,0.02f,0.02f});
-        appendChild(moon);
+        scene.appendChild(moon);
         moon.transform.translate(320,0,-20);
 
         background=new Background360();
@@ -69,10 +69,10 @@ public class MainActivity extends QuestActivity {
         my_level.prependChild(background);
 
         rs=new RightSpaceship();
-        appendChild(rs);
+        scene.appendChild(rs);
 
         ls=new LeftSpaceship();
-        appendChild(ls);
+        scene.appendChild(ls);
 
         //rc=new RightController();
         //appendChild(rc);
@@ -85,7 +85,7 @@ public class MainActivity extends QuestActivity {
             om.color(1,0,0);
             om.cylinderZ(0.02f, 0.02f, 0.2f,8);
             projectile[i] = om.flushShadedColoredModel();
-            appendChild(projectile[i]);
+            scene.appendChild(projectile[i]);
         }
 
     }
@@ -96,7 +96,7 @@ public class MainActivity extends QuestActivity {
 
         frame+=1;
 
-        earth.transform.rotateY(-2*J4Q.perSec());
+        earth.transform.rotateY(-2* J4Q.perSec());
 
         //Trigger projectile from the right controller
         if(J4Q.rightController.trigger.currentState && J4Q.rightController.trigger.changedSinceLastSync){
@@ -124,7 +124,7 @@ public class MainActivity extends QuestActivity {
 
         //Animate all projectiles
         for(int i=0;i<projectile.length;i++)
-            projectile[i].transform.translate(0,0,-20f*perSec());
+            projectile[i].transform.translate(0,0,-20f*J4Q.perSec());
 
 
         //Check collision between projectiles and spaceships

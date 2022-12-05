@@ -60,7 +60,7 @@ public class MainActivity extends QuestActivity {
         //at the end flush the model that we made
         Model house=om.flushShadedColoredModel();
         //and append it to the scene
-        appendChild(house);
+        scene.appendChild(house);
 
         //move the model 5 meters deep into the scene
         house.transform.translate(0,0,-5);
@@ -68,10 +68,10 @@ public class MainActivity extends QuestActivity {
         house.transform.rotateY(10);
 
         //Let's pick a blue shade for background
-        background(153/255f,	204/255f,	255/255f);
+        scene.background(153/255f,	204/255f,	255/255f);
 
         //set light direction forward and downwards
-        setLightDir(0,-1,-1);
+        scene.setLightDir(0,-1,-1);
 
     }
 

@@ -18,7 +18,7 @@ public class MainActivity extends QuestActivity {
         //create a house scene object
         house_scene=new HouseScene();
         //and append it to the scene
-        appendChild(house_scene);
+        scene.appendChild(house_scene);
         //move the model 5 meters deep into the scene
         house_scene.transform.translate(0,0,-5);
 
@@ -34,10 +34,10 @@ public class MainActivity extends QuestActivity {
 
 
         //Let's pick a blue shade for background
-        background(153/255f,	204/255f,	255/255f);
+        scene.background(153/255f,	204/255f,	255/255f);
 
         //set light direction forward and downwards
-        setLightDir(0,-1,-1);
+        scene.setLightDir(0,-1,-1);
 
     }
 

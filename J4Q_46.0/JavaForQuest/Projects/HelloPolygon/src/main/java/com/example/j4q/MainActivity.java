@@ -39,18 +39,17 @@ public class MainActivity extends QuestActivity {
                 0,1,2  //Make one triangle by connecting vertices #0,#1,#2
         });
 
-
         //add a shader to the model
         triangle.shader=new ColorShader();
 
         //add the 3D model to the scene
-        appendChild(triangle);
+        scene.appendChild(triangle);
 
         //move the triangle 1 meter along the z-axis (deep into the scene)
         triangle.transform.translate(0,0,-1);
 
         //Let's pick a blue shade for background
-        background(153/255f,	204/255f,	255/255f);
+        scene.background(153/255f,	204/255f,	255/255f);
     }
 
     @Override

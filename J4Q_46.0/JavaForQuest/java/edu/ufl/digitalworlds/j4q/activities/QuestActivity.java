@@ -1,29 +1,17 @@
 package edu.ufl.digitalworlds.j4q.activities;
 
 import android.app.NativeActivity;
-import android.opengl.GLES30;
 import android.opengl.GLES31;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
 import edu.ufl.digitalworlds.j4q.J4Q;
-import edu.ufl.digitalworlds.j4q.geometry.Transform;
-import edu.ufl.digitalworlds.j4q.models.Model;
 
-public abstract class QuestActivity extends NativeActivity {
+public abstract class QuestActivity extends NativeActivity implements GameEngineActivity {
 
     static{
         System.loadLibrary("xrcompositor");
     }
 
-    public abstract void Start();
-
-    public Model scene=new Model();
-    public void appendChild(Model model){scene.appendChild(model);}
-    public void prependChild(Model model){scene.prependChild(model);}
-    public void removeChild(Model model){scene.removeChild(model);}
+    public GameEngineScene scene;
 
     public void _simulate(double elapsedDisplayTime,
                           boolean toggleStateLeftTrigger_changedSinceLastSync,
@@ -158,85 +146,24 @@ public abstract class QuestActivity extends NativeActivity {
         J4Q.rightController.grip.orientation.z=controller4_orientation_z;
 
 
-        _perSec=(float)(elapsedDisplayTime-_lastTime);
-        _lastTime=elapsedDisplayTime;
-
-        scene.updateAnimation();
-        Update();
-        scene.updateGlobalPositions(false);
+        scene.update();
     }
 
-    double _lastTime=0;
-    float _perSec=0;
-    public float perSec(){return _perSec;}
-
-    public abstract void Update();
-
-    public float[] lightDir=new float[3];
-    public FloatBuffer mLightDirBuffer;
-
-    public void setLightDir(float x, float y, float z){
-        float mag=(float)Math.sqrt(x*x+y*y+z*z);
-
-        lightDir[0]=-x;
-        lightDir[1]=-y;
-        lightDir[2]=-z;
-        if(mag>0){
-            lightDir[0]/=mag;
-            lightDir[1]/=mag;
-            lightDir[2]/=mag;
-        }
-        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER, sceneMatricesBuffer  );
-        mLightDirBuffer.put(lightDir);
-        mLightDirBuffer.position(0);
-        GLES30.glBufferSubData(GLES30.GL_UNIFORM_BUFFER, (16*2+9)*4,3*4,mLightDirBuffer);
-        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER,0);
-    }
-
-    public int sceneMatricesBuffer;
-    public FloatBuffer mSceneMatricesBuffer;
 
     public int _setup(){
         J4Q.activity=this;
-        int[] i=new int[1];
-        GLES30.glGenBuffers(1,i,0);
-        sceneMatricesBuffer=i[0];
-        GLES30.glBindBuffer(GLES30.GL_UNIFORM_BUFFER, i[0]);
-        GLES30.glBufferData(GLES30.GL_UNIFORM_BUFFER, (16*2+9+3)*4, null, GLES30.GL_STATIC_DRAW);
-        GLES30.glBindBuffer(GLES30.GL_UNIFORM_BUFFER, 0);
 
-        GLES30.glBindBufferRange(GLES30.GL_UNIFORM_BUFFER, 0,//map to index 0
-                sceneMatricesBuffer, 0, (16*2+9+3)*4);
+        scene=new GameEngineScene(this);
 
-        ByteBuffer bb2 = ByteBuffer.allocateDirect(
-                // (# of matrix values * 4 bytes per float)
-                (16*2+9) * 4);
-        bb2.order(ByteOrder.nativeOrder());
-        mSceneMatricesBuffer = bb2.asFloatBuffer();
+        scene.start();
 
-        ByteBuffer bb3 = ByteBuffer.allocateDirect(
-                // (# of coordinate values * 4 bytes per float)
-                lightDir.length * 4);
-        bb3.order(ByteOrder.nativeOrder());
-        mLightDirBuffer = bb3.asFloatBuffer();
-
-        setLightDir(0,0,-1);
-
-        GLES31.glEnable( GLES31.GL_SCISSOR_TEST );
-        GLES31.glDepthMask( true );
-        GLES31.glEnable( GLES31.GL_DEPTH_TEST );
-        GLES31.glDepthFunc( GLES31.GL_LEQUAL );
-        GLES31.glEnable( GLES31.GL_CULL_FACE );
-        GLES31.glCullFace( GLES31.GL_BACK);
-
-        Start();
-        return sceneMatricesBuffer;
+        return 0;
     }
 
     public void _draw(int frameBufferWidth,int frameBufferHeight,float[] sceneMatrices,int eye){
 
         //Log.d("Example",""+eye);
-        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER, sceneMatricesBuffer  );
+        /*GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER, sceneMatricesBuffer  );
         mSceneMatricesBuffer.put(sceneMatrices);
 
         Transform t=new Transform(sceneMatrices);
@@ -244,17 +171,18 @@ public abstract class QuestActivity extends NativeActivity {
 
         mSceneMatricesBuffer.position(0);
         GLES30.glBufferSubData(GLES30.GL_UNIFORM_BUFFER, 0,(16*2+9)*4,mSceneMatricesBuffer);
-        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER,0);
-
+        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER,0);*/
 
         GLES31.glViewport( 0, 0, frameBufferWidth, frameBufferHeight );
         GLES31.glScissor( 0, 0, frameBufferWidth, frameBufferHeight );
 
-        GLES31.glClear( GLES31.GL_COLOR_BUFFER_BIT | GLES31.GL_DEPTH_BUFFER_BIT );
+        float m[]=new float[16];
+        System.arraycopy(sceneMatrices,16,m,0,16);
+        scene.setupProjection(m);
+
+        System.arraycopy(sceneMatrices,0,scene.view.matrix,0,16);
+
         scene.draw();
     }
 
-    public void background(float r,float g,float b){
-        GLES30.glClearColor(r, g, b, 1.0f);
-    }
 }

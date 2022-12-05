@@ -18,6 +18,8 @@ import edu.ufl.digitalworlds.j4q.models.Mesh;
 
 public class OBJFile {
 
+    public ArrayList<Mesh> parts;
+
     class OBJFileMesh{
         ArrayList<Integer> Triangles_XYZ;
         ArrayList<Integer> Triangles_Normals;
@@ -227,7 +229,7 @@ public class OBJFile {
 
         Log.d("Angelos","Meshes: "+Meshes.size());
 
-        ArrayList<Mesh> parts=new ArrayList<Mesh>();
+        parts=new ArrayList<Mesh>();
 
         for(int mi=0;mi<Meshes.size();mi++)
         {

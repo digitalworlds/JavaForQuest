@@ -51,13 +51,13 @@ public class MainActivity extends QuestActivity {
         ((TextureShader)square.shader).setTexture(new Texture("textures/box.png"));
 
         //add the 3D model to the scene
-        appendChild(square);
+        scene.appendChild(square);
 
         //move the square 1 meter high and 1 meter along the z-axis (deep into the scene)
         square.transform.translate(0,1,-1);
 
         //Let's pick a blue shade for background
-        background(153/255f,	204/255f,	255/255f);
+        scene.background(153/255f,	204/255f,	255/255f);
     }
 
     @Override

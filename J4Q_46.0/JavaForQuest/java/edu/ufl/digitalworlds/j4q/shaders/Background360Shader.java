@@ -9,14 +9,16 @@ public class Background360Shader extends Shader {
 
     public Background360Shader() {
         super(
-                "uniform SceneMatrices\n"+
+                "#version 300 es\n"+
+                        "uniform SceneMatrices\n"+
                         "{\n"+
                         "	uniform mat4 ViewMatrix;\n"+
                         "	uniform mat4 ProjectionMatrix;\n"+
-                        "uniform mat3 NormalMatrix;\n"+
-                        "   uniform vec3 uLightDir;\n"+
+                        "uniform mat4 NormalMatrix;\n"+
+                        "   uniform vec4 uLightDir;\n"+
                         "} sm;\n"+
-                        "uniform mat4 localTransform;\n"+
+                        "uniform mat4 modelMatrix;\n"+
+                        "uniform mat4 normalMatrix;\n"+
 
                         "in vec3 aPosition;\n"+
                         "in vec2 aUV;" +
@@ -26,7 +28,7 @@ public class Background360Shader extends Shader {
                         "mat4 trans;"+
                         "void main()\n"+
                         "{\n"+
-                        "trans=sm.ViewMatrix *localTransform;"+
+                        "trans=sm.ViewMatrix * modelMatrix;"+
                         "trans[3][0]=0.0;"+
                         "trans[3][1]=0.0;"+
                         "trans[3][2]=0.0;"+
@@ -36,7 +38,9 @@ public class Background360Shader extends Shader {
                         "}\n",
 
 
-                "in lowp vec2 vUV;\n"+
+                "#version 300 es\n"+
+                        "precision mediump float;\n" +
+                        "in lowp vec2 vUV;\n"+
                         "out lowp vec4 outColor;\n"+
                         "uniform sampler2D uTexture;\n"+
 

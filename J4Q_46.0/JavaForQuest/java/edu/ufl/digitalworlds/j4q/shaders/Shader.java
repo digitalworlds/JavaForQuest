@@ -94,14 +94,10 @@ public class Shader {
 
     public static int compileShader(String vertexShaderCode, String fragmentShaderCode, String[] attribLocations){
 
-        String QuestVertexShaderPreamble="#version 300 es\n";
-
-        String QuestFragmentShaderPreamble="#version 300 es\n";
-
         int vertexShader = Shader.compileShader(GLES30.GL_VERTEX_SHADER,
-                QuestVertexShaderPreamble+vertexShaderCode);
+                vertexShaderCode);
         int fragmentShader = Shader.compileShader(GLES30.GL_FRAGMENT_SHADER,
-                QuestFragmentShaderPreamble+fragmentShaderCode);
+                fragmentShaderCode);
         // create empty OpenGL ES Program
         int mProgram = GLES30.glCreateProgram();
 

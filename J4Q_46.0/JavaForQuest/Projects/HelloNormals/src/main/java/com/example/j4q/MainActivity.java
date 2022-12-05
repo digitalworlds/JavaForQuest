@@ -154,7 +154,7 @@ public class MainActivity extends QuestActivity {
         ((ShadedTextureShader)cube.shader).setTexture(new Texture("textures/box.png"));
 
         //add the 3D model to the scene
-        appendChild(cube);
+        scene.appendChild(cube);
 
         //move the cube 1 meter high and 1.5 meters along the z-axis (deep into the scene)
         cube.transform.translate(0,1,-1.5f);
@@ -162,10 +162,10 @@ public class MainActivity extends QuestActivity {
         cube.transform.rotate(60,1,1,0);
 
         //Let's pick a blue shade for background
-        background(153/255f,	204/255f,	255/255f);
+        scene.background(153/255f,	204/255f,	255/255f);
 
         //Set the lighting direction downwards
-        setLightDir(0,-1,0);
+        scene.setLightDir(0,-1,0);
     }
 
     @Override

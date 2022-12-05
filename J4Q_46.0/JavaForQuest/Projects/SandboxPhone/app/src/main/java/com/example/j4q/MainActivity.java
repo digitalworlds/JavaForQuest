@@ -2,11 +2,23 @@ package com.example.j4q;
 
 import android.os.Bundle;
 
+import edu.ufl.digitalworlds.j4q.J4Q;
 import edu.ufl.digitalworlds.j4q.activities.ThirdEyeActivity;
+import edu.ufl.digitalworlds.j4q.formats.OBJFile;
+import edu.ufl.digitalworlds.j4q.models.Background360;
+import edu.ufl.digitalworlds.j4q.models.Mesh;
+import edu.ufl.digitalworlds.j4q.models.Model;
+import edu.ufl.digitalworlds.j4q.models.ObjectMaker;
+import edu.ufl.digitalworlds.j4q.shaders.ColorShader;
+import edu.ufl.digitalworlds.j4q.shaders.ShadedColorShader;
+import edu.ufl.digitalworlds.j4q.shaders.ShadedTextureShader;
+import edu.ufl.digitalworlds.j4q.shaders.Texture;
+import edu.ufl.digitalworlds.j4q.shaders.TextureShader;
 
 
 public class MainActivity extends ThirdEyeActivity {
 
+    Model cube;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

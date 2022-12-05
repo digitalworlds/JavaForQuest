@@ -6,14 +6,16 @@ public class ShadedColorShader extends Shader {
 
     public ShadedColorShader() {
         super(
-                "uniform SceneMatrices\n"+
+                "#version 300 es\n"+
+                        "uniform SceneMatrices\n"+
                         "{\n"+
                         "	uniform mat4 ViewMatrix;\n"+
                         "	uniform mat4 ProjectionMatrix;\n"+
-                        "uniform mat3 NormalMatrix;\n"+
-                        "   uniform vec3 uLightDir;\n"+
+                        "uniform mat4 NormalMatrix;\n"+
+                        "   uniform vec4 uLightDir;\n"+
                         "} sm;\n"+
-                        "uniform mat4 localTransform;\n"+
+                        "uniform mat4 modelMatrix;\n"+
+                        "uniform mat4 normalMatrix;\n"+
                         "in vec3 aNormal;"+
                         "out vec3 vNormal;"+
                         "in vec3 aPosition;\n"+
@@ -23,21 +25,22 @@ public class ShadedColorShader extends Shader {
                         "out vec3 lightDir;"+
                         "void main()\n"+
                         "{\n"+
-                        "lightDir=sm.NormalMatrix*sm.uLightDir;"+
-                        " vec4 tN=normalize(localTransform *vec4(aNormal,0.0));" +
-                        "vNormal=normalize(sm.NormalMatrix*vec3(tN.x,tN.y,tN.z));"+
-                        "vec4 p=sm.ViewMatrix *localTransform*  vec4( aPosition , 1.0 );"+
+                        "lightDir=mat3(sm.NormalMatrix)*vec3(sm.uLightDir);"+
+                        "vNormal=normalize(mat3(sm.NormalMatrix*normalMatrix)*aNormal);"+
+                        "vec4 p=sm.ViewMatrix *modelMatrix*  vec4( aPosition , 1.0 );"+
                         "	gl_Position = sm.ProjectionMatrix * p;\n"+
                         "vE=normalize(vec3(p));"+
                         "	vColor = aColor;\n"+
                         "}\n",
 
-                        "uniform SceneMatrices\n"+
+                "#version 300 es\n"+
+                        "precision mediump float;\n" +
+                                "uniform SceneMatrices\n"+
                         "{\n"+
                         "	uniform mat4 ViewMatrix;\n"+
                         "	uniform mat4 ProjectionMatrix;\n"+
-                                "uniform mat3 NormalMatrix;\n"+
-                        "   uniform vec3 uLightDir;\n"+
+                                "uniform mat4 NormalMatrix;\n"+
+                        "   uniform vec4 uLightDir;\n"+
                         "} sm;\n"+
                         "uniform vec3 uAmbientColor;"+
                         "uniform vec3 uDiffuseColor;"+

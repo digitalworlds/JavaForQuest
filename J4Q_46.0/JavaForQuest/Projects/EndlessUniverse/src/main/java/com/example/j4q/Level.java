@@ -85,7 +85,7 @@ public class Level extends Model {
 
 
 
-        t+=2.5f*(J4Q.rightController.joystick.getY()+1)*(J4Q.leftController.joystick.getY()+1)*J4Q.activity.perSec();
+        t+=2.5f*(J4Q.rightController.joystick.getY()+1)*(J4Q.leftController.joystick.getY()+1)* J4Q.perSec();
 
         int i=(int)Math.floor(t/LevelSegment.LENGTH);
 
