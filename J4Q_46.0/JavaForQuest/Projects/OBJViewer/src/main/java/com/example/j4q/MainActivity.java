@@ -19,7 +19,7 @@ public class MainActivity extends QuestActivity {
     Model m;
 
     public void Start(){
-       
+
         OBJFile obj=new OBJFile("objects/leonardo.obj");
         m=obj.getModel();
         m.setShader(new PhongShader());

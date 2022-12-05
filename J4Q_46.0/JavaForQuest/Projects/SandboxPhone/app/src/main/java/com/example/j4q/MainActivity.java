@@ -24,14 +24,14 @@ public class MainActivity extends ThirdEyeActivity {
         //Write here code that loads your assets and composes your scene.
 
         Texture t=new Texture("textures/box.png");
-        OBJFile obj=new OBJFile("objects/person.obj");
+        OBJFile obj=new OBJFile("objects/BEE.obj");
         m=obj.getModel();
         m.setShader(new ShadedTextureShader());
 
         scene.appendChild(m);
-        m.transform.translate(-0.5f,-0.5f,-2);
+        m.transform.translate(-0.5f,-0.5f,-10);
         scene.setLightDir(0,0,-1);
-        scene.background(0,1,0);
+        scene.background(1,1,1);
     }
 
     @Override

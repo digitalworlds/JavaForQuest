@@ -118,7 +118,9 @@ public class OBJFile {
                         Triangles_XYZ.add(Integer.parseInt(secondPieces[0]));
                         Triangles_XYZ.add(Integer.parseInt(thirdPieces[0]));
                         if(fourthPieces!=null){//handle quad faces
-
+                            Triangles_XYZ.add(Integer.parseInt(firstPieces[0]));
+                            Triangles_XYZ.add(Integer.parseInt(thirdPieces[0]));
+                            Triangles_XYZ.add(Integer.parseInt(fourthPieces[0]));
                         }
                     }
                     if(firstPieces.length>1){//UV index
@@ -126,7 +128,9 @@ public class OBJFile {
                         Triangles_UV.add(Integer.parseInt(secondPieces[1]));
                         Triangles_UV.add(Integer.parseInt(thirdPieces[1]));
                         if(fourthPieces!=null){//handle quad faces
-
+                            Triangles_UV.add(Integer.parseInt(firstPieces[1]));
+                            Triangles_UV.add(Integer.parseInt(thirdPieces[1]));
+                            Triangles_UV.add(Integer.parseInt(fourthPieces[1]));
                         }
                     }
                     if(firstPieces.length>2){//Normal index
@@ -134,7 +138,9 @@ public class OBJFile {
                         Triangles_Normals.add(Integer.parseInt(secondPieces[2]));
                         Triangles_Normals.add(Integer.parseInt(thirdPieces[2]));
                         if(fourthPieces!=null){//handle quad faces
-
+                            Triangles_Normals.add(Integer.parseInt(firstPieces[2]));
+                            Triangles_Normals.add(Integer.parseInt(thirdPieces[2]));
+                            Triangles_Normals.add(Integer.parseInt(fourthPieces[2]));
                         }
                     }
 
