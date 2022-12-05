@@ -13,6 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import edu.ufl.digitalworlds.j4q.J4Q;
+
 public abstract class GLActivity extends AppCompatActivity implements GameEngineActivity,GLSurfaceView.Renderer{
 
     public GameEngineScene scene;
@@ -41,6 +43,7 @@ public abstract class GLActivity extends AppCompatActivity implements GameEngine
 
         surfaceView.setRenderer(this);
 
+        J4Q.activity=this;
         scene=new GameEngineScene(this);
     }
 

@@ -2,9 +2,9 @@ package edu.ufl.digitalworlds.j4q.shaders;
 
 import android.opengl.GLES30;
 
-public class ShadedColorShader extends Shader {
+public class PhongShader extends Shader {
 
-    public ShadedColorShader() {
+    public PhongShader() {
         super(
                 "#version 300 es\n"+
                         "uniform SceneMatrices\n"+
@@ -19,8 +19,6 @@ public class ShadedColorShader extends Shader {
                         "in vec3 aNormal;"+
                         "out vec3 vNormal;"+
                         "in vec3 aPosition;\n"+
-                        "in vec3 aColor;\n"+
-                        "out vec3 vColor;\n"+
                         "out vec3 vE;"+
                         "out vec3 lightDir;"+
                         "void main()\n"+
@@ -30,7 +28,6 @@ public class ShadedColorShader extends Shader {
                         "vec4 p=sm.ViewMatrix *modelMatrix*  vec4( aPosition , 1.0 );"+
                         "	gl_Position = sm.ProjectionMatrix * p;\n"+
                         "vE=normalize(vec3(p));"+
-                        "	vColor = aColor;\n"+
                         "}\n",
 
                 "#version 300 es\n"+
@@ -47,7 +44,6 @@ public class ShadedColorShader extends Shader {
                         "uniform vec3 uSpecularColor;"+
                         "uniform float uSpecularExponent;"+
 
-                        "in  vec3 vColor;\n"+
                         "out  vec4 outColor;\n"+
                         "in vec3 vNormal;"+
                         "in vec3 vE;"+
@@ -62,33 +58,33 @@ public class ShadedColorShader extends Shader {
                         "shade+=vec4(uDiffuseColor,1.0)*max(dot(N,lightDir),0.0);"+
                         "vec3 reflectionDirection = reflect(lightDir, N);"+
                                 "shade+=vec4(uSpecularColor,1.0)*pow(max(dot(reflectionDirection, E), 0.0), uSpecularExponent);"+
-                                " outColor = vec4(vColor,1.0)*shade;" +
-                                "}\n",new String[]{"aPosition","aNormal","aColor"});
+                                " outColor = shade;" +
+                                "}\n",new String[]{"aPosition","aNormal"});
         setAmbientColor(new float[]{0.3f,0.3f,0.3f});
         setDiffuseColor(new float[]{0.7f,0.7f,0.7f});
         setSpecularColor(new float[]{0.5f,0.5f,0.5f});
         setSpecularExponent(50);
     }
 
-    public ShadedColorShader setAmbientColor(float[] color){
+    public PhongShader setAmbientColor(float[] color){
         int mHandle = GLES30.glGetUniformLocation(shaderProgram, "uAmbientColor");
         GLES30.glUniform3fv(mHandle,1, color,0);
         return this;
     }
 
-    public ShadedColorShader setDiffuseColor(float[] color){
+    public PhongShader setDiffuseColor(float[] color){
         int mHandle = GLES30.glGetUniformLocation(shaderProgram, "uDiffuseColor");
         GLES30.glUniform3fv(mHandle,1, color,0);
         return this;
     }
 
-    public ShadedColorShader setSpecularColor(float[] color){
+    public PhongShader setSpecularColor(float[] color){
         int mHandle = GLES30.glGetUniformLocation(shaderProgram, "uSpecularColor");
         GLES30.glUniform3fv(mHandle,1, color,0);
         return this;
     }
 
-    public ShadedColorShader setSpecularExponent(float exponent){
+    public PhongShader setSpecularExponent(float exponent){
         int mHandle = GLES30.glGetUniformLocation(shaderProgram, "uSpecularExponent");
         GLES30.glUniform1f(mHandle, exponent);
         return this;

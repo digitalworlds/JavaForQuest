@@ -71,7 +71,7 @@ public class ShadedTextureShader extends Shader {
                         "vec4 color=texture(uTexture, vUV);"+
                                 "shade=color*shade;"+
                         "  outColor = shade;" +
-                        "}\n",new String[]{"aPosition","aUV","aNormal"});
+                        "}\n",new String[]{"aPosition","aNormal","aUV"});
         setAmbientColor(new float[]{0.3f,0.3f,0.3f});
         setDiffuseColor(new float[]{0.7f,0.7f,0.7f});
         setSpecularColor(new float[]{0.5f,0.5f,0.5f});

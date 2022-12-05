@@ -108,6 +108,7 @@ public class Shader {
         GLES30.glAttachShader(mProgram, fragmentShader);
 
         for(int i=0;i<attribLocations.length;i++)
+            if(attribLocations[i]!=null)
             GLES30.glBindAttribLocation( mProgram, i, attribLocations[i] );
 
 

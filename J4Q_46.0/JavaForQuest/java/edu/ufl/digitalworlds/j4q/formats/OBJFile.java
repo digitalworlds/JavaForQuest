@@ -1,20 +1,18 @@
 package edu.ufl.digitalworlds.j4q.formats;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.ufl.digitalworlds.j4q.J4Q;
 import edu.ufl.digitalworlds.j4q.models.Mesh;
+import edu.ufl.digitalworlds.j4q.models.Model;
 
 public class OBJFile {
 
@@ -227,66 +225,12 @@ public class OBJFile {
 
         //if(data.mtllib&&data.mtllib.length>0)output.mtllib=data.mtllib;
 
-        Log.d("Angelos","Meshes: "+Meshes.size());
 
         parts=new ArrayList<Mesh>();
 
         for(int mi=0;mi<Meshes.size();mi++)
         {
             OBJFileMesh M=Meshes.get(mi);
-
-            /*var out={parts:[],range:{X:{min:0,max:0},Y:{min:0,max:0},Z:{min:0,max:0}},numOfTriangles:0,numOfVertices:0,material:data.Meshes[mi].material};
-            output.models.push(out);
-            if(data.Normals.length==0)
-            {
-                data.Normals=this.computeNormals(M,data.XYZ);
-                out.normalsCalculated=true;
-            }
-            var XYZ=[];
-            var xyzc=0;
-            var UV=[];
-            var TRI=[];
-            var NRM=[];
-            var RGB=[];
-
-            var XYZmap=[];*/
-
-
-
-
-
-
-
-            /*var makeModel=function()
-            {
-                var p={
-                        Triangles:TRI,
-                    XYZ:XYZ
-			};
-                if(UV.length>0&&UV[0]!=null)p.UV=UV;
-                if(NRM.length>0)p.Normals=NRM;
-                if(RGB.length>0)p.Colors=RGB;
-                out.parts.push(p);
-                out.numOfTriangles+=TRI.length/3;
-                out.numOfVertices+=XYZ.length/3;
-
-                XYZ=[];
-                UV=[];
-                TRI=[];
-                NRM=[];
-                RGB=[];
-                XYZmap=[];
-            }
-
-            var minX=data.XYZ[0];
-            var maxX=data.XYZ[0];
-            var minY=data.XYZ[1];
-            var maxY=data.XYZ[1];
-            var minZ=data.XYZ[2];
-            var maxZ=data.XYZ[2];
-
-
-             */
 
             int xyzc=0;
             ArrayList<Float> newXYZ=new ArrayList<Float>();
@@ -429,6 +373,7 @@ public class OBJFile {
                     m.setXYZ(newXYZ);
                     m.setUV(newUV);
                     m.setTriangles(Triangles);
+
                     if(newNormals.size()>0) m.setNormals(newNormals);
                     else m.computeNormals();
                     parts.add(m);
@@ -453,14 +398,20 @@ public class OBJFile {
                 else m.computeNormals();
 
                 parts.add(m);
-
-                Log.d("Angelos","Part "+parts.size()+": "+xyzc);
             }
         }//For all meshes
 
     }
 
-
+    public Model getModel(){
+        Model m=new Model();
+        for (Mesh part : parts) {
+            Model mp=new Model();
+            mp.mesh=part;
+            m.appendChild(mp);
+        }
+        return m;
+    }
 
 
 }

@@ -40,7 +40,7 @@ public class TextureShader extends Shader {
                         "void main()\n"+
                         "{\n"+
                         "	outColor = texture(uTexture, vUV);\n"+
-                        "}\n",new String[]{"aPosition","aUV"});
+                        "}\n",new String[]{"aPosition",null,"aUV"});
 
     }
 

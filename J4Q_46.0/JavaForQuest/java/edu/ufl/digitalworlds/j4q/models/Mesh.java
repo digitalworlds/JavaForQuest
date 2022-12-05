@@ -1,6 +1,7 @@
 package edu.ufl.digitalworlds.j4q.models;
 
 import android.opengl.GLES30;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -74,7 +75,7 @@ public class Mesh {
     }
 
     public void setUV(float[] uv){
-        setArrayBuffer2f(uv,1);
+        setArrayBuffer2f(uv,2);
     }
 
     public void setNormals(ArrayList<Float> vertices){
@@ -89,10 +90,10 @@ public class Mesh {
     }
 
     public void setNormals(float[] normals){
-        setArrayBuffer3f(normals,2);
+        setArrayBuffer3f(normals,1);
     }
     public void setColors(float[] colors){
-        setArrayBuffer3f(colors,1);
+        setArrayBuffer3f(colors,2);
     }
 
     public void setArrayBuffer1f(float[] array,int slot){
@@ -201,11 +202,11 @@ public class Mesh {
         int t=0;
         for(int i=0;i<l;i++)
         {
-            int idx1=TRI[t]*3;
+            int idx1=Short.toUnsignedInt(TRI[t])*3;
             float[] p1=new float[]{XYZ[idx1],XYZ[idx1+1],XYZ[idx1+2]};
-            int idx2=TRI[t+1]*3;
+            int idx2=Short.toUnsignedInt(TRI[t+1])*3;
             float[] p2=new float[]{XYZ[idx2],XYZ[idx2+1],XYZ[idx2+2]};
-            int idx3=TRI[t+2]*3;
+            int idx3=Short.toUnsignedInt(TRI[t+2])*3;
             float[] p3=new float[]{XYZ[idx3],XYZ[idx3+1],XYZ[idx3+2]};
             float[] v1=new float[]{p2[0]-p1[0],p2[1]-p1[1],p2[2]-p1[2]};
             float mag1=(float)Math.sqrt(v1[0]*v1[0]+v1[1]*v1[1]+v1[2]*v1[2]);
@@ -232,6 +233,7 @@ public class Mesh {
             t+=3;
         }
         this.setNormals(NRM);
+
     }
 
 

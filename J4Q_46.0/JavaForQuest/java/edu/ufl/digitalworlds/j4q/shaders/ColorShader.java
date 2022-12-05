@@ -33,7 +33,7 @@ public class ColorShader extends Shader {
                         "void main()\n"+
                         "{\n"+
                         "	outColor = vColor;\n"+
-                        "}\n",new String[]{"aPosition","aColor"});
+                        "}\n",new String[]{"aPosition",null,"aColor"});
 
     }
 }

@@ -84,6 +84,9 @@ public class Model {
 
     public void setShader(Shader s){
         shader=s;
+        for (Model model : children) {
+            model.setShader(s);
+        }
     }
 
     public void simulate(double elapsedDisplayTime, double perSec){};

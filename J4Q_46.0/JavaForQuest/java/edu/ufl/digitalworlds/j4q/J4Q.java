@@ -1,12 +1,14 @@
 package edu.ufl.digitalworlds.j4q;
 
+import android.content.Context;
+
 import edu.ufl.digitalworlds.j4q.activities.GameEngineScene;
 import edu.ufl.digitalworlds.j4q.activities.QuestActivity;
 import edu.ufl.digitalworlds.j4q.controllers.J4QLeftController;
 import edu.ufl.digitalworlds.j4q.controllers.J4QRightController;
 
 public class J4Q {
-    public static QuestActivity activity;
+    public static Context activity;
     public static GameEngineScene scene;
     public static float perSec(){return scene.perSec();}
 
