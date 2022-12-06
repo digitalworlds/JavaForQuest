@@ -8,6 +8,7 @@ The J4Q project demonstrates how to create Virtual Reality apps for Meta Quest h
 The project contains several sample VR apps located inside the `J4Q_46.0/JavaForQuest/Projects` folder. 
 - EndlessUniverse: A full-scale demo of the J4Q API
 - Sandbox: An empty project for you to start experimenting
+- SandboxPhone: If you don't have a headset this template can help you develop and test J4Q apps on a phone or emulator.
 - HelloPolygon: An introduction on how to create 3D objects
 - HelloTexture: An example on how to map textures onto 3D geometry
 - HelloNormals: A tutorial on how to encode surface normal vectors
