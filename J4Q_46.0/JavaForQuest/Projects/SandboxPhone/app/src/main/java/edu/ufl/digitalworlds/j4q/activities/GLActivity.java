@@ -5,6 +5,7 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.view.TextureView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,12 +21,18 @@ public abstract class GLActivity extends AppCompatActivity implements GameEngine
     public GameEngineScene scene;
 
     private GLSurfaceView surfaceView;
+    private TextureView textureView;
     public GLSurfaceView getSurfaceView(){return surfaceView;}
+    public TextureView getTextureView(){return textureView;}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ConstraintLayout layout=new ConstraintLayout(this);
+
+        textureView=new TextureView(this);
+        textureView.layout(0,0,0,0);
+        layout.addView(textureView);
 
         surfaceView=new GLSurfaceView(this);
         surfaceView.layout(0,0,0,0);

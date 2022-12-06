@@ -21,6 +21,7 @@ import android.opengl.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
@@ -34,7 +35,9 @@ import java.util.Arrays;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public abstract class ThirdEyeActivity extends GLActivity implements SensorEventListener {
+import edu.ufl.digitalworlds.j4q.geometry.Transform;
+
+public abstract class GyroscopicActivity extends GLActivity implements SensorEventListener {
     private static final int REQUEST_CAMERA_PERMISSION = 200;
     private String cameraId;
     protected CameraDevice cameraDevice;
@@ -170,20 +173,16 @@ public abstract class ThirdEyeActivity extends GLActivity implements SensorEvent
     }
 
     private SensorManager mSensorManager;
-    private Sensor gyroscope;
+    private Sensor magnetic_field;
     private Sensor accelerometer;
 
-    private final float NS2S = 1.0f / 1000000000.0f;
-    private final float EPSILON=(float)1.0E-4;
-    private final float[] deltaRotationVector = new float[4];
-    private final float[] deltaRotationMatrix = new float[16];
-    private float timestamp;
 
     private final float[] currentRotation = new float[16];
-    private float rotationAroundY=0;
-    private final float[] accumulatedRotation = new float[16];
+    private float[] initialRotation = new float[16];
     private final float[] accelerometerReading = new float[3];
     private final float[] magnetometerReading = new float[]{1f,0f,0f};
+    private final float[] orientation=new float[3];
+    private boolean initialRotationRecorded=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,17 +190,16 @@ public abstract class ThirdEyeActivity extends GLActivity implements SensorEvent
 
         mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
 
-        Matrix.setIdentityM(accumulatedRotation,0);
-        gyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        if (gyroscope != null) {
-            mSensorManager.registerListener(this, gyroscope,
-                    SensorManager.SENSOR_DELAY_FASTEST);
+        magnetic_field = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        if (magnetic_field != null) {
+            mSensorManager.registerListener(this, magnetic_field,
+                    SensorManager.SENSOR_DELAY_GAME);
         }
 
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if (accelerometer != null) {
             mSensorManager.registerListener(this, accelerometer,
-                    SensorManager.SENSOR_DELAY_FASTEST);
+                    SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
@@ -220,69 +218,40 @@ public abstract class ThirdEyeActivity extends GLActivity implements SensorEvent
     @Override
     public void onDrawFrame(GL10 unused) {
         scene.update();
-        scene.view.identity().multiply(currentRotation).rotateY(90).rotateZ(90).rotateY(rotationAroundY);
+        scene.view.identity().multiply(currentRotation).multiply(initialRotation);
         scene.draw();
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            //System.arraycopy(event.values, 0, accelerometerReading,
-            //      0, accelerometerReading.length);
-            accelerometerReading[0]=accelerometerReading[0]*0.9f+event.values[0]*0.1f;
-            accelerometerReading[1]=accelerometerReading[1]*0.9f+event.values[1]*0.1f;
-            accelerometerReading[2]=accelerometerReading[2]*0.9f-event.values[2]*0.1f;
-
-        } else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-
-            // This time step's delta rotation to be multiplied by the current rotation
-            // after computing it from the gyro sample data.
-            if (timestamp != 0) {
-                final float dT = (event.timestamp - timestamp) * NS2S;
-                // Axis of the rotation sample, not normalized yet.
-                float axisX = event.values[0];
-                float axisY = event.values[1];
-                float axisZ = event.values[2];
-
-                // Calculate the angular speed of the sample
-                float omegaMagnitude = (float)Math.sqrt(axisX*axisX + axisY*axisY + axisZ*axisZ);
-
-                // Normalize the rotation vector if it's big enough to get the axis
-                if (omegaMagnitude > EPSILON) {
-                    axisX /= omegaMagnitude;
-                    axisY /= omegaMagnitude;
-                    axisZ /= omegaMagnitude;
-                }
-
-                // Integrate around this axis with the angular speed by the time step
-                // in order to get a delta rotation from this sample over the time step
-                // We will convert this axis-angle representation of the delta rotation
-                // into a quaternion before turning it into the rotation matrix.
-                float thetaOverTwo = omegaMagnitude * dT / 2.0f;
-                float sinThetaOverTwo = (float)Math.sin(thetaOverTwo);
-                float cosThetaOverTwo = (float)Math.cos(thetaOverTwo);
-                deltaRotationVector[0] = sinThetaOverTwo * axisX;
-                deltaRotationVector[1] = sinThetaOverTwo * axisY;
-                deltaRotationVector[2] = sinThetaOverTwo * axisZ;
-                deltaRotationVector[3] = cosThetaOverTwo;
-            }
-            timestamp = event.timestamp;
-            float[] deltaRotationMatrix = new float[16];
-            SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, deltaRotationVector);
-            float[] copy=new float[16];
-            System.arraycopy(accumulatedRotation,0,copy,0,16);
-            Matrix.multiplyMM(accumulatedRotation,0,copy,0,deltaRotationMatrix,0);
-            SensorManager.getOrientation(accumulatedRotation, deltaRotationVector);
-            rotationAroundY=rotationAroundY*0.9f-0.1f*deltaRotationVector[2]*(float)(180/Math.PI);
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_ACCELEROMETER:
+                System.arraycopy(event.values, 0, accelerometerReading, 0, 3);
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                System.arraycopy(event.values, 0, magnetometerReading, 0, 3);
+                break;
+            default:
+                return;
         }
 
+        if (mSensorManager.getRotationMatrix(currentRotation, null, accelerometerReading, magnetometerReading)) {
+            mSensorManager.getOrientation(currentRotation,orientation );
 
-        // Rotation matrix based on current readings from accelerometer and magnetometer.
-        SensorManager.getRotationMatrix(currentRotation, null, accelerometerReading, magnetometerReading);
-        Matrix.rotateM(currentRotation,0,0f,0f,1f,0f);
+            //float yaw = (float) (Math.toDegrees(orientation[0]) + declination);
+            //float pitch = (float) Math.toDegrees(orientation[1]);
+            //float roll = (float) Math.toDegrees(orientation[2]);
+
+            if(!initialRotationRecorded){
+                initialRotationRecorded=true;
+                Transform t=new Transform(currentRotation);
+                initialRotation=t.getInvertedMatrix();
+            }
+        }
 
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
@@ -292,7 +261,7 @@ public abstract class ThirdEyeActivity extends GLActivity implements SensorEvent
 
     @Override
     public void destroy(){
-        if(gyroscope!=null) mSensorManager.unregisterListener(this,gyroscope);
+        if(magnetic_field!=null) mSensorManager.unregisterListener(this,magnetic_field);
         if(accelerometer!=null) mSensorManager.unregisterListener(this,accelerometer);
         super.destroy();
     }

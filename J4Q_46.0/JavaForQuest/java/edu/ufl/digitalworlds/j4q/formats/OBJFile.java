@@ -18,6 +18,18 @@ public class OBJFile {
 
     public ArrayList<Mesh> parts;
 
+    public HashMap<String, OBJFileMaterial> materials;
+
+    class OBJFileMaterial{
+        float ambientColor[]=new float[]{0.3f,0.3f,0.3f};
+        float diffuseColor[]=new float[]{0.7f,0.7f,0.7f};
+        float specularColor[]=new float[]{0.5f,0.5f,0.5f};
+        float specularExponent=50;
+        float transparency=0;
+        int illum=0;
+        String textureFilename="";
+    }
+
     class OBJFileMesh{
         ArrayList<Integer> Triangles_XYZ;
         ArrayList<Integer> Triangles_Normals;
@@ -26,19 +38,71 @@ public class OBJFile {
     }
 
     public OBJFile(final String filename){
-        this(J4Q.activity,filename);
+        this(J4Q.activity,filename,null);
     }
 
-    public OBJFile(final Context context, final String filename) {
+    public OBJFile(final Context context, final String filename, final String mtl) {
+
+        materials=new HashMap<String, OBJFileMaterial>();
 
         try {
-            InputStream is = context.getAssets().open(filename);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-            parseOBJ(br);
+            if(mtl!=null){
+                BufferedReader br1 = new BufferedReader(new InputStreamReader(context.getAssets().open(mtl), StandardCharsets.UTF_8));
+                parseOBJ(br1);
+            }
+
+            BufferedReader br2 = new BufferedReader(new InputStreamReader(context.getAssets().open(filename), StandardCharsets.UTF_8));
+            parseOBJ(br2);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error loading OBJ file.");
         }
+    }
+
+    private void parseMaterials(BufferedReader reader) throws IOException{
+
+        OBJFileMaterial Mat=null;
+
+        String line = reader.readLine();
+        while (line != null) {
+
+            String pieces[] = line.split(" ");
+
+            switch(pieces[0]){
+                case"newmtl":
+                    Mat=new OBJFileMaterial();
+                    materials.put(pieces[1],Mat);
+                    break;
+                case"Ka":
+                    for(int i=1;i<pieces.length && i<4;i++)Mat.ambientColor[i]=Float.parseFloat(pieces[i]);
+                    break;
+                case"Kd":
+                    for(int i=0;i<pieces.length && i<4;i++)Mat.diffuseColor[i]=Float.parseFloat(pieces[i]);
+                    break;
+                case"Ks":
+                    for(int i=0;i<pieces.length && i<4;i++)Mat.specularColor[i]=Float.parseFloat(pieces[i]);
+                    break;
+                case"Tr":
+                    Mat.transparency=Float.parseFloat(pieces[1]);
+                    break;
+                case"illum":
+                    Mat.illum=Integer.parseInt(pieces[1]);
+                    break;
+                case"Ns":
+                    Mat.specularExponent=Float.parseFloat(pieces[1]);
+                    break;
+                case"map_Kd":
+                    Mat.textureFilename=line.substring(7);
+                    break;
+                default:
+
+                    break;
+            }
+
+            line = reader.readLine();
+        }
+
+        reader.close();
     }
 
     private void parseOBJ(BufferedReader reader) throws IOException {
