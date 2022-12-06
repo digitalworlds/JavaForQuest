@@ -2,10 +2,8 @@ package com.example.j4q;
 
 import android.os.Bundle;
 import edu.ufl.digitalworlds.j4q.activities.GyroscopicActivity;
-import edu.ufl.digitalworlds.j4q.models.Model;
 
 public class MainActivity extends GyroscopicActivity {
-
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -13,7 +11,6 @@ public class MainActivity extends GyroscopicActivity {
         //Enable the following line for AR-type experience (without position tracking; orientation only)
         //showCamera();
     }
-    Model m;
 
     public void Start(){
         //Welcome to the J4Q (Java For Quest) Project!
@@ -22,8 +19,7 @@ public class MainActivity extends GyroscopicActivity {
         //Write here code that loads your assets and composes your scene.
     }
 
-    @Override
-    public void Update() {
+    public  void Update(){
         //This method will run in every frame.
         //Write here code that modifies your variables and animates your scene.
     }
