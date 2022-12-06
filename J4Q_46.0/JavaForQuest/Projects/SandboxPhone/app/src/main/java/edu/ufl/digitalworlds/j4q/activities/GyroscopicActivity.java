@@ -16,12 +16,9 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.opengl.GLES30;
-import android.opengl.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
@@ -204,7 +201,7 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
     }
 
 
-    @Override
+    /*@Override
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         GLES30.glViewport(0, 0, width, height);
 
@@ -213,7 +210,7 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
         Matrix.perspectiveM(mProjectionMatrix,0,40f,ratio,0.1f, 1024);
         scene.setupProjection(mProjectionMatrix);
 
-    }
+    }*/
 
     @Override
     public void onDrawFrame(GL10 unused) {
@@ -241,13 +238,26 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
 
             //float yaw = (float) (Math.toDegrees(orientation[0]) + declination);
             //float pitch = (float) Math.toDegrees(orientation[1]);
-            //float roll = (float) Math.toDegrees(orientation[2]);
+            float roll = (float) Math.toDegrees(orientation[2]);
 
             if(!initialRotationRecorded){
                 initialRotationRecorded=true;
                 Transform t=new Transform(currentRotation);
                 initialRotation=t.getInvertedMatrix();
+                if(roll<-45) {
+                    t = new Transform(initialRotation);
+                    t.rotateZ(-90);
+                    initialRotation = t.matrix;
+                }
+                else if(roll>45) {
+                    t = new Transform(initialRotation);
+                    t.rotateZ(90);
+                    initialRotation = t.matrix;
+                }
+
+
             }
+
         }
 
     }
