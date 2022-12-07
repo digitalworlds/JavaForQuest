@@ -1,5 +1,8 @@
 package edu.ufl.digitalworlds.j4q.activities;
 
+import static android.hardware.SensorManager.AXIS_X;
+import static android.hardware.SensorManager.AXIS_Z;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -175,6 +178,7 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
 
 
     private final float[] currentRotation = new float[16];
+    private final float[] currentRotationCalibrated = new float[16];
     private float[] initialRotation = new float[16];
     private final float[] accelerometerReading = new float[3];
     private final float[] magnetometerReading = new float[]{1f,0f,0f};
@@ -200,18 +204,6 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
         }
     }
 
-
-    /*@Override
-    public void onSurfaceChanged(GL10 unused, int width, int height) {
-        GLES30.glViewport(0, 0, width, height);
-
-        float[] mProjectionMatrix=new float[16];
-        float ratio = (float) width / height;
-        Matrix.perspectiveM(mProjectionMatrix,0,40f,ratio,0.1f, 1024);
-        scene.setupProjection(mProjectionMatrix);
-
-    }*/
-
     @Override
     public void onDrawFrame(GL10 unused) {
         scene.update();
@@ -234,7 +226,8 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
         }
 
         if (mSensorManager.getRotationMatrix(currentRotation, null, accelerometerReading, magnetometerReading)) {
-            mSensorManager.getOrientation(currentRotation,orientation );
+            mSensorManager.remapCoordinateSystem(currentRotation, AXIS_X, AXIS_Z, currentRotationCalibrated);
+            mSensorManager.getOrientation(currentRotationCalibrated,orientation );
 
             //float yaw = (float) (Math.toDegrees(orientation[0]) + declination);
             //float pitch = (float) Math.toDegrees(orientation[1]);
