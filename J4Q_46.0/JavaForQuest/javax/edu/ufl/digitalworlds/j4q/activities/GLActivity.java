@@ -1,5 +1,6 @@
 package edu.ufl.digitalworlds.j4q.activities;
 
+import android.app.Activity;
 import android.graphics.PixelFormat;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
@@ -7,16 +8,14 @@ import android.opengl.Matrix;
 import android.os.Bundle;
 import android.view.TextureView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import edu.ufl.digitalworlds.j4q.J4Q;
 
-public abstract class GLActivity extends AppCompatActivity implements GameEngineActivity,GLSurfaceView.Renderer{
+public abstract class GLActivity extends Activity implements GameEngineActivity,GLSurfaceView.Renderer{
 
     public GameEngineScene scene;
 
