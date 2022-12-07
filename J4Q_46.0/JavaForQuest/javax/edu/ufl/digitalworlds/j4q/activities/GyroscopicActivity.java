@@ -179,6 +179,7 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
 
     private final float[] currentRotation = new float[16];
     private final float[] currentRotationCalibrated = new float[16];
+    private final float[] robustRotation = new float[16];
     private float[] initialRotation = new float[16];
     private final float[] accelerometerReading = new float[3];
     private final float[] magnetometerReading = new float[]{1f,0f,0f};
@@ -207,7 +208,7 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
     @Override
     public void onDrawFrame(GL10 unused) {
         scene.update();
-        scene.view.identity().multiply(currentRotation).multiply(initialRotation);
+        scene.view.identity().multiply(robustRotation).multiply(initialRotation);
         scene.draw();
     }
 
@@ -229,12 +230,19 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
             mSensorManager.remapCoordinateSystem(currentRotation, AXIS_X, AXIS_Z, currentRotationCalibrated);
             mSensorManager.getOrientation(currentRotationCalibrated,orientation );
 
+            for(int i=0;i<16;i++)
+                robustRotation[i]=robustRotation[i]*0.95f+currentRotation[i]*0.05f;
+
             //float yaw = (float) (Math.toDegrees(orientation[0]) + declination);
             //float pitch = (float) Math.toDegrees(orientation[1]);
             float roll = (float) Math.toDegrees(orientation[2]);
 
             if(!initialRotationRecorded){
                 initialRotationRecorded=true;
+
+                for(int i=0;i<16;i++)
+                    robustRotation[i]=currentRotation[i];
+
                 Transform t=new Transform(currentRotation);
                 initialRotation=t.getInvertedMatrix();
                 if(roll<-45) {
