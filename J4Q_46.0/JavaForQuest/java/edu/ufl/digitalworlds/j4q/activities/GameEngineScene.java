@@ -1,7 +1,6 @@
 package edu.ufl.digitalworlds.j4q.activities;
 
 import android.opengl.GLES30;
-import android.opengl.GLES31;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -105,18 +104,21 @@ public class GameEngineScene {
 
         GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER,0);
 
-        GLES31.glClear( GLES31.GL_COLOR_BUFFER_BIT | GLES31.GL_DEPTH_BUFFER_BIT );
+        GLES30.glClear( GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT );
         root.draw();
     }
 
 
     public void start(){
-        GLES31.glEnable( GLES31.GL_SCISSOR_TEST );
-        GLES31.glDepthMask( true );
-        GLES31.glEnable( GLES31.GL_DEPTH_TEST );
-        GLES31.glDepthFunc( GLES31.GL_LEQUAL );
-        GLES31.glEnable( GLES31.GL_CULL_FACE );
-        GLES31.glCullFace( GLES31.GL_BACK);
+        GLES30.glEnable( GLES30.GL_SCISSOR_TEST );
+        GLES30.glDepthMask( true );
+        GLES30.glEnable( GLES30.GL_DEPTH_TEST );
+        GLES30.glDepthFunc( GLES30.GL_LEQUAL );
+        GLES30.glEnable( GLES30.GL_CULL_FACE );
+        GLES30.glCullFace( GLES30.GL_BACK);
+
+        GLES30.glEnable(GLES30.GL_BLEND);
+        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
         int[] i=new int[1];
         GLES30.glGenBuffers(1,i,0);

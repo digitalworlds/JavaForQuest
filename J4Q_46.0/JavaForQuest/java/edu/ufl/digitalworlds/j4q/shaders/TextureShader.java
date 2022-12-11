@@ -64,7 +64,7 @@ public class TextureShader extends Shader {
             //shader.setUniformInteger("uTexture", texture.slot);
             GLES30.glActiveTexture(GLES30.GL_TEXTURE0 + texture.slot);
             // Bind the texture to this unit.
-            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, texture.data);
+            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, texture.gles_handle);
         }
         GLES30.glDrawElements(GLES30.GL_TRIANGLES, mesh.triangleLength, GLES30.GL_UNSIGNED_SHORT,0);
         GLES30.glBindVertexArray( 0 );

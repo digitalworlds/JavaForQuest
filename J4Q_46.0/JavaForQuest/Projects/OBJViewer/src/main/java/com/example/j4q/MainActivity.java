@@ -7,8 +7,6 @@ import edu.ufl.digitalworlds.j4q.activities.QuestActivity;
 import edu.ufl.digitalworlds.j4q.formats.OBJFile;
 import edu.ufl.digitalworlds.j4q.models.Model;
 import edu.ufl.digitalworlds.j4q.shaders.PhongShader;
-import edu.ufl.digitalworlds.j4q.shaders.ShadedTextureShader;
-import edu.ufl.digitalworlds.j4q.shaders.Texture;
 
 public class MainActivity extends QuestActivity {
     @Override
