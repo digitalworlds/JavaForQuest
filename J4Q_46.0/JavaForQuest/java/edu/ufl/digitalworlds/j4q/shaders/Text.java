@@ -37,10 +37,10 @@ public class Text extends Texture{
             // Set up the paint for drawing the text
             paint = new Paint();
             paint.setColor(color);
-            paint.setTextSize(24);
+            paint.setTextSize(64);
         }
 
-        setText(text,0,18,paint);
+        setText(text,0,46,paint);
     }
 
     public void setText(String text, float x, float y, Paint paint){
