@@ -15,10 +15,10 @@ The project contains several sample VR apps located inside the `J4Q_46.0/JavaFor
 - ♾️ HelloNormals: A tutorial on how to encode surface normal vectors
 - 🎞️ HelloAnimation: An example on how to create simple animations
 - 🔧 HelloObjectMaker: A simple API for composing 3D objects using primitive shapes
-- HelloObjectClass: An example on how to define 3D objects as classes using object-oriented programming
-- OBJViewer: This app demonstrates how to open a 3D model from an OBJ-formatted file
-- HelloSolarSystem: A demo of a scene with several animated objects
-- HelloControllers: A tutorial on VR controllers and how to use their input (pose, buttons, squeezes, joysticks) and output (vibration) 
+- 💬 HelloObjectClass: An example on how to define 3D objects as classes using object-oriented programming
+- 🖲️ OBJViewer: This app demonstrates how to open a 3D model from an OBJ-formatted file
+- 🌌 HelloSolarSystem: A demo of a scene with several animated objects
+- 🎮 HelloControllers: A tutorial on VR controllers and how to use their input (pose, buttons, squeezes, joysticks) and output (vibration) 
 
 ## How to setup and run J4Q:
 
