@@ -1,10 +1,10 @@
 ![Asset 1@3x](https://github.com/digitalworlds/JavaForQuest/blob/main/Img/banner%201000%20x%202000.png?raw=true)
-# J4Q (Java For Quest) Project
+# 🌟 J4Q (Java For Quest) Project
 Digital Arts & Sciences Programs | Digital Worlds Institute | University of Florida
 
 The J4Q project demonstrates how to create Virtual Reality apps for Meta Quest headsets as Native Android applications using Java in Android Studio. This project can be used as a setup for learning how to develop from scratch a basic game engine for Virtual Reality in Java. It can also be used along with a structured curriculum for teaching various topics related to game engine development such as: 3D Transformations using Matrices and Vectors, 3D geometry using triangular mesh, Animation loop, Shaders using GLSL, Controller input, Vibration feedback, and many other topics.   
 
-## Contents
+## 📔 Contents
 
 The project contains several sample VR apps located inside the `J4Q_46.0/JavaForQuest/Projects` folder. 
 - 🔭 EndlessUniverse: A full-scale demo of the J4Q API
@@ -20,7 +20,7 @@ The project contains several sample VR apps located inside the `J4Q_46.0/JavaFor
 - 🌌 HelloSolarSystem: A demo of a scene with several animated objects
 - 🎮 HelloControllers: A tutorial on VR controllers and how to use their input (pose, buttons, squeezes, joysticks) and output (vibration) 
 
-## How to setup and run J4Q:
+## ⚙️ How to setup and run J4Q:
 
 The following instructions will guide you step by step on how to setup and run J4Q in your system. The instructions include details for the following steps:
 
@@ -51,7 +51,7 @@ You need to install the following software to be able to compile Android apps fo
 - [x] Test the J4Q Demo app in your headset.
 - [x] In general, you can find and run the app in your Quest headset in your Library in the category 'Unknown Sources'. 
 
-## Tested with the following system configuration:
+## 🧪 Tested with the following system configuration:
 
 - Android Studio Dolphin 2021.3.1 Patch 1
 - Android SDK Platform 8.0 (Oreo) API Level 26
@@ -61,7 +61,7 @@ You need to install the following software to be able to compile Android apps fo
 - Development Systems: MacOS 13.0.1 Ventura, MacOS 12.5 Monterey (M2 chip), MacOS 11.7.1 Big Sur (Intel chip), Windows 10, Windows 11
 - Meta Quest 1 & 2 (Testing systems)
 
-## Troubleshooting
+## 🚩 Troubleshooting
 
 ### Gradle sync failed: NDK Not Configured
 
