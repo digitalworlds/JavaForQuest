@@ -5,6 +5,12 @@ Digital Arts & Sciences Programs | Digital Worlds Institute | University of Flor
 The J4Q project demonstrates how to create Virtual Reality apps for Meta Quest headsets as Native Android applications using Java in Android Studio. This project can be used as a setup for learning how to develop from scratch a basic game engine for Virtual Reality in Java. It can also be used along with a structured curriculum for teaching various topics related to game engine development such as: 3D Transformations using Matrices and Vectors, 3D geometry using triangular mesh, Animation loop, Shaders using GLSL, Controller input, Vibration feedback, and many other topics.  
 
 ![Asset 1@3x](https://github.com/digitalworlds/JavaForQuest/blob/main/docs/img/Illustration.png?raw=true)
+
+## Citation
+If you use this library please cite the paper, in which we introduced J4Q:
+Barmpoutis, A., Guo, W. and Said, I., 2023. Developing Mini VR Game Engines as an Engaging Learning Method for Digital Arts & Sciences. 13th IEEE Integrated STEM Education Conference, pp. 1-4.
+https://research.dwi.ufl.edu/page/developing-mini-vr-game-engines-as-an-engaging-learning-method-for-digital-arts-sciences/
+
 ## 📔 Contents
 
 The project contains several sample VR apps located inside the `J4Q_46.0/JavaForQuest/Projects` folder. 
