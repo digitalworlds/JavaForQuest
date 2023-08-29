@@ -39,7 +39,7 @@ The following instructions will guide you step by step on how to setup and run J
 
 You need to install the following software to be able to compile Android apps for Meta Quest headsets:
 
-- [x] The latest version of Android Studio: https://developer.android.com/studio
+- [x] Android Studio (this project was developed and tested with Dolphin version): https://developer.android.com/studio
 - [x] Open the SDK Manager of Android Studio and install the SDK Platform 8.0 (Oreo) API Level 26
 - [x] In the SDK Manager of Android Studio, go to the SDK Tools tab and check the box `Show Package Details` and install: 1) NDK (21.0.6113669), 2) CMake (3.22.1)
 
