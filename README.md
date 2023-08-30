@@ -70,6 +70,14 @@ You need to install the following software to be able to compile Android apps fo
 
 ## 🚩 Troubleshooting
 
+### Unsupported Java.
+
+Usually the error message is:  Unsupported Java. Your build is currently configured to use Java ... and Gradle 6.1.1.
+
+1. Go to File -> Project Structure -> SDK Location and click on the Gradle Settings.
+2. Set Gradle JDK to 1.8
+3. File -> Invalidate Caches 
+
 ### Gradle sync failed: NDK Not Configured
 
 1. Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). 
