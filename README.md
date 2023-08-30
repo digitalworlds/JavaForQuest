@@ -50,7 +50,7 @@ You need to install the following software to be able to compile Android apps fo
 
 ### 3. Run the J4Q (Java For Quest) Project
 
-- [x] Open in Android studio the project file: `J4Q_46.0/JavaForQuest/Projects/EndlessUniverse/build.gradle`
+- [x] There are many Android studio projects inside the folder `J4Q_46.0/JavaForQuest/Projects`. Select a project and open in Android Studio the file `builde.gradle` located inside the project folder. For example for the EndlessUniverse project open the file: `J4Q_46.0/JavaForQuest/Projects/EndlessUniverse/build.gradle`
 - [x] If there are errors during the build process, follow our troubleshooting guide at the end of this document.
 - [x] Connect your Quest headset to your development computer using the charging cable.
 - [x] In the headset accept the pop-up permission dialog.
