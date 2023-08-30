@@ -62,10 +62,11 @@ You need to install the following software to be able to compile Android apps fo
 
 - Android Studio Giraffe | 2022.3.1 Patch 1
 - Android SDK Platform 8.0 (Oreo) API Level 26
+- Java 1.8 BellSoft Liberica version 1.8.0_345
 - Gradle 6.1.1
 - NDK 25.2.9519653
 - CMake 3.22.1
-- Development Systems: MacOS 13.0.1 Ventura, MacOS 12.5 Monterey (M2 chip), MacOS 11.7.1 Big Sur (Intel chip), Windows 10, Windows 11
+- Operating Systems used for development: MacOS 13.4.1 Ventura, MacOS 12.5 Monterey (M2 chip), MacOS 11.7.1 Big Sur (Intel chip), Windows 10, Windows 11
 - Meta Quest 1 & 2 (Testing systems)
 
 ## 🚩 Troubleshooting
@@ -74,9 +75,9 @@ You need to install the following software to be able to compile Android apps fo
 
 Usually the error message is:  Unsupported Java. Your build is currently configured to use Java ... and Gradle 6.1.1.
 
-1. Go to File -> Project Structure -> SDK Location and click on the Gradle Settings.
+1. Go to File -> Project Structure -> SDK Location and click on the `Gradle Settings`.
 2. Set Gradle JDK to 1.8
-3. File -> Invalidate Caches and click on Invalidate and Restart
+3. File -> Invalidate Caches and click on `Invalidate and Restart`.
 
 ### Gradle sync failed: NDK Not Configured
 
