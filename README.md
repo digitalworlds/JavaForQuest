@@ -80,13 +80,16 @@ Usually the error message is:  Unsupported Java. Your build is currently configu
 2. Set Gradle JDK to 1.8
 3. File -> Invalidate Caches and click on `Invalidate and Restart`.
 
-### Gradle sync failed: NDK Not Configured
+### Compatible side by side NDK version was not found. 
 
-1. Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). 
-2. After that, the file `JavaForQuest/Projects/EndlessUniverse/local.properties` will automatically be generated with the parameters `sdk.dir` and `ndk.dir`. 
-3. If the file does not contain `ndk.dir` you can edit the text and append a line with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/25.2.9519653`. 
-4. Then, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. 
-5. Finally, try again by clicking on the "try again" button on top of the text editor, when viewing the local.properties file.
+The error message could also appear in other variations such as: Gradle sync failed: NDK Not Configured
+
+1. Verify that you have completed the prerequisite installation and particulraly the installation of NDK.
+2. Go to File -> Project Structure -> SDK Location and download NDK or select one from the list (if any). 
+3. After that, the file `JavaForQuest/Projects/<Project Name>/local.properties` will automatically be generated with the parameters `sdk.dir` and `ndk.dir`. 
+4. If the file does not contain `ndk.dir` you can edit the text and append a line with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/25.2.9519653`. 
+5. Then, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. 
+6. Finally, try again by clicking on the `try again` button on top of the text editor, when viewing the local.properties file.
 
 ### Execution failed for task ':JavaForQuest:Projects:EndlessUniverse:genDebugKeystore'. Process 'command python3' finished with non-zero exit value 1
 
