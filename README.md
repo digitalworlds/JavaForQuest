@@ -76,7 +76,7 @@ Usually the error message is:  Unsupported Java. Your build is currently configu
 
 1. Go to File -> Project Structure -> SDK Location and click on the Gradle Settings.
 2. Set Gradle JDK to 1.8
-3. File -> Invalidate Caches 
+3. File -> Invalidate Caches and click on Invalidate and Restart
 
 ### Gradle sync failed: NDK Not Configured
 
