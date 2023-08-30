@@ -87,7 +87,7 @@ The error message could also appear in other variations such as: Gradle sync fai
 1. Verify that you have completed the prerequisite installation and particulraly the installation of NDK.
 2. Open the file `JavaForQuest/Projects/<Project Name>/local.properties` which was automatically generated and must contain the parameters `sdk.dir` and `ndk.dir`. 
 4. If the file does not contain `ndk.dir` you can edit the text and append a line with the path to your NDK. For example: `ndk.dir=...some path.../Android/sdk/ndk/25.2.9519653`. 
-5. Then, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. 
+5. Then, copy the `local.properties` file and paste it in the `J4Q_46.0` folder. DO NOT FORGET THIS STEP!
 6. Finally, try again by clicking on the `try again` button on top of the text editor, when viewing the local.properties file.
 
 ### Execution failed for task ':JavaForQuest:Projects:EndlessUniverse:genDebugKeystore'. Process 'command python3' finished with non-zero exit value 1
