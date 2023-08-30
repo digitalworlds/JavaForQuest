@@ -11,6 +11,8 @@ If you use this library please cite the paper, in which we introduced J4Q:
 Barmpoutis, A., Guo, W. and Said, I., 2023. Developing Mini VR Game Engines as an Engaging Learning Method for Digital Arts & Sciences. 13th IEEE Integrated STEM Education Conference, pp. 1-4.
 https://research.dwi.ufl.edu/page/developing-mini-vr-game-engines-as-an-engaging-learning-method-for-digital-arts-sciences/
 
+🥈 This paper won the Best Paper Award (2nd place) in the 13th IEEE Integrated STEM Education Conference at Johns Hopkins University, on March 11, 2023.
+
 ## 📔 Contents
 
 The project contains several sample VR apps located inside the `J4Q_46.0/JavaForQuest/Projects` folder. 
@@ -97,6 +99,12 @@ Otherwise, a more lengthy solution is to open a command line terminal and go int
 ### Setting Android Studio as a Developer Tool in Mac
 
 In MacOS it is helpful if you set Android Studio as a Developer Tool. 
+
+## 🤝 Acknowledgements
+
+1. This project was created using the Oculus OpenXR Mobile SDK 64.0 https://developer.oculus.com/downloads/package/oculus-openxr-mobile-sdk/
+2. Special thanks to Angelos Barmpoutis, Ines Said, and Wenbin Guo for their contributions to this project.
+3. We would like to thank the University of Florida for supporting the development of this project.
 
 1. To do that, first enable Developer Mode by opening the Terminal and typing `spctl developer-mode enable-terminal`. 
 2. Then in System Preferences go to Security & Privacy and in the Privacy Tab, go to the option Developer Tools and add Android Studio.
