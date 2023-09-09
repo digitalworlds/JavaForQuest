@@ -106,7 +106,7 @@ In MacOS it is helpful if you set Android Studio as a Developer Tool.
 
 ## 🤝 Acknowledgements
 
-1. This project was created using the Oculus OpenXR Mobile SDK 64.0 https://developer.oculus.com/downloads/package/oculus-openxr-mobile-sdk/
+1. This project was created using the Oculus OpenXR Mobile SDK 46.0 https://developer.oculus.com/downloads/package/oculus-openxr-mobile-sdk/
 2. Special thanks to Angelos Barmpoutis, Ines Said, and Wenbin Guo for their contributions to this project.
 3. We would like to thank the University of Florida for supporting the development of this project.
 
