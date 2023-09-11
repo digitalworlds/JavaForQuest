@@ -92,10 +92,10 @@ The error message could also appear in other variations such as: Gradle sync fai
 
 ### Execution failed for task ':JavaForQuest:Projects:EndlessUniverse:genDebugKeystore'. Process 'command python3' finished with non-zero exit value 1
 
-1. This error appears if the file `JavaForQuest/Projects/EndlessUniverse/android.debug.keystore` is missing, possibly because it was automatically removed when performing Build -> Clean Project or Build -> Rebuild Project. 
+1. This error appears if the file `JavaForQuest/Projects/<Project Name>/android.debug.keystore` is missing, possibly because it was automatically removed when performing Build -> Clean Project or Build -> Rebuild Project. 
 2. An easy way to fix this is to copy the file `JavaForQuest/keystore/android.debug.keystore` into the folder `JavaForQuest/Projects/EndlessUniverse` and then re-run. 
 
-Otherwise, a more lengthy solution is to open a command line terminal and go into the folder `JavaForQuest\Projects\EndlessUniverse` and run the command `python3 ../../../bin/scripts/build/ovrbuild_keystore.py`. This step requires prior installation of python3 as well as setting the system variables `ANDROID_NDK_HOME` and `ANDROID_HOME`.
+Otherwise, a more lengthy solution is to open a command line terminal and go into the folder `JavaForQuest\Projects\<Project Name>` and run the command `python3 ../../../bin/scripts/build/ovrbuild_keystore.py`. This step requires prior installation of python3 as well as setting the system variables `ANDROID_NDK_HOME` and `ANDROID_HOME`.
 
 ### Setting Android Studio as a Developer Tool in Mac
 
