@@ -9,7 +9,7 @@ The J4Q project demonstrates how to create Virtual Reality apps for Meta Quest h
 ## Citation
 If you use this library please cite the paper, in which we introduced J4Q:
 Barmpoutis, A., Guo, W. and Said, I., 2023. Developing Mini VR Game Engines as an Engaging Learning Method for Digital Arts & Sciences. 13th IEEE Integrated STEM Education Conference, pp. 1-4.
-https://research.dwi.ufl.edu/page/developing-mini-vr-game-engines-as-an-engaging-learning-method-for-digital-arts-sciences/
+https://digitalworlds.github.io/angelos/publications.html?id=ISEC2023
 
 🥈 This paper won the Best Paper Award (2nd place) in the 13th IEEE Integrated STEM Education Conference at Johns Hopkins University, on March 11, 2023.
 
@@ -112,4 +112,4 @@ In MacOS it is helpful if you set Android Studio as a Developer Tool.
 
 ## ✍ Cite as
 
-Barmpoutis, A., Guo, W. and Said, I., 2023. Developing Mini VR Game Engines as an Engaging Learning Method for Digital Arts & Sciences. 13th IEEE Integrated STEM Education Conference, pp. 1-4.
+Barmpoutis, A., Guo, W. and Said, I., 2023. Developing Mini VR Game Engines as an Engaging Learning Method for Digital Arts & Sciences. 13th IEEE Integrated STEM Education Conference, pp. 1-4. https://digitalworlds.github.io/angelos/publications.html?id=ISEC2023
