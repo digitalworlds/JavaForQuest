@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.oculus.sdk.xrcompositor"
     android:versionCode="1"
     android:versionName="1.0"
     android:installLocation="auto"
@@ -17,8 +16,7 @@
       />
   <application
       android:allowBackup="false"
-      android:label="xrcompositor"
-      android:hasCode="false"
+      android:label="J4Q Endless Universe"
       >
     <meta-data
         android:name="com.oculus.supportedDevices"
@@ -30,7 +28,7 @@
     <!-- Theme.Black.NoTitleBar.Fullscreen gives solid black instead of a (bad stereoscopic)
 		gradient on app transition. -->
     <activity
-        android:name="android.app.NativeActivity"
+        android:name="edu.ufl.j4q.MainActivity"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
         android:launchMode="singleTask"
         android:screenOrientation="landscape"

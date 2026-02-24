@@ -1581,6 +1581,14 @@ static void ovrTrackedController_Clear(ovrTrackedController* controller) {
 }
 
 /*
+ * =======Angelos======
+ */
+
+static jmethodID draw_method;
+static jmethodID setup_method;
+static jmethodID simulate_method;
+
+/*
 ================================================================================
 
 ovrScene
@@ -2133,6 +2141,8 @@ typedef struct {
 } ovrSceneMatrices;
 
 static void ovrRenderer_RenderFrame(
+    JNIEnv *Env,//ANGELOS
+    jobject activity,//ANGELOS
     ovrRenderer* renderer,
     const ovrScene* scene,
     const ovrSceneMatrices* sceneMatrices) {
@@ -2150,7 +2160,14 @@ static void ovrRenderer_RenderFrame(
         // Set the current framebuffer.
         ovrFramebuffer_SetCurrent(frameBuffer);
 
-        GL(glUseProgram(scene->Program.Program));
+        /* ANGELOS */
+        jfloatArray view1_array=(* Env)->NewFloatArray(Env,32);
+        (*Env)->SetFloatArrayRegion(Env,view1_array,0,16,(float*)&sceneMatrices->ViewMatrix[eye]);
+        (*Env)->SetFloatArrayRegion(Env,view1_array,16,16,(float*)&sceneMatrices->ProjectionMatrix[eye]);
+        (*Env)->CallVoidMethod(Env,activity,draw_method,frameBuffer->Width,frameBuffer->Height,view1_array,eye);
+        (*Env)->DeleteLocalRef(Env,view1_array);
+
+        /*GL(glUseProgram(scene->Program.Program));
 
         XrMatrix4x4f modelMatrix;
         XrMatrix4x4f_CreateIdentity(&modelMatrix);
@@ -2200,7 +2217,7 @@ static void ovrRenderer_RenderFrame(
             scene->Program.UniformLocation[MODEL_MATRIX], 1, GL_FALSE, &modelMatrix.m[0]);
 
         GL(glBindVertexArray(0));
-        GL(glUseProgram(0));
+        GL(glUseProgram(0));*/
 
         ovrFramebuffer_Resolve(frameBuffer);
 
@@ -2601,6 +2618,63 @@ void UpdateStageBounds(ovrApp* pappState) {
 
 ovrApp appState;
 
+/*** Angelos ***/
+
+XrAction vibrateLeftFeedback;
+XrAction vibrateRightFeedback;
+
+JNIEXPORT jlong JNICALL Java_gl_J4Q_stopHapticFeedbackLeft( JNIEnv * env, jclass obj )
+{
+    XrHapticActionInfo hapticActionInfo = {};
+    hapticActionInfo.type = XR_TYPE_HAPTIC_ACTION_INFO;
+    hapticActionInfo.next = NULL;
+    hapticActionInfo.action = vibrateLeftFeedback;
+    OXR(xrStopHapticFeedback(appState.Session, &hapticActionInfo));
+    return (jlong)0;
+}
+
+JNIEXPORT jlong JNICALL Java_gl_J4Q_stopHapticFeedbackRight( JNIEnv * env, jclass obj )
+{
+    XrHapticActionInfo hapticActionInfo = {};
+    hapticActionInfo.type = XR_TYPE_HAPTIC_ACTION_INFO;
+    hapticActionInfo.next = NULL;
+    hapticActionInfo.action = vibrateRightFeedback;
+    OXR(xrStopHapticFeedback(appState.Session, &hapticActionInfo));
+    return (jlong)0;
+}
+
+JNIEXPORT jlong JNICALL Java_gl_J4Q_applyHapticFeedbackLeft( JNIEnv * env, jclass obj, jfloat amplitude, jfloat seconds, jint frequency ) {
+    XrHapticVibration vibration = {};
+    vibration.type = XR_TYPE_HAPTIC_VIBRATION;
+    vibration.next = NULL;
+    vibration.amplitude = amplitude;
+    vibration.duration = ToXrTime(seconds); // half a second
+    vibration.frequency = frequency;
+    XrHapticActionInfo hapticActionInfo = {};
+    hapticActionInfo.type = XR_TYPE_HAPTIC_ACTION_INFO;
+    hapticActionInfo.next = NULL;
+    hapticActionInfo.action = vibrateLeftFeedback;
+    OXR(xrApplyHapticFeedback(
+            appState.Session, &hapticActionInfo, (const XrHapticBaseHeader *) &vibration));
+    return (jlong)0;
+}
+
+JNIEXPORT jlong JNICALL Java_gl_J4Q_applyHapticFeedbackRight( JNIEnv * env, jclass obj, jfloat amplitude, jfloat seconds, jint frequency ) {
+    XrHapticVibration vibration = {};
+    vibration.type = XR_TYPE_HAPTIC_VIBRATION;
+    vibration.next = NULL;
+    vibration.amplitude = amplitude;
+    vibration.duration = ToXrTime(seconds); // half a second
+    vibration.frequency = frequency;
+    XrHapticActionInfo hapticActionInfo = {};
+    hapticActionInfo.type = XR_TYPE_HAPTIC_ACTION_INFO;
+    hapticActionInfo.next = NULL;
+    hapticActionInfo.action = vibrateRightFeedback;
+    OXR(xrApplyHapticFeedback(
+            appState.Session, &hapticActionInfo, (const XrHapticBaseHeader *) &vibration));
+    return (jlong)0;
+}
+
 XrInstance ovrApp_GetInstance() {
     return appState.Instance;
 }
@@ -2740,6 +2814,13 @@ void android_main(struct android_app* app) {
         loaderInitializeInfoAndroid.applicationContext = app->activity->clazz;
         xrInitializeLoaderKHR((XrLoaderInitInfoBaseHeaderKHR*)&loaderInitializeInfoAndroid);
     }
+
+    /* Angelos */
+    jclass cls = (*Env)->GetObjectClass(Env, app->activity->clazz);
+    draw_method=(* Env)->GetMethodID(Env, cls, "_draw", "(II[FI)V");
+    setup_method=(* Env)->GetMethodID(Env, cls, "_setup", "()I");
+    simulate_method=(* Env)->GetMethodID(Env, cls, "_simulate", "(DZZZZZZZZZZZZZZZZZZZZZZZFZFZFZFZFFZFFZFFFFFFFZFFFFFFFZFFFFFFFZFFFFFFF)V");
+
 
     // Log available layers.
     {
@@ -3168,7 +3249,7 @@ void android_main(struct android_app* app) {
     // Actions
     XrActionSet runningActionSet =
         CreateActionSet(1, "running_action_set", "Action Set used on main loop");
-    XrAction toggleAction =
+    /*XrAction toggleAction =
         CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "toggle", "Toggle", 0, NULL);
     XrAction moveOnXAction = CreateAction(
         runningActionSet, XR_ACTION_TYPE_FLOAT_INPUT, "move_on_x", "Move on X", 0, NULL);
@@ -3197,7 +3278,62 @@ void android_main(struct android_app* app) {
         "vibrate_right",
         "Vibrate Right Controller",
         0,
-        NULL);
+        NULL);*/
+
+    //ANGELOS
+    XrAction toggleActionLeftTrigger =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "left_toggle_trigger", "Left Toggle Trigger", 0, NULL);
+    XrAction toggleActionLeftX =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "left_toggle_x", "Left Toggle X", 0, NULL);
+    XrAction toggleActionLeftY =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "left_toggle_y", "Left ToggleY ", 0, NULL);
+    XrAction toggleActionMenu =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "left_toggle_menu", "Left Toggle Menu ", 0, NULL);
+    XrAction toggleActionLeftSqueeze =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "left_toggle_squeeze", "Left Toggle Squeeze", 0, NULL);
+
+
+    XrAction toggleActionRightTrigger =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "right_toggle_trigger", "Right Toggle Trigger", 0, NULL);
+    XrAction toggleActionRightA =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "right_toggle_a", "Right Toggle A", 0, NULL);
+    XrAction toggleActionRightB =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "right_toggle_b", "Right Toggle B", 0, NULL);
+    XrAction toggleActionRightSqueeze =
+            CreateAction(runningActionSet, XR_ACTION_TYPE_BOOLEAN_INPUT, "right_toggle_squeeze", "Right Toggle Squeeze", 0, NULL);
+
+
+    XrAction moveOnXActionLeftSqueeze = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_FLOAT_INPUT, "left_move_on_x", "Left Move on X", 0, NULL);
+    XrAction moveOnXActionRightSqueeze = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_FLOAT_INPUT, "right_move_on_x", "Right Move on X", 0, NULL);
+
+    XrAction moveOnYActionLeftTriggerValue = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_FLOAT_INPUT, "left_move_on_y", "Left Move on Y", 0, NULL);
+    XrAction moveOnYActionRightTriggerValue = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_FLOAT_INPUT, "right_move_on_y", "Right Move on Y", 0, NULL);
+
+    XrAction moveOnJoystickActionLeft = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_VECTOR2F_INPUT, "left_move_on_joy", "Left Move on Joy", 0, NULL);
+    XrAction moveOnJoystickActionRight = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_VECTOR2F_INPUT, "right_move_on_joy", "Right Move on Joy", 0, NULL);
+
+    XrAction thumbstickClickActionLeft = CreateAction(
+            runningActionSet,
+            XR_ACTION_TYPE_BOOLEAN_INPUT,
+            "left_thumbstick_click",
+            "Left Thumbstick Click",
+            0,
+            NULL);
+    XrAction thumbstickClickActionRight = CreateAction(
+            runningActionSet,
+            XR_ACTION_TYPE_BOOLEAN_INPUT,
+            "right_thumbstick_click",
+            "Right Thumbstick Click",
+            0,
+            NULL);
+
+
     XrAction vibrateLeftFeedback = CreateAction(
         runningActionSet,
         XR_ACTION_TYPE_VIBRATION_OUTPUT,
@@ -3213,16 +3349,29 @@ void android_main(struct android_app* app) {
         0,
         NULL);
 
+
+
     XrPath leftHandPath;
     OXR(xrStringToPath(appState.Instance, "/user/hand/left", &leftHandPath));
     XrPath rightHandPath;
     OXR(xrStringToPath(appState.Instance, "/user/hand/right", &rightHandPath));
     XrPath handSubactionPaths[2] = {leftHandPath, rightHandPath};
 
-    XrAction aimPoseAction = CreateAction(
+    /*XrAction aimPoseAction = CreateAction(
         runningActionSet, XR_ACTION_TYPE_POSE_INPUT, "aim_pose", NULL, 2, handSubactionPaths);
     XrAction gripPoseAction = CreateAction(
-        runningActionSet, XR_ACTION_TYPE_POSE_INPUT, "grip_pose", NULL, 2, handSubactionPaths);
+        runningActionSet, XR_ACTION_TYPE_POSE_INPUT, "grip_pose", NULL, 2, handSubactionPaths);*/
+
+    //ANGELOS
+    XrAction aimPoseActionLeft = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_POSE_INPUT, "left_aim_pose", NULL, 2, handSubactionPaths);
+    XrAction aimPoseActionRight = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_POSE_INPUT, "right_aim_pose", NULL, 2, handSubactionPaths);
+    XrAction gripPoseActionLeft = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_POSE_INPUT, "left_grip_pose", NULL, 2, handSubactionPaths);
+    XrAction gripPoseActionRight = CreateAction(
+            runningActionSet, XR_ACTION_TYPE_POSE_INPUT, "right_grip_pose", NULL, 2, handSubactionPaths);
+
 
     XrPath interactionProfilePath = XR_NULL_PATH;
     XrPath interactionProfilePathTouch = XR_NULL_PATH;
@@ -3297,7 +3446,56 @@ void android_main(struct android_app* app) {
         int currBinding = 0;
 
         {
+            //ANGELOS
             if (interactionProfilePath == interactionProfilePathTouch) {
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(toggleActionLeftTrigger, "/user/hand/left/input/trigger");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(toggleActionRightTrigger, "/user/hand/right/input/trigger");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(toggleActionLeftSqueeze, "/user/hand/left/input/squeeze");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(toggleActionRightSqueeze, "/user/hand/right/input/squeeze");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(toggleActionLeftX, "/user/hand/left/input/x/click");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(toggleActionRightA, "/user/hand/right/input/a/click");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(moveOnXActionLeftSqueeze, "/user/hand/left/input/squeeze/value");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(moveOnXActionRightSqueeze, "/user/hand/right/input/squeeze/value");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(moveOnYActionLeftTriggerValue, "/user/hand/left/input/trigger/value");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(moveOnYActionRightTriggerValue, "/user/hand/right/input/trigger/value");
+                bindings[currBinding++] = ActionSuggestedBinding(
+                        moveOnJoystickActionLeft, "/user/hand/left/input/thumbstick");
+                bindings[currBinding++] = ActionSuggestedBinding(
+                        moveOnJoystickActionRight, "/user/hand/right/input/thumbstick");
+                bindings[currBinding++] = ActionSuggestedBinding(
+                        thumbstickClickActionLeft, "/user/hand/left/input/thumbstick/click");
+                bindings[currBinding++] = ActionSuggestedBinding(
+                        thumbstickClickActionRight, "/user/hand/right/input/thumbstick/click");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(/*vibrateLeftToggle*/toggleActionLeftY, "/user/hand/left/input/y/click");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(/*vibrateRightToggle*/toggleActionRightB, "/user/hand/right/input/b/click");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(toggleActionMenu, "/user/hand/left/input/menu/click");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(vibrateLeftFeedback, "/user/hand/left/output/haptic");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(vibrateRightFeedback, "/user/hand/right/output/haptic");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(aimPoseActionLeft, "/user/hand/left/input/aim/pose");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(aimPoseActionRight, "/user/hand/right/input/aim/pose");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(gripPoseActionLeft, "/user/hand/left/input/grip/pose");
+                bindings[currBinding++] =
+                        ActionSuggestedBinding(gripPoseActionRight, "/user/hand/right/input/grip/pose");
+            }
+            /*if (interactionProfilePath == interactionProfilePathTouch) {
                 bindings[currBinding++] =
                     ActionSuggestedBinding(toggleAction, "/user/hand/left/input/trigger");
                 bindings[currBinding++] =
@@ -3361,7 +3559,7 @@ void android_main(struct android_app* app) {
                     ActionSuggestedBinding(gripPoseAction, "/user/hand/left/input/grip/pose");
                 bindings[currBinding++] =
                     ActionSuggestedBinding(gripPoseAction, "/user/hand/right/input/grip/pose");
-            }
+            }*/
         }
 
         XrInteractionProfileSuggestedBinding suggestedBindings = {XR_TYPE_INTERACTION_PROFILE_SUGGESTED_BINDING};
@@ -3380,7 +3578,31 @@ void android_main(struct android_app* app) {
         XrPath actionPathsBuffer[16];
         char stringBuffer[256];
         XrAction actionsToEnumerate[] = {
-            toggleAction,
+            //ANGELOS
+             toggleActionLeftTrigger,
+                toggleActionRightTrigger,
+                toggleActionLeftSqueeze,
+                toggleActionRightSqueeze,
+                toggleActionLeftX,
+                toggleActionLeftY,
+                toggleActionMenu,
+                toggleActionRightA,
+                toggleActionRightB,
+                moveOnXActionLeftSqueeze,
+                moveOnXActionRightSqueeze,
+                moveOnYActionLeftTriggerValue,
+                moveOnYActionRightTriggerValue,
+                moveOnJoystickActionLeft,
+                moveOnJoystickActionRight,
+                thumbstickClickActionLeft,
+                thumbstickClickActionRight,
+                vibrateLeftFeedback,
+                vibrateRightFeedback,
+                aimPoseActionLeft,
+                aimPoseActionRight,
+                gripPoseActionLeft,
+                gripPoseActionRight
+            /*toggleAction,
             moveOnXAction,
             moveOnYAction,
             moveOnJoystickAction,
@@ -3390,8 +3612,9 @@ void android_main(struct android_app* app) {
             vibrateLeftFeedback,
             vibrateRightFeedback,
             aimPoseAction,
-            gripPoseAction,
+            gripPoseAction,*/
         };
+        
         for (size_t i = 0; i < sizeof(actionsToEnumerate) / sizeof(actionsToEnumerate[0]); ++i) {
             XrBoundSourcesForActionEnumerateInfo enumerateInfo = {XR_TYPE_BOUND_SOURCES_FOR_ACTION_ENUMERATE_INFO};
             enumerateInfo.action = actionsToEnumerate[i];
@@ -3464,6 +3687,8 @@ void android_main(struct android_app* app) {
 
     bool stageBoundsDirty = true;
 
+    double startTime = -1.0;//ANGELOS
+
     // App-specific input
     float appQuadPositionX = 0.0f;
     float appQuadPositionY = 0.0f;
@@ -3498,7 +3723,7 @@ void android_main(struct android_app* app) {
             continue;
         }
 
-        if (leftControllerAimSpace == XR_NULL_HANDLE) {
+        /*if (leftControllerAimSpace == XR_NULL_HANDLE) {
             leftControllerAimSpace = CreateActionSpace(aimPoseAction, leftHandPath);
         }
         if (rightControllerAimSpace == XR_NULL_HANDLE) {
@@ -3509,6 +3734,19 @@ void android_main(struct android_app* app) {
         }
         if (rightControllerGripSpace == XR_NULL_HANDLE) {
             rightControllerGripSpace = CreateActionSpace(gripPoseAction, rightHandPath);
+        }*/
+        //ANGELOS
+        if (leftControllerAimSpace == XR_NULL_HANDLE) {
+            leftControllerAimSpace = CreateActionSpace(aimPoseActionLeft, leftHandPath);
+        }
+        if (rightControllerAimSpace == XR_NULL_HANDLE) {
+            rightControllerAimSpace = CreateActionSpace(aimPoseActionRight, rightHandPath);
+        }
+        if (leftControllerGripSpace == XR_NULL_HANDLE) {
+            leftControllerGripSpace = CreateActionSpace(gripPoseActionLeft, leftHandPath);
+        }
+        if (rightControllerGripSpace == XR_NULL_HANDLE) {
+            rightControllerGripSpace = CreateActionSpace(gripPoseActionRight, rightHandPath);
         }
 
         // Create the scene if not yet created.
@@ -3516,6 +3754,7 @@ void android_main(struct android_app* app) {
         if (!ovrScene_IsCreated(&appState.Scene)) {
             ovrScene_Create(
                 app->activity->assetManager, appState.Instance, appState.Session, &appState.Scene);
+            (*Env)->CallIntMethod(Env,app->activity->clazz,setup_method);/*Angelos*/
         }
 
         if (stageBoundsDirty) {
@@ -3563,6 +3802,16 @@ void android_main(struct android_app* app) {
             projections));
         //
 
+        //ANGELOS
+        // Simple animation
+        double timeInSeconds = FromXrTime(frameState.predictedDisplayTime);
+        if (startTime < 0.0) {
+            startTime = timeInSeconds;
+        }
+        timeInSeconds -= startTime;
+        double intPart = 0.0;
+        __attribute__((unused)) double fractTime = modf(timeInSeconds, &intPart);
+
         ovrSceneMatrices sceneMatrices;
         XrPosef viewTransform[2];
 
@@ -3580,7 +3829,10 @@ void android_main(struct android_app* app) {
         }
 
         // update input information
-        XrAction controller[] = {aimPoseAction, gripPoseAction, aimPoseAction, gripPoseAction};
+        //XrAction controller[] = {aimPoseAction, gripPoseAction, aimPoseAction, gripPoseAction};
+        //ANGELOS
+        XrAction controller[] = {aimPoseActionLeft, gripPoseActionLeft, aimPoseActionRight, gripPoseActionRight};
+        
         XrPath subactionPath[] = {leftHandPath, leftHandPath, rightHandPath, rightHandPath};
         XrSpace controllerSpace[] = {
             leftControllerAimSpace,
@@ -3620,14 +3872,40 @@ void android_main(struct android_app* app) {
             XrActionStateGetInfo getInfo = {XR_TYPE_ACTION_STATE_GET_INFO};
             getInfo.subactionPath = XR_NULL_PATH;
 
-            XrActionStateBoolean toggleState = GetActionStateBoolean(toggleAction);
+            /*XrActionStateBoolean toggleState = GetActionStateBoolean(toggleAction);
             XrActionStateBoolean vibrateLeftState = GetActionStateBoolean(vibrateLeftToggle);
             XrActionStateBoolean vibrateRightState = GetActionStateBoolean(vibrateRightToggle);
             XrActionStateBoolean thumbstickClickState =
-                GetActionStateBoolean(thumbstickClickAction);
+                GetActionStateBoolean(thumbstickClickAction);*/
+
+            //ANGELOS
+            XrActionStateBoolean toggleStateLeftTrigger = GetActionStateBoolean(toggleActionLeftTrigger);
+            XrActionStateBoolean toggleStateRightTrigger = GetActionStateBoolean(toggleActionRightTrigger);
+            XrActionStateBoolean toggleStateLeftSqueeze = GetActionStateBoolean(toggleActionLeftSqueeze);
+            XrActionStateBoolean toggleStateRightSqueeze = GetActionStateBoolean(toggleActionRightSqueeze);
+            XrActionStateBoolean toggleStateLeftX = GetActionStateBoolean(toggleActionLeftX);
+            XrActionStateBoolean toggleStateLeftY = GetActionStateBoolean(toggleActionLeftY);
+            XrActionStateBoolean toggleStateMenu = GetActionStateBoolean(toggleActionMenu);
+            XrActionStateBoolean toggleStateRightA = GetActionStateBoolean(toggleActionRightA);
+            XrActionStateBoolean toggleStateRightB = GetActionStateBoolean(toggleActionRightB);
+
+            XrActionStateBoolean thumbstickClickStateLeft =
+                    GetActionStateBoolean(thumbstickClickActionLeft);
+            XrActionStateBoolean thumbstickClickStateRight =
+                    GetActionStateBoolean(thumbstickClickActionRight);
+
+            XrActionStateFloat moveXStateLeftSqueeze = GetActionStateFloat(moveOnXActionLeftSqueeze);
+            XrActionStateFloat moveXStateRightSqueeze = GetActionStateFloat(moveOnXActionRightSqueeze);
+            XrActionStateFloat moveYStateLeftTriggerValue = GetActionStateFloat(moveOnYActionLeftTriggerValue);
+            XrActionStateFloat moveYStateRightTriggerValue = GetActionStateFloat(moveOnYActionRightTriggerValue);
+
+            XrActionStateVector2f moveJoystickStateLeft =
+                    GetActionStateVector2(moveOnJoystickActionLeft);
+            XrActionStateVector2f moveJoystickStateRight =
+                    GetActionStateVector2(moveOnJoystickActionRight);
 
             // Update app logic based on input
-            if (toggleState.changedSinceLastSync) {
+            /*if (toggleState.changedSinceLastSync) {
                 // Also stop haptics
                 XrHapticActionInfo hapticActionInfo = {XR_TYPE_HAPTIC_ACTION_INFO};
                 hapticActionInfo.action = vibrateLeftFeedback;
@@ -3649,11 +3927,11 @@ void android_main(struct android_app* app) {
                     appState.SupportedDisplayRefreshRates[requestedRateIndex];
                 ALOGV("Requesting Display Refresh Rate: %f", requestRefreshRate);
                 OXR(appState.pfnRequestDisplayRefreshRate(appState.Session, requestRefreshRate));
-            }
+            }*/
 
             // The KHR simple profile doesn't have these actions, so the getters will fail
             // and flood the log with errors.
-            if (useSimpleProfile == false) {
+            /*if (useSimpleProfile == false) {
                 XrActionStateFloat moveXState = GetActionStateFloat(moveOnXAction);
                 XrActionStateFloat moveYState = GetActionStateFloat(moveOnYAction);
                 if (moveXState.changedSinceLastSync) {
@@ -3669,11 +3947,11 @@ void android_main(struct android_app* app) {
                     appCylPositionX = moveJoystickState.currentState.x;
                     appCylPositionY = moveJoystickState.currentState.y;
                 }
-            }
+            }*/
 
             // Haptics
             // NOTE: using the values from the example in the spec
-            if (vibrateLeftState.changedSinceLastSync && vibrateLeftState.currentState) {
+            /*if (vibrateLeftState.changedSinceLastSync && vibrateLeftState.currentState) {
                 ALOGV("Firing Haptics on L ... ");
                 // fire haptics using output action
                 XrHapticVibration vibration = {XR_TYPE_HAPTIC_VIBRATION};
@@ -3696,7 +3974,79 @@ void android_main(struct android_app* app) {
                 hapticActionInfo.action = vibrateRightFeedback;
                 OXR(xrApplyHapticFeedback(
                     appState.Session, &hapticActionInfo, (const XrHapticBaseHeader*)&vibration));
-            }
+            }*/
+
+            (*Env)->CallVoidMethod(Env,app->activity->clazz,simulate_method,
+                                   timeInSeconds,
+                                   toggleStateLeftTrigger.changedSinceLastSync,
+                                   toggleStateLeftTrigger.currentState,
+                                   toggleStateRightTrigger.changedSinceLastSync,
+                                   toggleStateRightTrigger.currentState,
+                                   toggleStateLeftSqueeze.changedSinceLastSync,
+                                   toggleStateLeftSqueeze.currentState,
+                                   toggleStateRightSqueeze.changedSinceLastSync,
+                                   toggleStateRightSqueeze.currentState,
+                                   toggleStateLeftX.changedSinceLastSync,
+                                   toggleStateLeftX.currentState,
+                                   toggleStateLeftY.changedSinceLastSync,
+                                   toggleStateLeftY.currentState,
+                                   toggleStateMenu.changedSinceLastSync,
+                                   toggleStateMenu.currentState,
+                                   toggleStateRightA.changedSinceLastSync,
+                                   toggleStateRightA.currentState,
+                                   toggleStateRightB.changedSinceLastSync,
+                                   toggleStateRightB.currentState,
+                                   thumbstickClickStateLeft.changedSinceLastSync,
+                                   thumbstickClickStateLeft.currentState,
+                                   thumbstickClickStateRight.changedSinceLastSync,
+                                   thumbstickClickStateRight.currentState,
+                                   moveXStateLeftSqueeze.changedSinceLastSync,
+                                   moveXStateLeftSqueeze.currentState,
+                                   moveXStateRightSqueeze.changedSinceLastSync,
+                                   moveXStateRightSqueeze.currentState,
+                                   moveYStateLeftTriggerValue.changedSinceLastSync,
+                                   moveYStateLeftTriggerValue.currentState,
+                                   moveYStateRightTriggerValue.changedSinceLastSync,
+                                   moveYStateRightTriggerValue.currentState,
+                                   moveJoystickStateLeft.changedSinceLastSync,
+                                   moveJoystickStateLeft.currentState.x,
+                                   moveJoystickStateLeft.currentState.y,
+                                   moveJoystickStateRight.changedSinceLastSync,
+                                   moveJoystickStateRight.currentState.x,
+                                   moveJoystickStateRight.currentState.y,
+                                   appState.Scene.TrackedController[0].Active,
+                                   appState.Scene.TrackedController[0].Pose.position.x,
+                                   appState.Scene.TrackedController[0].Pose.position.y,
+                                   appState.Scene.TrackedController[0].Pose.position.z,
+                                   appState.Scene.TrackedController[0].Pose.orientation.w,
+                                   appState.Scene.TrackedController[0].Pose.orientation.x,
+                                   appState.Scene.TrackedController[0].Pose.orientation.y,
+                                   appState.Scene.TrackedController[0].Pose.orientation.z,
+                                   appState.Scene.TrackedController[1].Active,
+                                   appState.Scene.TrackedController[1].Pose.position.x,
+                                   appState.Scene.TrackedController[1].Pose.position.y,
+                                   appState.Scene.TrackedController[1].Pose.position.z,
+                                   appState.Scene.TrackedController[1].Pose.orientation.w,
+                                   appState.Scene.TrackedController[1].Pose.orientation.x,
+                                   appState.Scene.TrackedController[1].Pose.orientation.y,
+                                   appState.Scene.TrackedController[1].Pose.orientation.z,
+                                   appState.Scene.TrackedController[2].Active,
+                                   appState.Scene.TrackedController[2].Pose.position.x,
+                                   appState.Scene.TrackedController[2].Pose.position.y,
+                                   appState.Scene.TrackedController[2].Pose.position.z,
+                                   appState.Scene.TrackedController[2].Pose.orientation.w,
+                                   appState.Scene.TrackedController[2].Pose.orientation.x,
+                                   appState.Scene.TrackedController[2].Pose.orientation.y,
+                                   appState.Scene.TrackedController[2].Pose.orientation.z,
+                                   appState.Scene.TrackedController[3].Active,
+                                   appState.Scene.TrackedController[3].Pose.position.x,
+                                   appState.Scene.TrackedController[3].Pose.position.y,
+                                   appState.Scene.TrackedController[3].Pose.position.z,
+                                   appState.Scene.TrackedController[3].Pose.orientation.w,
+                                   appState.Scene.TrackedController[3].Pose.orientation.x,
+                                   appState.Scene.TrackedController[3].Pose.orientation.y,
+                                   appState.Scene.TrackedController[3].Pose.orientation.z
+            );
         }
 
         // Set-up the compositor layers for this frame.
@@ -3712,8 +4062,8 @@ void android_main(struct android_app* app) {
         bool hasCubeMapBackground = appState.Scene.CubeMapSwapChain.Handle != XR_NULL_HANDLE;
 
         // Add a background Layer
-        if (appState.Scene.BackGroundType == BACKGROUND_CUBEMAP &&
-            hasCubeMapBackground /* data loaded from sdcard */) {
+        /*if (appState.Scene.BackGroundType == BACKGROUND_CUBEMAP &&
+            hasCubeMapBackground ) {
             XrCompositionLayerCubeKHR cube_layer = {XR_TYPE_COMPOSITION_LAYER_CUBE_KHR};
             cube_layer.layerFlags = 0;
             cube_layer.space = appState.CurrentSpace;
@@ -3747,11 +4097,11 @@ void android_main(struct android_app* app) {
             equirect_layer.lowerVerticalAngle = lowerVerticalAngle;
 
             appState.Layers[appState.LayerCount++].Equirect2 = equirect_layer;
-        }
+        }*/
 
         // Render the world-view layer (simple ground plane)
         if (shouldRenderWorldLayer) {
-            ovrRenderer_RenderFrame(&appState.Renderer, &appState.Scene, &sceneMatrices);
+            ovrRenderer_RenderFrame(Env,app->activity->clazz,&appState.Renderer, &appState.Scene, &sceneMatrices);
 
             XrCompositionLayerProjection projection_layer = {XR_TYPE_COMPOSITION_LAYER_PROJECTION};
             projection_layer.layerFlags = XR_COMPOSITION_LAYER_BLEND_TEXTURE_SOURCE_ALPHA_BIT;
@@ -3786,7 +4136,7 @@ void android_main(struct android_app* app) {
         }
 
         // Build the cylinder layer
-        {
+       /* {
             XrCompositionLayerCylinderKHR cylinder_layer = {XR_TYPE_COMPOSITION_LAYER_CYLINDER_KHR};
             cylinder_layer.layerFlags = XR_COMPOSITION_LAYER_BLEND_TEXTURE_SOURCE_ALPHA_BIT;
             cylinder_layer.space = appState.LocalSpace;
@@ -3853,7 +4203,7 @@ void android_main(struct android_app* app) {
             quad_layer_right.size = size;
 
             appState.Layers[appState.LayerCount++].Quad = quad_layer_right;
-        }
+        }*/
 
         // Compose the layers for this frame.
         const XrCompositionLayerBaseHeader* layers[ovrMaxLayerCount] = {0};

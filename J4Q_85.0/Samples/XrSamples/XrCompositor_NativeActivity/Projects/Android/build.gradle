@@ -37,10 +37,10 @@ apply plugin: 'com.android.application'
 android {
   compileSdk 32
   ndkVersion '27.0.12077973'
-  namespace "com.oculus.sdk.xrcompositor"
+  namespace "edu.ufl.j4q"
 
   defaultConfig {
-    applicationId "com.oculus.sdk.xrcompositor"
+    applicationId "edu.ufl.j4q"
     minSdk 26
     targetSdk 32
     versionCode 1
@@ -63,7 +63,7 @@ android {
   sourceSets {
     main {
       manifest.srcFile 'AndroidManifest.xml'
-      java.srcDirs = ['../../java']
+      java.srcDirs = ['../../java', 'java', 'src/main/java']
       assets.srcDirs = ['../../assets']
       res.srcDirs = ['../../res']
     }
