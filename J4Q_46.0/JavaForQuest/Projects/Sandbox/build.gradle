@@ -63,9 +63,9 @@ android {
   sourceSets {
     main {
       manifest.srcFile 'AndroidManifest.xml'
-      java.srcDirs = ['../../java', 'java', 'src/main/java']
-      assets.srcDirs = ['../../assets']
-      res.srcDirs = ['../../res']
+      java.srcDirs = ['java', 'src/main/java','../../../../java']
+      assets.srcDirs = ['../../../../assets']
+      res.srcDirs = ['res']
     }
   }
 
@@ -81,7 +81,7 @@ android {
 
   externalNativeBuild {
     cmake {
-      path file('../../../../CMakeLists.txt')
+      path file('../../CMakeLists.txt')
     }
   }
 

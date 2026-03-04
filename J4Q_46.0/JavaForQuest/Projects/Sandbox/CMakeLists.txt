@@ -14,15 +14,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-cmake_minimum_required(VERSION 3.10.2)
+project(xrcompositor)
 
-project(MetaOpenXRSDK C CXX)
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+if(NOT TARGET OpenXR::openxr_loader)
+   # find_package(OpenXR REQUIRED)
+endif()
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+if(ANDROID)
+    file(GLOB_RECURSE SRC_FILES
+        ${CMAKE_SOURCE_DIR}/../Src/*.c
+        ${CMAKE_SOURCE_DIR}/../Src/*.cpp
+    )
 
-add_subdirectory(3rdParty)
-add_subdirectory(SampleXrFramework)
-add_subdirectory(XrSamples)
+    add_library(${PROJECT_NAME} MODULE ${SRC_FILES})
+target_include_directories(${PROJECT_NAME} PRIVATE
+    Src
+    ${CMAKE_SOURCE_DIR}/../OpenXR/Include
+)
+    target_link_libraries(${PROJECT_NAME} PRIVATE native_activity_framework)
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-u ANativeActivity_onCreate")
+
+    # Common across platforms
+    target_include_directories(${PROJECT_NAME} PRIVATE Src)
+endif()
