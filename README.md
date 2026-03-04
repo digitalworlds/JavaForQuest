@@ -41,7 +41,7 @@ You need to install the following software to be able to compile Android apps fo
 
 - [x] Android Studio: https://developer.android.com/studio
 - [x] Open the SDK Manager of Android Studio and install the SDK Platform 8.0 (Oreo) API Level 26
-- [x] In the SDK Manager of Android Studio, go to the SDK Tools tab and check the box `Show Package Details` and install: 1) NDK (25.2.9519653), 2) CMake (3.22.1)
+- [x] In the SDK Manager of Android Studio, go to the SDK Tools tab and check the box `Show Package Details` and install: 1) NDK (27.0.12077973), 2) CMake (3.22.1)
 
 ### 2. Configure your Meta Quest headset
 
