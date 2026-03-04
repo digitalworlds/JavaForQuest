@@ -65,7 +65,7 @@ android {
       manifest.srcFile 'AndroidManifest.xml'
       java.srcDirs = ['java', 'src/main/java','../../../../java']
       assets.srcDirs = ['../../../../assets']
-      res.srcDirs = ['res']
+      res.srcDirs = ['src/main/res']
     }
   }
 
