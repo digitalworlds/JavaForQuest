@@ -9,14 +9,14 @@ import java.util.Date;
 
 import j4q.J4Q;
 import j4q.geometry.Transform;
-import j4q.models.Model;
+import j4q.models.GameObject;
 
 public class GameEngineScene {
 
-    public Model root=new Model();
-    public void appendChild(Model model){root.appendChild(model);}
-    public void prependChild(Model model){root.prependChild(model);}
-    public void removeChild(Model model){root.removeChild(model);}
+    public GameObject root=new GameObject();
+    public void appendChild(GameObject gameObject){root.appendChild(gameObject);}
+    public void prependChild(GameObject gameObject){root.prependChild(gameObject);}
+    public void removeChild(GameObject gameObject){root.removeChild(gameObject);}
 
     public float[] mNormalMatrix=new float[16];
     public float[] lightDir=new float[3];

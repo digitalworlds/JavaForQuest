@@ -625,40 +625,40 @@ public class ObjectMaker extends Transform {
         this.current_color=new float[]{1,1,1};
     }
 
-    public Model flushModel(boolean normals, boolean uv, boolean colors, boolean tangents){return flushModel(new Model(),normals,uv,colors,tangents);}
-    public Model flushModel(boolean normals, boolean uv, boolean colors){return flushModel(new Model(),normals,uv,colors);}
-    public Model flushModel(boolean normals, boolean uv){return flushModel(new Model(),normals,uv);}
-    public Model flushModel(boolean normals){return flushModel(new Model(),normals);}
-    public Model flushModel(){return flushModel(new Model());}
-    public Model flushModel(Model model, boolean normals, boolean uv, boolean colors,boolean tangents){
-        if(model.mesh==null) model.mesh=new Mesh();
-        if(tangents)model.mesh.keepData(true);
-        model.mesh.setXYZ(getXYZ());
-        if(normals) model.mesh.setNormals(getNormals());
-        model.mesh.setTriangles(getTriangles());
-        if(uv) model.mesh.setUV(getUV());
-        if(colors) model.mesh.setColors(getColors());
+    public GameObject flushModel(boolean normals, boolean uv, boolean colors, boolean tangents){return flushModel(new GameObject(),normals,uv,colors,tangents);}
+    public GameObject flushModel(boolean normals, boolean uv, boolean colors){return flushModel(new GameObject(),normals,uv,colors);}
+    public GameObject flushModel(boolean normals, boolean uv){return flushModel(new GameObject(),normals,uv);}
+    public GameObject flushModel(boolean normals){return flushModel(new GameObject(),normals);}
+    public GameObject flushModel(){return flushModel(new GameObject());}
+    public GameObject flushModel(GameObject gameObject, boolean normals, boolean uv, boolean colors, boolean tangents){
+        if(gameObject.mesh==null) gameObject.mesh=new Mesh();
+        if(tangents) gameObject.mesh.keepData(true);
+        gameObject.mesh.setXYZ(getXYZ());
+        if(normals) gameObject.mesh.setNormals(getNormals());
+        gameObject.mesh.setTriangles(getTriangles());
+        if(uv) gameObject.mesh.setUV(getUV());
+        if(colors) gameObject.mesh.setColors(getColors());
         if(tangents){
-            model.mesh.computeTangents();
-            model.mesh.keepData(false);
+            gameObject.mesh.computeTangents();
+            gameObject.mesh.keepData(false);
         }
         clear();
-        return model;
+        return gameObject;
     }
-    public Model flushModel(Model model, boolean normals, boolean uv, boolean colors){
-        return flushModel(model,normals,uv,colors,false);
-    }
-
-    public Model flushModel(Model model, boolean normals, boolean uv){
-        return flushModel(model,normals,uv,false,false);
+    public GameObject flushModel(GameObject gameObject, boolean normals, boolean uv, boolean colors){
+        return flushModel(gameObject,normals,uv,colors,false);
     }
 
-    public Model flushModel(Model model, boolean normals){
-        return flushModel(model,normals,false,false,false);
+    public GameObject flushModel(GameObject gameObject, boolean normals, boolean uv){
+        return flushModel(gameObject,normals,uv,false,false);
     }
 
-    public Model flushModel(Model model){
-        return flushModel(model,false,false,false,false);
+    public GameObject flushModel(GameObject gameObject, boolean normals){
+        return flushModel(gameObject,normals,false,false,false);
+    }
+
+    public GameObject flushModel(GameObject gameObject){
+        return flushModel(gameObject,false,false,false,false);
     }
 
 }

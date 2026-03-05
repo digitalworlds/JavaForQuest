@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import j4q.J4Q;
+import j4q.models.GameObject;
 import j4q.models.Mesh;
-import j4q.models.Model;
 
 public class OBJFile {
 
@@ -510,10 +510,10 @@ public class OBJFile {
 
     }
 
-    public Model getModel(){
-        Model m=new Model();
+    public GameObject getModel(){
+        GameObject m=new GameObject();
         for (Mesh part : parts) {
-            Model mp=new Model();
+            GameObject mp=new GameObject();
             mp.mesh=part;
             m.appendChild(mp);
         }

@@ -5,7 +5,7 @@ import android.opengl.GLES30;
 import j4q.shaders.Texture;
 import j4q.shaders.Background360Shader;
 
-public class Background360 extends Model {
+public class Background360 extends GameObject {
 
     public Background360(){
         ObjectMaker om=new ObjectMaker();

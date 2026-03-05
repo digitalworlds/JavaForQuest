@@ -3,7 +3,7 @@ package j4q.models;
 
 import j4q.shaders.ColorPhongShader;
 
-public class Spaceship extends Model {
+public class Spaceship extends GameObject {
 
     public static int TYPES=35;
 
@@ -11,7 +11,7 @@ public class Spaceship extends Model {
         this(id,null);
     }
 
-    public Spaceship(int id, Model model){
+    public Spaceship(int id, GameObject gameObject){
 
         ObjectMaker maker=new ObjectMaker();
         maker.identity();
@@ -1760,13 +1760,13 @@ else if(id==34){
         maker2.appendNormals(maker.getNormals());
         maker2.appendColors(maker.getColors());
 
-        if(model==null){
+        if(gameObject ==null){
             maker2.flushModel(this,true,false,true);
             this.shader=new ColorPhongShader();
         }
         else {
-            maker2.flushModel(model,true,false,true);
-            model.shader=new ColorPhongShader();
+            maker2.flushModel(gameObject,true,false,true);
+            gameObject.shader=new ColorPhongShader();
         }
     }
 

@@ -5,7 +5,7 @@ import android.opengl.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 
-import j4q.models.Model;
+import j4q.models.GameObject;
 
 public class Transform {
     public float[] matrix=new float[16];
@@ -222,7 +222,7 @@ public class Transform {
        return this;
     }
 
-    public Transform reset(Model m){
+    public Transform reset(GameObject m){
         if(m!=null)
            return reset(m.globalTransform.matrix);
         else return reset();

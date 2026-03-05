@@ -8,7 +8,7 @@ import j4q.J4Q;
 public abstract class QuestActivity extends NativeActivity implements GameEngineActivity {
 
     static{
-        System.loadLibrary("xrcompositor");
+        System.loadLibrary("j4q_native");
     }
 
     public GameEngineScene scene;

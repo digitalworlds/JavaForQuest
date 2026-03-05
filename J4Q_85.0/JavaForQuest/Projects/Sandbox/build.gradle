@@ -55,7 +55,7 @@ android {
         abiFilters 'arm64-v8a'
       }
       cmake {
-         targets "xrcompositor"
+         targets "j4q_native"
       }
     }
   }
