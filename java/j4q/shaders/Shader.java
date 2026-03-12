@@ -8,9 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import j4q.J4Q;
+import j4q.models.Component;
 import j4q.models.Mesh;
 
-public class Shader {
+public class Shader extends Component {
 
 
     public int shaderProgram=0;

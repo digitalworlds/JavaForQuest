@@ -8,7 +8,9 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
-public class Mesh {
+import j4q.J4Q;
+
+public class Mesh extends Component{
 
     public int triangleLength=0;
 
@@ -16,13 +18,16 @@ public class Mesh {
     private int indexBuffer=0;
     private int[] arrayBuffers;
 
+    private int ID;
 
+    public int getObjectID(){return this.ID;}
 
     public Mesh() {
         int[] i=new int[1];
         GLES30.glGenVertexArrays( 1,i,0 );
         vertexArrayObject=i[0];
         arrayBuffers=new int[0];
+        this.ID= J4Q.newObjectID(this);
     }
 
     private int getArrayBuffer(int slot){

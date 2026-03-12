@@ -1,16 +1,61 @@
 package j4q.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import j4q.geometry.Transform;
+import j4q.physics.RigidBody;
 import j4q.shaders.Shader;
 
 public class GameObject {
 
+    private Map<Class<?>, Component> components = new HashMap<>();
+
+    public <T extends Component> void addComponent(T component) {
+        if(component instanceof Mesh){
+            if(mesh!=null) components.remove(mesh);
+            mesh=(Mesh)component;
+        }else if(component instanceof Shader){
+            if(shader!=null) components.remove(shader);
+            shader=(Shader)component;
+        }else if(component instanceof RigidBody){
+            if(rigidBody!=null) components.remove(rigidBody);
+            rigidBody=(RigidBody) component;
+        }
+        component.gameObject = this;
+        components.put(component.getClass(), component);
+    }
+
+    public <T extends Component> T getComponent(Class<T> type) {
+        return type.cast(components.get(type));
+    }
+
+    public <T extends Component> T removeComponent(Class<T> type) {
+
+        Component removed = components.remove(type);
+        if (removed == null) return null;
+
+        if (removed instanceof Mesh && mesh == removed) {
+            mesh = null;
+        }
+        else if (removed instanceof Shader && shader == removed) {
+            shader = null;
+        }
+        else if (removed instanceof RigidBody && rigidBody == removed) {
+            rigidBody = null;
+        }
+        removed.gameObject = null;
+        return type.cast(removed);
+    }
+
     ArrayList<GameObject> children=new ArrayList<>();
+
     GameObject parent=null;
     public Mesh mesh=null;
     public Shader shader=null;
+    public RigidBody rigidBody=null;
+
     private boolean visible=true;
 
     public void show(){visible=true;}
@@ -54,6 +99,11 @@ public class GameObject {
     public void Update(){};
 
     public void updateAnimation(){
+        for (Component comp : components.values()) {
+            if (comp instanceof MonoBehaviour) {
+                ((MonoBehaviour) comp).Update();
+            }
+        }
         Update();
         for (GameObject model : children) {
             model.updateAnimation();
@@ -84,7 +134,7 @@ public class GameObject {
     }
 
     public void setShader(Shader s){
-        shader=s;
+        addComponent(s);
         for (GameObject model : children) {
             model.setShader(s);
         }

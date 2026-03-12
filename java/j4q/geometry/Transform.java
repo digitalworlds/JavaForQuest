@@ -21,6 +21,7 @@ public class Transform {
     public Transform(){
         identity();
     }
+    public Transform(Transform t){this(t.matrix);}
 
     public float[] getNormalMatrix() {
         float[] inv=new float[16];
@@ -147,14 +148,14 @@ public class Transform {
         return this;
     }
 
-    public Transform translate(Position p){
+    public Transform translate(Vector3 p){
         return translate(p.x,p.y,p.z);
     }
-    public Transform translateLeft(Position p){
+    public Transform translateLeft(Vector3 p){
         return translateLeft(p.x,p.y,p.z);
     }
 
-    public float[] getInvertedMatrix(){
+    public float[] getInverseMatrix(){
         float[] inv=new float[16];
         Matrix.invertM(inv,0,matrix,0);
         return inv;
@@ -177,8 +178,8 @@ public class Transform {
         return this;
     }
 
-    public Position getPosition(){
-        return new Position(matrix[12],matrix[13],matrix[14]);
+    public Vector3 getPosition(){
+        return new Vector3(matrix[12],matrix[13],matrix[14]);
     }
 
     public Transform scale(float x, float y , float z){
@@ -214,6 +215,10 @@ public class Transform {
 
     public Transform reset(){
         return identity();
+    }
+
+    public Transform reset(Transform t){
+        return reset(t.matrix);
     }
 
     public Transform reset(float[] m){

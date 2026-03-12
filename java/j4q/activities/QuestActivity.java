@@ -4,6 +4,8 @@ import android.app.NativeActivity;
 import android.opengl.GLES31;
 
 import j4q.J4Q;
+import j4q.controllers.J4QRightController;
+import j4q.physics.PhysicsEngine;
 
 public abstract class QuestActivity extends NativeActivity implements GameEngineActivity {
 
@@ -147,13 +149,18 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
 
 
         scene.update();
+
+        J4Q.physicsEngine.stepSimulation(J4Q.perSec());
     }
 
 
     public int _setup(){
         J4Q.activity=this;
-
+        J4Q.physicsEngine=new PhysicsEngine();
         scene=new GameEngineScene(this);
+
+        J4Q.rightController.setup();
+        J4Q.leftController.setup();
 
         scene.start();
 
@@ -183,6 +190,9 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
         System.arraycopy(sceneMatrices,0,scene.view.matrix,0,16);
 
         scene.draw();
+
+        J4Q.rightController.capture(scene);
+        J4Q.leftController.capture(scene);
     }
 
 }

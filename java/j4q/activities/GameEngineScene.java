@@ -80,6 +80,20 @@ public class GameEngineScene {
         GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER,0);
     }
 
+    public void setupView(float[] mViewMatrix){
+        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER, sceneMatricesBuffer  );
+        mViewMatrixBuffer.put(mViewMatrix);
+        mViewMatrixBuffer.position(0);
+        GLES30.glBufferSubData(GLES30.GL_UNIFORM_BUFFER, 0,16*4,mViewMatrixBuffer);
+
+        Transform t=new Transform(mViewMatrix);
+        mNormalMatrixBuffer.put(t.getNormalMatrix());
+        mNormalMatrixBuffer.position(0);
+        GLES30.glBufferSubData(GLES30.GL_UNIFORM_BUFFER, 16*2*4,16*4,mNormalMatrixBuffer);
+
+        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER,0);
+    }
+
     public void update(){
         elapsedDisplayTime=(new Date().getTime()-start_time)/1000f;
         perSec=(float)(elapsedDisplayTime-lastTime);
@@ -92,17 +106,7 @@ public class GameEngineScene {
 
     public void draw(){
         //update view matrix
-        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER, sceneMatricesBuffer  );
-        mViewMatrixBuffer.put(view.matrix);
-        mViewMatrixBuffer.position(0);
-        GLES30.glBufferSubData(GLES30.GL_UNIFORM_BUFFER, 0,16*4,mViewMatrixBuffer);
-
-        Transform t=new Transform(view.matrix);
-        mNormalMatrixBuffer.put(t.getNormalMatrix());
-        mNormalMatrixBuffer.position(0);
-        GLES30.glBufferSubData(GLES30.GL_UNIFORM_BUFFER, 16*2*4,16*4,mNormalMatrixBuffer);
-
-        GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER,0);
+        setupView(view.matrix);
 
         GLES30.glClear( GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT );
         root.draw();

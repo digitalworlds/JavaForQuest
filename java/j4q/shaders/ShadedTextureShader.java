@@ -8,28 +8,28 @@ public class ShadedTextureShader extends Shader {
 
     public ShadedTextureShader() {
         super("shaders/texturedPhong",new String[]{"aPosition","aNormal","aUV"});
-        setAmbientColor(new float[]{0.3f,0.3f,0.3f});
-        setDiffuseColor(new float[]{0.7f,0.7f,0.7f});
-        setSpecularColor(new float[]{0.5f,0.5f,0.5f});
+        setAmbientColor(0.3f,0.3f,0.3f);
+        setDiffuseColor(0.7f,0.7f,0.7f);
+        setSpecularColor(0.5f,0.5f,0.5f);
         setSpecularExponent(10);
     }
 
 
-    public ShadedTextureShader setAmbientColor(float[] color){
+    public ShadedTextureShader setAmbientColor(float red,float green, float blue){
         int mHandle = GLES30.glGetUniformLocation(shaderProgram, "uAmbientColor");
-        GLES30.glUniform3fv(mHandle,1, color,0);
+        GLES30.glUniform3f(mHandle,red,green,blue);
         return this;
     }
 
-    public ShadedTextureShader setDiffuseColor(float[] color){
+    public ShadedTextureShader setDiffuseColor(float red,float green, float blue){
         int mHandle = GLES30.glGetUniformLocation(shaderProgram, "uDiffuseColor");
-        GLES30.glUniform3fv(mHandle,1, color,0);
+        GLES30.glUniform3f(mHandle,red,green,blue);
         return this;
     }
 
-    public ShadedTextureShader setSpecularColor(float[] color){
+    public ShadedTextureShader setSpecularColor(float red,float green, float blue){
         int mHandle = GLES30.glGetUniformLocation(shaderProgram, "uSpecularColor");
-        GLES30.glUniform3fv(mHandle,1, color,0);
+        GLES30.glUniform3f(mHandle,red,green,blue);
         return this;
     }
 
