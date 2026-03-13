@@ -17,6 +17,8 @@ public class RigidSphere extends RigidBody{
 
         RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, null, sphereShape, inertia);
         body = new com.bulletphysics.dynamics.RigidBody(rbInfo);
+        body.setSleepingThresholds(0.8f, 0.8f);
+        body.setDamping(0.15f, 0.9f);
     }
 
 }

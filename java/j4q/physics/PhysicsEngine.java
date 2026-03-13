@@ -30,6 +30,7 @@ public class PhysicsEngine {
         // Create world
         dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
         dynamicsWorld.setGravity(new Vector3f(0f, -9.81f, 0f));
+        dynamicsWorld.getSolverInfo().numIterations=10;
     }
 
     public void stepSimulation(float deltaTime) {

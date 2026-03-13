@@ -16,6 +16,8 @@ public class RigidBox extends RigidBody{
         }
         RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, null, boxShape, inertia);
         body = new com.bulletphysics.dynamics.RigidBody(rbInfo);
+        body.setSleepingThresholds(0.8f, 0.8f);
+        body.setDamping(0.05f, 0.85f);
     }
 
 }

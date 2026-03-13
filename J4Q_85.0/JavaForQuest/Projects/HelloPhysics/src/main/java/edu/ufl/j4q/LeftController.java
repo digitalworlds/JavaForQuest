@@ -36,6 +36,12 @@ public class LeftController extends GameObject {
     @Override
     public void Update(){
 
+        if(!J4Q.leftController.active){
+            hide();
+            return;
+        }else{
+            if(!isShown()) show();
+        }
 
         transform.reset();
         transform.translate(J4Q.leftController.aim.position);

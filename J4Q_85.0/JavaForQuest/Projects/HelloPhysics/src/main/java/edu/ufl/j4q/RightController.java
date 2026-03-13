@@ -37,6 +37,13 @@ public class RightController extends GameObject {
     @Override
     public void Update(){
 
+        if(!J4Q.rightController.active){
+            hide();
+            return;
+        }else{
+            if(!isShown()) show();
+        }
+
         transform.reset();
         transform.translate(J4Q.rightController.aim.position);
         transform.rotate(J4Q.rightController.aim.orientation);

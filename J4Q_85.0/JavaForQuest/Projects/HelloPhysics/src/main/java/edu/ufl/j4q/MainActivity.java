@@ -16,6 +16,8 @@ import j4q.physics.RigidPlane;
 import j4q.physics.RigidSphere;
 import j4q.shaders.MatCapShader;
 import j4q.shaders.NormalMapMatCapShader;
+import j4q.shaders.NormalMapPhongShader;
+import j4q.shaders.NormalMapShader;
 import j4q.shaders.ShadedTextureShader;
 import j4q.shaders.Texture;
 
@@ -34,14 +36,14 @@ public class MainActivity extends QuestActivity {
     public void makeBox(Texture texture){
         //Define the appearance
         ObjectMaker om=new ObjectMaker();
-        om.box(1,1,1);
+        om.box(0.5f,0.5f,0.5f);
         GameObject box=om.flushModel(true,true);//we export a Mesh with Vertices, Normals, and UVs
         box.addComponent(new ShadedTextureShader().setTexture(texture).setSpecularColor(0,0,0));
         scene.appendChild(box);
         box.transform.translate(new Random().nextFloat()*2-1,new Random().nextFloat()*10,-new Random().nextFloat()*10);
 
         //Define the physics
-        RigidBody rb=new RigidBox(1,1,1,1f);
+        RigidBody rb=new RigidBox(0.5f,0.5f,0.5f,1f);
         box.addComponent(rb);
         rb.setWorldTransform(box);
         rb.addToEngine();
@@ -72,16 +74,16 @@ public class MainActivity extends QuestActivity {
     public void makeSphere(Texture texture){
         //Define the appearance
         ObjectMaker om=new ObjectMaker();
-        om.sphere(0.5f,0.5f,0.5f);
+        om.sphere(0.24f,0.24f,0.24f);
         GameObject sphere=om.flushModel(true,true);//we export a Mesh with Vertices, Normals, and UVs
         sphere.addComponent(new ShadedTextureShader().setTexture(texture).setSpecularColor(0,0,0));
         scene.appendChild(sphere);
         sphere.transform.translate(new Random().nextFloat()*2-1,new Random().nextFloat()*10,-new Random().nextFloat()*10);
 
         //Define the physics
-        RigidBody rb=new RigidSphere(0.25f,1f);
-        rb.getBody().setRestitution(0.85f);//Make it bouncy
-        rb.getBody().setFriction(0.4f);//Make it roll/slide
+        RigidBody rb=new RigidSphere(0.12f,0.145f);
+        rb.getBody().setRestitution(0.9f);//Make it bouncy
+        rb.getBody().setFriction(0.6f);//Make it roll/slide
         sphere.addComponent(rb);
         rb.setWorldTransform(sphere);
         rb.addToEngine();
@@ -92,7 +94,12 @@ public class MainActivity extends QuestActivity {
         ObjectMaker om=new ObjectMaker();
         om.cylinder(1,1,1);
         GameObject cylinder=om.flushModel(true,true,false,true);//we export a Mesh with Vertices, Normals, and UVs
-        cylinder.addComponent(new NormalMapMatCapShader().setMatCap(texture).setNormalMap(normalmap));
+        cylinder.addComponent(new NormalMapPhongShader()
+                .setNormalMap(normalmap)
+                .setAmbientColor(0.0f,0.0f,0.1f)
+                .setDiffuseColor(0.8f,0.0f,0.0f)
+                .setSpecularColor(0.5f,0.5f,0.0f)
+                .setSpecularExponent(50));
         scene.appendChild(cylinder);
         cylinder.transform.translate(new Random().nextFloat()*2-1,new Random().nextFloat()*10,-new Random().nextFloat()*10);
 
@@ -129,12 +136,12 @@ public class MainActivity extends QuestActivity {
         GameObject floor=om.flushModel(true,true);//we export a Mesh with Vertices, Normals, and UVs
         floor.addComponent(new ShadedTextureShader().setTexture(new Texture("textures/rock.jpg")));
         scene.appendChild(floor);
-        floor.transform.translate(0,-2,0).rotateX(-90);
+        floor.transform.translate(0,0,0).rotateX(-90);
 
         RigidPlane rb=new RigidPlane(0,1,0);
         rb.getBody().setRestitution(0.8f);//Make the elastic objects bounce on it
         rb.getBody().setFriction(0.8f);//Make the objects slide on it
-        rb.setWorldTransform(new Transform().translate(0,-2,0));
+        rb.setWorldTransform(new Transform().translate(0,0,0));
         rb.addToEngine();
 
         //makeWalls();

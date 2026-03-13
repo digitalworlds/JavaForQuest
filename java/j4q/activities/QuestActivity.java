@@ -1,6 +1,7 @@
 package j4q.activities;
 
 import android.app.NativeActivity;
+import android.opengl.GLES30;
 import android.opengl.GLES31;
 
 import j4q.J4Q;
@@ -147,8 +148,10 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
         J4Q.rightController.grip.orientation.y=controller4_orientation_y;
         J4Q.rightController.grip.orientation.z=controller4_orientation_z;
 
+        GLES30.glDisable( GLES30.GL_CULL_FACE );
         J4Q.rightController.capture(scene);
         J4Q.leftController.capture(scene);
+        GLES30.glEnable( GLES30.GL_CULL_FACE );
 
         scene.update();
 
