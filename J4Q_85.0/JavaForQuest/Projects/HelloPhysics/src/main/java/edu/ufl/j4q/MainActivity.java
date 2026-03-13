@@ -14,10 +14,7 @@ import j4q.physics.RigidBox;
 import j4q.physics.RigidCylinder;
 import j4q.physics.RigidPlane;
 import j4q.physics.RigidSphere;
-import j4q.shaders.MatCapShader;
-import j4q.shaders.NormalMapMatCapShader;
 import j4q.shaders.NormalMapPhongShader;
-import j4q.shaders.NormalMapShader;
 import j4q.shaders.ShadedTextureShader;
 import j4q.shaders.Texture;
 

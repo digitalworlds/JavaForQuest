@@ -5,6 +5,7 @@ import javax.vecmath.Vector3f;
 import j4q.J4Q;
 import j4q.geometry.Transform;
 import j4q.geometry.Vector3;
+import j4q.input.J4QRightController;
 import j4q.models.GameObject;
 import j4q.models.ObjectMaker;
 import j4q.shaders.ColorPhongShader;
@@ -12,7 +13,7 @@ import j4q.shaders.ColorPhongShader;
 public class RightController extends GameObject {
 
 
-
+    J4QRightController rightController;
 
     public RightController(){
         ObjectMaker om=new ObjectMaker();
@@ -27,6 +28,8 @@ public class RightController extends GameObject {
         om.cylinderZ(0.002f,0.002f,5,8);
         om.flushModel(this,true,false,true);
         addComponent(new ColorPhongShader());
+
+        rightController=J4Q.getInputDevice(J4QRightController.class);
     }
 
     GameObject holding_object=null;
@@ -37,7 +40,7 @@ public class RightController extends GameObject {
     @Override
     public void Update(){
 
-        if(!J4Q.rightController.active){
+        if(!rightController.active){
             hide();
             return;
         }else{
@@ -45,15 +48,15 @@ public class RightController extends GameObject {
         }
 
         transform.reset();
-        transform.translate(J4Q.rightController.aim.position);
-        transform.rotate(J4Q.rightController.aim.orientation);
+        transform.translate(rightController.aim.position);
+        transform.rotate(rightController.aim.orientation);
 
 
 
-        if(J4Q.rightController.trigger.changedSinceLastSync){
+        if(rightController.trigger.changedSinceLastSync){
             //pressed
-            if(J4Q.rightController.trigger.currentState) {
-                GameObject o = J4Q.rightController.pickObject();
+            if(rightController.trigger.currentState) {
+                GameObject o = rightController.pickObject();
                 if (o != null && o.rigidBody != null) {
                     holding_object=o;
 
