@@ -14,6 +14,8 @@ import j4q.physics.RigidBox;
 import j4q.physics.RigidCylinder;
 import j4q.physics.RigidPlane;
 import j4q.physics.RigidSphere;
+import j4q.shaders.MatCapShader;
+import j4q.shaders.NormalMapMatCapShader;
 import j4q.shaders.ShadedTextureShader;
 import j4q.shaders.Texture;
 
@@ -34,7 +36,7 @@ public class MainActivity extends QuestActivity {
         ObjectMaker om=new ObjectMaker();
         om.box(1,1,1);
         GameObject box=om.flushModel(true,true);//we export a Mesh with Vertices, Normals, and UVs
-        box.setShader(new ShadedTextureShader().setTexture(texture).setSpecularColor(0,0,0));
+        box.addComponent(new ShadedTextureShader().setTexture(texture).setSpecularColor(0,0,0));
         scene.appendChild(box);
         box.transform.translate(new Random().nextFloat()*2-1,new Random().nextFloat()*10,-new Random().nextFloat()*10);
 
@@ -72,7 +74,7 @@ public class MainActivity extends QuestActivity {
         ObjectMaker om=new ObjectMaker();
         om.sphere(0.5f,0.5f,0.5f);
         GameObject sphere=om.flushModel(true,true);//we export a Mesh with Vertices, Normals, and UVs
-        sphere.setShader(new ShadedTextureShader().setTexture(texture).setSpecularColor(0,0,0));
+        sphere.addComponent(new ShadedTextureShader().setTexture(texture).setSpecularColor(0,0,0));
         scene.appendChild(sphere);
         sphere.transform.translate(new Random().nextFloat()*2-1,new Random().nextFloat()*10,-new Random().nextFloat()*10);
 
@@ -85,12 +87,12 @@ public class MainActivity extends QuestActivity {
         rb.addToEngine();
     }
 
-    public void makeCylinder(Texture texture){
+    public void makeCylinder(Texture texture,Texture normalmap){
         //Define the appearance
         ObjectMaker om=new ObjectMaker();
         om.cylinder(1,1,1);
-        GameObject cylinder=om.flushModel(true,true);//we export a Mesh with Vertices, Normals, and UVs
-        cylinder.setShader(new ShadedTextureShader().setTexture(texture));
+        GameObject cylinder=om.flushModel(true,true,false,true);//we export a Mesh with Vertices, Normals, and UVs
+        cylinder.addComponent(new NormalMapMatCapShader().setMatCap(texture).setNormalMap(normalmap));
         scene.appendChild(cylinder);
         cylinder.transform.translate(new Random().nextFloat()*2-1,new Random().nextFloat()*10,-new Random().nextFloat()*10);
 
@@ -109,7 +111,8 @@ public class MainActivity extends QuestActivity {
         //We load three textures to the GPU that will be shared by many objects
         Texture wood=new Texture("textures/box.png");
         Texture basketball=new Texture("textures/earth_1024.jpg");
-        Texture metallic=new Texture("textures/metal.jpg");
+        Texture metallic=new Texture("matcaps/gold.jpg");
+        Texture machine=new Texture("normalmaps/machine.png");
 
         Background360 background=new Background360();
         background.setTexture(new Texture("backgrounds/eso0932a.jpg"));
@@ -124,7 +127,7 @@ public class MainActivity extends QuestActivity {
         ObjectMaker om=new ObjectMaker();
         om.rectangle(200,200,200,100);
         GameObject floor=om.flushModel(true,true);//we export a Mesh with Vertices, Normals, and UVs
-        floor.setShader(new ShadedTextureShader().setTexture(new Texture("textures/rock.jpg")));
+        floor.addComponent(new ShadedTextureShader().setTexture(new Texture("textures/rock.jpg")));
         scene.appendChild(floor);
         floor.transform.translate(0,-2,0).rotateX(-90);
 
@@ -148,7 +151,7 @@ public class MainActivity extends QuestActivity {
             else if(r>0.66f)
                 makeSphere(basketball);
             else
-                makeCylinder(metallic);
+                makeCylinder(metallic,machine);
         }
 
     }

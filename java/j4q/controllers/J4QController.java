@@ -15,7 +15,7 @@ public class J4QController {
 
     public void setup(){
         if(objectPicker==null)objectPicker=new ObjectPicker();
-        objectPicker.setSize(16,16);
+        objectPicker.setSize(4,4);
     }
 
     public void capture(GameEngineScene scene){
@@ -44,7 +44,7 @@ public class J4QController {
         t.rotate(aim.orientation);
         scene.setupView(t.getInverseMatrix());
         scene.root.draw(objectPicker.shader);
-        id=objectPicker.pick(8,8);
+        id=objectPicker.pick(2,2);
         objectPicker.end();
     }
 

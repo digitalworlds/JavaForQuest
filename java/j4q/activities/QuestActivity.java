@@ -147,6 +147,8 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
         J4Q.rightController.grip.orientation.y=controller4_orientation_y;
         J4Q.rightController.grip.orientation.z=controller4_orientation_z;
 
+        J4Q.rightController.capture(scene);
+        J4Q.leftController.capture(scene);
 
         scene.update();
 
@@ -191,8 +193,7 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
 
         scene.draw();
 
-        J4Q.rightController.capture(scene);
-        J4Q.leftController.capture(scene);
+
     }
 
 }

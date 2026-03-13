@@ -14,9 +14,11 @@ in vec3 aPosition;
 in vec3 aNormal;
 
 out vec3 vNormal;
+out vec3 vPos;
 
 void main() {
     vec4 p = sm.ViewMatrix * modelMatrix * vec4(aPosition, 1.0);
+    vPos = p.xyz;
 
     // Transform normal to view space
     mat3 normalMat = mat3(sm.NormalMatrix * normalMatrix);

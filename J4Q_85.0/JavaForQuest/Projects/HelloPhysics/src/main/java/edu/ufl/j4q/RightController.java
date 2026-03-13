@@ -24,7 +24,7 @@ public class RightController extends GameObject {
         om.identity();
         om.translate(0,0,-2.5f);
         om.color(1,0,0);
-        //om.cylinderZ(0.002f,0.002f,5,8);
+        om.cylinderZ(0.002f,0.002f,5,8);
         om.flushModel(this,true,false,true);
         addComponent(new ColorPhongShader());
     }
@@ -60,7 +60,6 @@ public class RightController extends GameObject {
                     holding_object.rigidBody.getBody().setAngularVelocity(new Vector3f(0,0,0));
                     holding_object.rigidBody.getBody().setLinearVelocity(new Vector3f(velocity.x,velocity.y,velocity.z));
                     holding_object = null;
-
                 }
             }
 
@@ -75,6 +74,7 @@ public class RightController extends GameObject {
 
             Vector3 p2=holding_object.transform.getPosition();
             velocity=p2.subtract(p1).scale(1f/J4Q.perSec());
+
 
             holding_object.rigidBody.setWorldTransform(holding_object);
         }

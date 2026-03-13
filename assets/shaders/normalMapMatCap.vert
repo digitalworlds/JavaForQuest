@@ -17,7 +17,7 @@ in vec3 aNormal;
 in vec3 aTangent;
 in vec2 aUV;
 
-out vec4 vPosition;
+out vec3 vPos;
 out vec3 vNormal;
 out vec3 vTangent;
 out vec3 vBitangent;
@@ -26,7 +26,7 @@ out vec2 vUV;
 void main() {
 
     vec4 p = sm.ViewMatrix * modelMatrix * vec4(aPosition, 1.0);
-    vPosition = p;
+    vPos = p.xyz;
 
     // transform normal, tangent, bitangent to view space
     mat3 normalMat = mat3(sm.NormalMatrix * normalMatrix);

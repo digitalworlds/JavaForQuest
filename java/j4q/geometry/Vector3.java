@@ -56,6 +56,14 @@ public class Vector3 {
         return this;
     }
 
+    public Vector3 lerp(Vector3 p2, float a){
+        float b=Math.max(Math.min(a,1),0);
+        x=x*(1-b)+p2.x*b;
+        y=y*(1-b)+p2.y*b;
+        x=z*(1-b)+p2.z*b;
+        return this;
+    }
+
     // Scale
     public Vector3 scale(float s){
         x *= s;
