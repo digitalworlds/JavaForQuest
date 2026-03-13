@@ -6,7 +6,7 @@ import j4q.J4Q;
 import j4q.activities.QuestActivity;
 import j4q.controllers.J4QLeftController;
 import j4q.controllers.J4QRightController;
-import j4q.geometry.Position;
+import j4q.geometry.Vector3;
 import j4q.models.Background360;
 import j4q.models.GameObject;
 import j4q.models.ObjectMaker;
@@ -53,14 +53,14 @@ public class MainActivity extends QuestActivity {
         ObjectMaker om=new ObjectMaker();
         om.sphere(320,320,320,32);
         earth=om.flushModel(true,true);
-        earth.setShader(new ShadedTextureShader().setTexture(new Texture(this,"textures/earth_1024.jpg")).setAmbientColor(new float[]{0.02f,0.02f,0.02f}));
+        earth.setShader(new ShadedTextureShader().setTexture(new Texture(this,"textures/earth_1024.jpg")).setAmbientColor(0.02f,0.02f,0.02f));
         scene.appendChild(earth);
         earth.transform.translate(-320,0,-20);
 
         //Make the moon
         om.sphere(80,80,80,32);
         moon=om.flushModel(true,true);
-        moon.setShader(new ShadedTextureShader().setTexture(new Texture(this,"textures/moon_1024.jpg")).setAmbientColor(new float[]{0.02f,0.02f,0.02f}));
+        moon.setShader(new ShadedTextureShader().setTexture(new Texture(this,"textures/moon_1024.jpg")).setAmbientColor(0.02f,0.02f,0.02f));
         scene.appendChild(moon);
         moon.transform.translate(320,0,-20);
 
@@ -131,9 +131,9 @@ public class MainActivity extends QuestActivity {
         //Check collision between projectiles and spaceships
         if(frame>1) {//FYI: In the first frame we do not have accurate globalTransform
             for (int i = 0; i < projectile.length; i++) {
-                Position p = projectile[i].globalTransform.getPosition();
+                Vector3 p = projectile[i].globalTransform.getPosition();
                 for (int j = 0; j < my_level.segments.length; j++) {
-                    Position p2 = my_level.segments[j].spaceship.globalTransform.getPosition();
+                    Vector3 p2 = my_level.segments[j].spaceship.globalTransform.getPosition();
                     float d = p2.distance(p);
                     if (p2.distance(p) < 0.2) {
                         my_level.segments[j].spaceship.remove();

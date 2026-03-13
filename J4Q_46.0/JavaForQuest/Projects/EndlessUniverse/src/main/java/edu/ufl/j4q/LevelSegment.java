@@ -254,7 +254,7 @@ public class LevelSegment extends GameObject {
 
             
             pipe.transform.identity();
-            pipe.transform.multiply(transform.getInvertedMatrix());
+            pipe.transform.multiply(transform.getInverseMatrix());
             pipe.transform.multiply(level.path_maker_orientation);
             level.path_maker_orientation=null;
         }

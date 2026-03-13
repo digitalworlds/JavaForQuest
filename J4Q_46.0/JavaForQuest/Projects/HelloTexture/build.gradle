@@ -95,4 +95,5 @@ dependencies {
   // Package/application AndroidManifest.xml properties, plus headers and libraries
   // exposed to CMake
   implementation 'org.khronos.openxr:openxr_loader_for_android:1.1.53'
+  implementation 'cz.advel.jbullet:jbullet:20101010-1'
 }
