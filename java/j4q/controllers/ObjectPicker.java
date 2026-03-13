@@ -107,7 +107,6 @@ public class ObjectPicker {
         GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, fboId);
         GLES30.glViewport(0, 0, width, height);
 
-        GLES30.glClearColor(0f, 0f, 0f, 1f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
     }
 
