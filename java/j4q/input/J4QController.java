@@ -13,8 +13,8 @@ public class J4QController extends InputDevice{
 
     private ObjectPicker objectPicker;
 
-    public void setup(){
-        if(objectPicker==null)objectPicker=new ObjectPicker();
+    public J4QController(){
+        objectPicker=new ObjectPicker();
         objectPicker.setSize(4,4);
     }
 

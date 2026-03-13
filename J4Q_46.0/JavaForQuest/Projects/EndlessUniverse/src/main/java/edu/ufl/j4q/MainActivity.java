@@ -4,9 +4,9 @@ import android.os.Bundle;
 
 import j4q.J4Q;
 import j4q.activities.QuestActivity;
-import j4q.controllers.J4QLeftController;
-import j4q.controllers.J4QRightController;
 import j4q.geometry.Vector3;
+import j4q.input.J4QLeftController;
+import j4q.input.J4QRightController;
 import j4q.models.Background360;
 import j4q.models.GameObject;
 import j4q.models.ObjectMaker;
@@ -100,24 +100,24 @@ public class MainActivity extends QuestActivity {
         earth.transform.rotateY(-2* J4Q.perSec());
 
         //Trigger projectile from the right controller
-        if(J4Q.rightController.trigger.currentState && J4Q.rightController.trigger.changedSinceLastSync){
-            J4Q.rightController.vibrate(0.5f,0.1f,10000);
+        if(rightController.trigger.currentState && rightController.trigger.changedSinceLastSync){
+            rightController.vibrate(0.5f,0.1f,10000);
             projectile[next_projectile].show();
             projectile[next_projectile].transform.reset();
-            projectile[next_projectile].transform.translate(J4Q.rightController.aim.position);
-            projectile[next_projectile].transform.rotate(J4Q.rightController.aim.orientation);
+            projectile[next_projectile].transform.translate(rightController.aim.position);
+            projectile[next_projectile].transform.rotate(rightController.aim.orientation);
             projectile[next_projectile].transform.translate(0,0,-0.1f);
             next_projectile+=1;
             if(next_projectile>=projectile.length)next_projectile=0;
         }
 
         //Trigger projectile from the left controller
-        if(J4Q.leftController.trigger.currentState && J4Q.leftController.trigger.changedSinceLastSync){
-            J4Q.leftController.vibrate(0.5f,0.1f,10000);
+        if(leftController.trigger.currentState && leftController.trigger.changedSinceLastSync){
+            leftController.vibrate(0.5f,0.1f,10000);
             projectile[next_projectile].show();
             projectile[next_projectile].transform.reset();
-            projectile[next_projectile].transform.translate(J4Q.leftController.aim.position);
-            projectile[next_projectile].transform.rotate(J4Q.leftController.aim.orientation);
+            projectile[next_projectile].transform.translate(leftController.aim.position);
+            projectile[next_projectile].transform.rotate(leftController.aim.orientation);
             projectile[next_projectile].transform.translate(0,0,-0.1f);
             next_projectile+=1;
             if(next_projectile>=projectile.length)next_projectile=0;
@@ -138,8 +138,8 @@ public class MainActivity extends QuestActivity {
                     if (p2.distance(p) < 0.2) {
                         my_level.segments[j].spaceship.remove();
                         projectile[i].hide();
-                        J4Q.rightController.vibrate(0.5f,0.5f,3000);
-                        J4Q.rightController.vibrate(0.5f,0.5f,3000);
+                        rightController.vibrate(0.5f,0.5f,3000);
+                        rightController.vibrate(0.5f,0.5f,3000);
                     }
                 }
             }

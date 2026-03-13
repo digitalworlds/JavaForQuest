@@ -45,7 +45,7 @@ public class LevelSegment extends GameObject {
     private void buildSides(){
         if(sides==null){
             sides=new GameObject();
-            sides.mesh=new Mesh();
+            sides.addComponent(new Mesh());
             sides.mesh.keepData(true);
             appendChild(sides);
 

@@ -3,6 +3,8 @@ package edu.ufl.j4q;
 import android.opengl.Matrix;
 
 import j4q.J4Q;
+import j4q.input.J4QLeftController;
+import j4q.input.J4QRightController;
 import j4q.models.GameObject;
 import j4q.models.ObjectMaker;
 import j4q.shaders.Texture;
@@ -29,6 +31,9 @@ public class Level extends GameObject {
     Texture path_texture;
     Texture planet_texture;
     Texture side_texture;
+
+    J4QLeftController leftController;
+    J4QRightController rightController;
 
     public Level(){
 
@@ -75,6 +80,9 @@ public class Level extends GameObject {
             else segments[i].buildSegment(segments[i-1]);
             appendChild(segments[i]);
         }
+
+        rightController=J4Q.getInputDevice(J4QRightController.class);
+        leftController=J4Q.getInputDevice(J4QLeftController.class);
     }
 
     int previous_i=0;
@@ -85,7 +93,7 @@ public class Level extends GameObject {
 
 
 
-        t+=2.5f*(J4Q.rightController.joystick.getY()+1)*(J4Q.leftController.joystick.getY()+1)* J4Q.perSec();
+        t+=2.5f*(rightController.joystick.getY()+1)*(leftController.joystick.getY()+1)* J4Q.perSec();
 
         int i=(int)Math.floor(t/LevelSegment.LENGTH);
 

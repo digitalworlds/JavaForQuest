@@ -5,6 +5,8 @@ import android.opengl.GLES30;
 import android.opengl.GLES31;
 
 import j4q.J4Q;
+import j4q.input.J4QLeftController;
+import j4q.input.J4QRightController;
 import j4q.physics.PhysicsEngine;
 
 public abstract class QuestActivity extends NativeActivity implements GameEngineActivity {
@@ -14,6 +16,8 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
     }
 
     public GameEngineScene scene;
+    public J4QLeftController leftController;
+    public J4QRightController rightController;
 
     public void _simulate(double elapsedDisplayTime,
                           boolean toggleStateLeftTrigger_changedSinceLastSync,
@@ -85,71 +89,72 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
                           float controller4_orientation_y,
                           float controller4_orientation_z){
 
-        J4Q.leftController.trigger.changedSinceLastSync=toggleStateLeftTrigger_changedSinceLastSync;
-        J4Q.leftController.trigger.currentState=toggleStateLeftTrigger_currentState;
-        J4Q.leftController.trigger.currentValue=moveYStateLeftTriggerValue_currentState;
-        J4Q.leftController.squeeze.changedSinceLastSync= toggleStateLeftSqueeze_changedSinceLastSync;
-        J4Q.leftController.squeeze.currentState=toggleStateLeftSqueeze_currentState;
-        J4Q.leftController.squeeze.currentValue= moveXStateLeftSqueeze_currentState;
-        J4Q.leftController.buttonX.changedSinceLastSync=toggleStateLeftX_changedSinceLastSync;
-        J4Q.leftController.buttonX.currentState=toggleStateLeftX_currentState;
-        J4Q.leftController.buttonY.changedSinceLastSync=toggleStateLeftY_changedSinceLastSync;
-        J4Q.leftController.buttonY.currentState=toggleStateLeftY_currentState;
-        J4Q.leftController.buttonMenu.changedSinceLastSync=toggleStateMenu_changedSinceLastSync;
-        J4Q.leftController.buttonMenu.currentState=toggleStateMenu_currentState;
-        J4Q.leftController.joystick.changedSinceLastSync= thumbstickClickStateLeft_changedSinceLastSync;
-        J4Q.leftController.joystick.currentValue[0]=moveJoystickStateLeft_currentState_x;
-        J4Q.leftController.joystick.currentValue[1]=moveJoystickStateLeft_currentState_y;
 
-        J4Q.leftController.active=controller1_active;
-        J4Q.leftController.aim.position.x=controller1_pose_x;
-        J4Q.leftController.aim.position.y=controller1_pose_y;
-        J4Q.leftController.aim.position.z=controller1_pose_z;
-        J4Q.leftController.aim.orientation.w=controller1_orientation_w;
-        J4Q.leftController.aim.orientation.x=controller1_orientation_x;
-        J4Q.leftController.aim.orientation.y=controller1_orientation_y;
-        J4Q.leftController.aim.orientation.z=controller1_orientation_z;
-        J4Q.leftController.grip.position.x=controller2_pose_x;
-        J4Q.leftController.grip.position.y=controller2_pose_y;
-        J4Q.leftController.grip.position.z=controller2_pose_z;
-        J4Q.leftController.grip.orientation.w=controller2_orientation_w;
-        J4Q.leftController.grip.orientation.x=controller2_orientation_x;
-        J4Q.leftController.grip.orientation.y=controller2_orientation_y;
-        J4Q.leftController.grip.orientation.z=controller2_orientation_z;
+        leftController.trigger.changedSinceLastSync=toggleStateLeftTrigger_changedSinceLastSync;
+        leftController.trigger.currentState=toggleStateLeftTrigger_currentState;
+        leftController.trigger.currentValue=moveYStateLeftTriggerValue_currentState;
+        leftController.squeeze.changedSinceLastSync= toggleStateLeftSqueeze_changedSinceLastSync;
+        leftController.squeeze.currentState=toggleStateLeftSqueeze_currentState;
+        leftController.squeeze.currentValue= moveXStateLeftSqueeze_currentState;
+        leftController.buttonX.changedSinceLastSync=toggleStateLeftX_changedSinceLastSync;
+        leftController.buttonX.currentState=toggleStateLeftX_currentState;
+        leftController.buttonY.changedSinceLastSync=toggleStateLeftY_changedSinceLastSync;
+        leftController.buttonY.currentState=toggleStateLeftY_currentState;
+        leftController.buttonMenu.changedSinceLastSync=toggleStateMenu_changedSinceLastSync;
+        leftController.buttonMenu.currentState=toggleStateMenu_currentState;
+        leftController.joystick.changedSinceLastSync= thumbstickClickStateLeft_changedSinceLastSync;
+        leftController.joystick.currentValue[0]=moveJoystickStateLeft_currentState_x;
+        leftController.joystick.currentValue[1]=moveJoystickStateLeft_currentState_y;
 
-        J4Q.rightController.trigger.changedSinceLastSync=toggleStateRightTrigger_changedSinceLastSync;
-        J4Q.rightController.trigger.currentState=toggleStateRightTrigger_currentState;
-        J4Q.rightController.trigger.currentValue=moveYStateRightTriggerValue_currentState;
-        J4Q.rightController.squeeze.changedSinceLastSync= toggleStateRightSqueeze_changedSinceLastSync;
-        J4Q.rightController.squeeze.currentState=toggleStateRightSqueeze_currentState;
-        J4Q.rightController.squeeze.currentValue= moveXStateRightSqueeze_currentState;
-        J4Q.rightController.buttonA.changedSinceLastSync=toggleStateRightA_changedSinceLastSync;
-        J4Q.rightController.buttonA.currentState=toggleStateRightA_currentState;
-        J4Q.rightController.buttonB.changedSinceLastSync=toggleStateRightB_changedSinceLastSync;
-        J4Q.rightController.buttonB.currentState=toggleStateRightB_currentState;
-        J4Q.rightController.joystick.changedSinceLastSync= thumbstickClickStateRight_changedSinceLastSync;
-        J4Q.rightController.joystick.currentValue[0]=moveJoystickStateRight_currentState_x;
-        J4Q.rightController.joystick.currentValue[1]=moveJoystickStateRight_currentState_y;
+        leftController.active=controller1_active;
+        leftController.aim.position.x=controller1_pose_x;
+        leftController.aim.position.y=controller1_pose_y;
+        leftController.aim.position.z=controller1_pose_z;
+        leftController.aim.orientation.w=controller1_orientation_w;
+        leftController.aim.orientation.x=controller1_orientation_x;
+        leftController.aim.orientation.y=controller1_orientation_y;
+        leftController.aim.orientation.z=controller1_orientation_z;
+        leftController.grip.position.x=controller2_pose_x;
+        leftController.grip.position.y=controller2_pose_y;
+        leftController.grip.position.z=controller2_pose_z;
+        leftController.grip.orientation.w=controller2_orientation_w;
+        leftController.grip.orientation.x=controller2_orientation_x;
+        leftController.grip.orientation.y=controller2_orientation_y;
+        leftController.grip.orientation.z=controller2_orientation_z;
 
-        J4Q.rightController.active=controller3_active;
-        J4Q.rightController.aim.position.x=controller3_pose_x;
-        J4Q.rightController.aim.position.y=controller3_pose_y;
-        J4Q.rightController.aim.position.z=controller3_pose_z;
-        J4Q.rightController.aim.orientation.w=controller3_orientation_w;
-        J4Q.rightController.aim.orientation.x=controller3_orientation_x;
-        J4Q.rightController.aim.orientation.y=controller3_orientation_y;
-        J4Q.rightController.aim.orientation.z=controller3_orientation_z;
-        J4Q.rightController.grip.position.x=controller4_pose_x;
-        J4Q.rightController.grip.position.y=controller4_pose_y;
-        J4Q.rightController.grip.position.z=controller4_pose_z;
-        J4Q.rightController.grip.orientation.w=controller4_orientation_w;
-        J4Q.rightController.grip.orientation.x=controller4_orientation_x;
-        J4Q.rightController.grip.orientation.y=controller4_orientation_y;
-        J4Q.rightController.grip.orientation.z=controller4_orientation_z;
+        rightController.trigger.changedSinceLastSync=toggleStateRightTrigger_changedSinceLastSync;
+        rightController.trigger.currentState=toggleStateRightTrigger_currentState;
+        rightController.trigger.currentValue=moveYStateRightTriggerValue_currentState;
+        rightController.squeeze.changedSinceLastSync= toggleStateRightSqueeze_changedSinceLastSync;
+        rightController.squeeze.currentState=toggleStateRightSqueeze_currentState;
+        rightController.squeeze.currentValue= moveXStateRightSqueeze_currentState;
+        rightController.buttonA.changedSinceLastSync=toggleStateRightA_changedSinceLastSync;
+        rightController.buttonA.currentState=toggleStateRightA_currentState;
+        rightController.buttonB.changedSinceLastSync=toggleStateRightB_changedSinceLastSync;
+        rightController.buttonB.currentState=toggleStateRightB_currentState;
+        rightController.joystick.changedSinceLastSync= thumbstickClickStateRight_changedSinceLastSync;
+        rightController.joystick.currentValue[0]=moveJoystickStateRight_currentState_x;
+        rightController.joystick.currentValue[1]=moveJoystickStateRight_currentState_y;
+
+        rightController.active=controller3_active;
+        rightController.aim.position.x=controller3_pose_x;
+        rightController.aim.position.y=controller3_pose_y;
+        rightController.aim.position.z=controller3_pose_z;
+        rightController.aim.orientation.w=controller3_orientation_w;
+        rightController.aim.orientation.x=controller3_orientation_x;
+        rightController.aim.orientation.y=controller3_orientation_y;
+        rightController.aim.orientation.z=controller3_orientation_z;
+        rightController.grip.position.x=controller4_pose_x;
+        rightController.grip.position.y=controller4_pose_y;
+        rightController.grip.position.z=controller4_pose_z;
+        rightController.grip.orientation.w=controller4_orientation_w;
+        rightController.grip.orientation.x=controller4_orientation_x;
+        rightController.grip.orientation.y=controller4_orientation_y;
+        rightController.grip.orientation.z=controller4_orientation_z;
 
         GLES30.glDisable( GLES30.GL_CULL_FACE );
-        J4Q.rightController.capture(scene);
-        J4Q.leftController.capture(scene);
+        rightController.capture(scene);
+        leftController.capture(scene);
         GLES30.glEnable( GLES30.GL_CULL_FACE );
 
         scene.update();
@@ -160,11 +165,15 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
 
     public int _setup(){
         J4Q.activity=this;
+        rightController=new J4QRightController();
+        leftController=new J4QLeftController();
+        J4Q.addInputDevice(rightController);
+        J4Q.addInputDevice(leftController);
         J4Q.physicsEngine=new PhysicsEngine();
         scene=new GameEngineScene(this);
 
-        J4Q.rightController.setup();
-        J4Q.leftController.setup();
+
+
 
         scene.start();
 
