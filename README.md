@@ -1,8 +1,11 @@
-![Asset 1@3x](https://github.com/digitalworlds/JavaForQuest/blob/main/docs/img/banner1000x2000.png?raw=true)
+<p align="center">
+  <img src="https://github.com/digitalworlds/JavaForQuest/blob/main/docs/img/J4Q_logo_alpha.png" width="350">
+</p>
+
 # 🌟 J4Q (Java For Quest) Project
 Digital Arts & Sciences Programs | Digital Worlds Institute | University of Florida
 
-The J4Q project demonstrates how to create Virtual Reality apps for Meta Quest headsets as Native Android applications using Java in Android Studio. This project can be used as a setup for learning how to develop from scratch a basic game engine for Virtual Reality in Java. It can also be used along with a structured curriculum for teaching various topics related to game engine development such as: 3D Transformations using Matrices and Vectors, 3D geometry using triangular mesh, Animation loop, Shaders using GLSL, Controller input, Vibration feedback, and many other topics.  
+The J4Q project demonstrates how to create Virtual Reality apps for Meta Quest headsets as Native Android applications using Java in Android Studio. This project can be used as a setup for learning how to develop from scratch a basic game engine for Virtual Reality in Java. It can also be used along with a structured curriculum for teaching various topics related to game engine development such as: 3D Transformations using Matrices and Vectors, 3D geometry using triangular mesh, Animation loop, Shaders using GLSL, Controller input, Vibration feedback, Physics simulations, and many other topics.  
 
 ![Asset 1@3x](https://github.com/digitalworlds/JavaForQuest/blob/main/docs/img/Illustration.png?raw=true)
 
@@ -16,8 +19,8 @@ Barmpoutis, A., Guo, W. and Said, I., 2023. Developing Mini VR Game Engines as a
 
 The project contains several sample VR apps located inside the `J4Q_XX.0/JavaForQuest/Projects` folder. For Meta Quest v1 headsets use J4Q_46.0, for Meta Quest v2 & v3 use J4Q_85.0.
 - 🔭 EndlessUniverse: A full-scale demo of the J4Q API
+- ⚪ HelloPhysics: A basic demo of a physics engine in VR
 - ⏳ Sandbox: An empty project for you to start experimenting
-- ⏳SandboxPhone: If you don't have a headset this template can help you develop and test J4Q apps on a phone or Android emulator.
 - 🔷 HelloPolygon: An introduction on how to create 3D objects
 - 🎨 HelloTexture: An example on how to map textures onto 3D geometry
 - ♾️ HelloNormals: A tutorial on how to encode surface normal vectors
@@ -40,7 +43,7 @@ The following instructions will guide you step by step on how to setup and run J
 You need to install the following software to be able to compile Android apps for Meta Quest headsets:
 
 - [x] Android Studio: https://developer.android.com/studio
-- [x] Open the SDK Manager of Android Studio and install the SDK Platform 8.0 (Oreo) API Level 26
+- [x] Open the SDK Manager of Android Studio and install the SDK Platform 14.0 (UpsideDownCake) API Level 34 or later version
 - [x] In the SDK Manager of Android Studio, go to the SDK Tools tab and check the box `Show Package Details` and install: 1) NDK (27.0.12077973), 2) CMake (3.22.1)
 
 ### 2. Configure your Meta Quest headset
@@ -97,4 +100,8 @@ In MacOS it is helpful if you set Android Studio as a Developer Tool.
 
 Barmpoutis, A., Guo, W. and Said, I., 2023. Developing Mini VR Game Engines as an Engaging Learning Method for Digital Arts & Sciences. 13th IEEE Integrated STEM Education Conference, pp. 33-36. 
 [https://doi.org/10.1109/ISEC57711.2023.10402239](https://digitalworlds.github.io/angelos/page/developing-mini-vr-game-engines-as-an-engaging-learning-method-for-digital-arts-sciences/index.html)
+
+<p align="center">
+  <img src="https://github.com/digitalworlds/JavaForQuest/blob/main/docs/img/J4Q_logo_alpha.png" width="250">
+</p>
 
