@@ -1,0 +1,5 @@
+toml
+[libraries]
+# ... existing libraries ...
+gdx-bullet = { group = "com.badlogicgames.gdx", name = "gdx-bullet", version = "1.12.1" }
+gdx-bullet-platform = { group = "com.badlogicgames.gdx", name = "gdx-bullet-platform", version = "1.12.1" }
