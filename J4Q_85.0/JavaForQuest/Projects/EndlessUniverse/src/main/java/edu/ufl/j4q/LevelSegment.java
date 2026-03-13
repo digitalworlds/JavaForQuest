@@ -45,7 +45,7 @@ public class LevelSegment extends GameObject {
     private void buildSides(){
         if(sides==null){
             sides=new GameObject();
-            sides.mesh=new Mesh();
+            sides.addComponent(new Mesh());
             sides.mesh.keepData(true);
             appendChild(sides);
 
@@ -254,7 +254,7 @@ public class LevelSegment extends GameObject {
 
             
             pipe.transform.identity();
-            pipe.transform.multiply(transform.getInvertedMatrix());
+            pipe.transform.multiply(transform.getInverseMatrix());
             pipe.transform.multiply(level.path_maker_orientation);
             level.path_maker_orientation=null;
         }

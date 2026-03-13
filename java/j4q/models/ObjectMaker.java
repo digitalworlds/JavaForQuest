@@ -631,7 +631,7 @@ public class ObjectMaker extends Transform {
     public GameObject flushModel(boolean normals){return flushModel(new GameObject(),normals);}
     public GameObject flushModel(){return flushModel(new GameObject());}
     public GameObject flushModel(GameObject model, boolean normals, boolean uv, boolean colors, boolean tangents){
-        model.addComponent(new Mesh());
+        if(model.mesh==null)model.addComponent(new Mesh());
         if(tangents)model.mesh.keepData(true);
         model.mesh.setXYZ(getXYZ());
         if(normals) model.mesh.setNormals(getNormals());
