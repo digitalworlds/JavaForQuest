@@ -3,17 +3,42 @@ package j4q;
 import android.content.Context;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import j4q.activities.GameEngineScene;
-import j4q.controllers.J4QLeftController;
-import j4q.controllers.J4QRightController;
+import j4q.input.InputDevice;
+import j4q.input.J4QLeftController;
+import j4q.input.J4QRightController;
+import j4q.models.Component;
 import j4q.models.GameObject;
 import j4q.models.Mesh;
 import j4q.physics.PhysicsEngine;
+import j4q.physics.RigidBody;
+import j4q.shaders.Shader;
 
 public class J4Q {
-    private static int objectID=0;
 
+
+    private static Map<Class<?>, InputDevice> inputDevices = new HashMap<>();
+
+    public static <T extends InputDevice> void addInputDevice(T inputDevice) {
+        inputDevices.put(inputDevice.getClass(), inputDevice);
+    }
+
+    public static <T extends InputDevice> T getInputDevice(Class<T> type) {
+        return type.cast(inputDevices.get(type));
+    }
+
+    public static <T extends InputDevice> T removeInputDevice(Class<T> type) {
+
+        InputDevice removed = inputDevices.remove(type);
+        if (removed == null) return null;
+
+        return type.cast(removed);
+    }
+
+
+    private static int objectID=0;
     private static HashMap<Integer, Mesh> objects=new HashMap<>();
     public static GameObject getObject(int ID){Mesh m=objects.get(ID);
         // Log.d("Angelos","ID:="+ID+" Mesh="+m);

@@ -1,4 +1,4 @@
-package j4q.controllers;
+package j4q.input;
 
 public class J4QToggleButton {
     public boolean changedSinceLastSync=false;

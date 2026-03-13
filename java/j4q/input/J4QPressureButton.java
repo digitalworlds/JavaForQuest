@@ -1,4 +1,4 @@
-package j4q.controllers;
+package j4q.input;
 
 public class J4QPressureButton extends J4QToggleButton{
     public float currentValue=0;

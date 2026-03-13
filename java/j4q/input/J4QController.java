@@ -1,4 +1,4 @@
-package j4q.controllers;
+package j4q.input;
 
 import android.opengl.Matrix;
 
@@ -7,7 +7,7 @@ import j4q.activities.GameEngineScene;
 import j4q.geometry.Transform;
 import j4q.models.GameObject;
 
-public class J4QController {
+public class J4QController extends InputDevice{
 
     public int id=0;
 

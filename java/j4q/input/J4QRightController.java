@@ -1,4 +1,4 @@
-package j4q.controllers;
+package j4q.input;
 
 
 import j4q.J4Q;

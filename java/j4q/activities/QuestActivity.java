@@ -5,7 +5,6 @@ import android.opengl.GLES30;
 import android.opengl.GLES31;
 
 import j4q.J4Q;
-import j4q.controllers.J4QRightController;
 import j4q.physics.PhysicsEngine;
 
 public abstract class QuestActivity extends NativeActivity implements GameEngineActivity {

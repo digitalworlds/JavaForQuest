@@ -1,4 +1,4 @@
-package j4q.controllers;
+package j4q.input;
 
 import android.opengl.GLES30;
 

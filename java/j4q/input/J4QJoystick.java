@@ -1,4 +1,4 @@
-package j4q.controllers;
+package j4q.input;
 
 public class J4QJoystick extends J4QToggleButton{
     public float[] currentValue=new float[2];
