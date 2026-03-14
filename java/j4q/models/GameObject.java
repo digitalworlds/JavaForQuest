@@ -8,10 +8,24 @@ import j4q.geometry.Transform;
 import j4q.physics.RigidBody;
 import j4q.shaders.Shader;
 
+/**
+ * Represents an object in the scene graph, supporting components, hierarchy, and rendering.
+ * <p>
+ * The {@code GameObject} class manages child objects, components, transforms, and drawing logic.
+ * </p>
+ */
 public class GameObject {
 
+    /**
+     * Map of component types to component instances.
+     */
     private Map<Class<?>, Component> components = new HashMap<>();
 
+    /**
+     * Adds a component to this GameObject. Handles Mesh, Shader, and RigidBody specially.
+     * @param component The component to add.
+     * @param <T> The type of the component.
+     */
     public <T extends Component> void addComponent(T component) {
         if(component instanceof Mesh){
             if(mesh!=null) components.remove(mesh);
@@ -27,10 +41,23 @@ public class GameObject {
         components.put(component.getClass(), component);
     }
 
+    /**
+     * Retrieves a component of the specified type from this GameObject.
+     * @param type The class type of the component.
+     * @param <T> The type of the component.
+     * @return The component instance, or null if not found.
+     */
     public <T extends Component> T getComponent(Class<T> type) {
         return type.cast(components.get(type));
     }
 
+    /**
+     * Removes a component of the specified type from this GameObject.
+     * Handles Mesh, Shader, and RigidBody specially.
+     * @param type The class type of the component.
+     * @param <T> The type of the component.
+     * @return The removed component instance, or null if not found.
+     */
     public <T extends Component> T removeComponent(Class<T> type) {
 
         Component removed = components.remove(type);
@@ -49,25 +76,71 @@ public class GameObject {
         return type.cast(removed);
     }
 
-    ArrayList<GameObject> children=new ArrayList<>();
+    /**
+     * The list of child GameObjects.
+     */
+    ArrayList<GameObject> children = new ArrayList<>();
 
-    GameObject parent=null;
-    public Mesh mesh=null;
-    public Shader shader=null;
-    public RigidBody rigidBody=null;
+    /**
+     * The parent GameObject in the hierarchy.
+     */
+    GameObject parent = null;
+    /**
+     * The mesh component of this GameObject.
+     */
+    public Mesh mesh = null;
+    /**
+     * The shader component of this GameObject.
+     */
+    public Shader shader = null;
+    /**
+     * The rigid body component of this GameObject.
+     */
+    public RigidBody rigidBody = null;
 
-    private boolean visible=true;
+    /**
+     * Indicates whether the GameObject is visible.
+     */
+    private boolean visible = true;
 
-    public void show(){visible=true;}
-    public void hide(){visible=false;}
-    public boolean isShown(){return visible;}
+    /**
+     * Makes the GameObject visible.
+     */
+    public void show() { visible = true; }
 
-    public GameObject getParent(){return parent;}
+    /**
+     * Makes the GameObject invisible.
+     */
+    public void hide() { visible = false; }
 
-    public Transform transform=new Transform();
-    public Transform globalTransform=new Transform();
+    /**
+     * Returns whether the GameObject is visible.
+     * @return True if visible, false otherwise.
+     */
+    public boolean isShown() { return visible; }
 
-    public GameObject appendChild(GameObject model){
+    /**
+     * Returns the parent GameObject.
+     * @return The parent GameObject, or null if root.
+     */
+    public GameObject getParent() { return parent; }
+
+    /**
+     * The local transform of this GameObject.
+     */
+    public Transform transform = new Transform();
+
+    /**
+     * The global transform of this GameObject.
+     */
+    public Transform globalTransform = new Transform();
+
+    /**
+     * Appends a GameObject as a child to this GameObject.
+     * @param model The GameObject to append.
+     * @return The appended GameObject.
+     */
+    public GameObject appendChild(GameObject model) {
         if(children.indexOf(model)==-1) {
             children.add(model);
             model.parent = this;
@@ -75,7 +148,12 @@ public class GameObject {
         return model;
     }
 
-    public GameObject prependChild(GameObject model){
+    /**
+     * Prepends a GameObject as a child to this GameObject.
+     * @param model The GameObject to prepend.
+     * @return The prepended GameObject.
+     */
+    public GameObject prependChild(GameObject model) {
         if(children.indexOf(model)==-1) {
             children.add(0,model);
             model.parent = this;
@@ -83,22 +161,37 @@ public class GameObject {
         return model;
     }
 
-    public GameObject removeChild(GameObject model){
+    /**
+     * Removes a child GameObject from this GameObject.
+     * @param model The GameObject to remove.
+     * @return The removed GameObject.
+     */
+    public GameObject removeChild(GameObject model) {
         if(children.remove(model)){
             model.parent=null;
         }
         return model;
     }
 
-    public void remove(){
+    /**
+     * Removes this GameObject from its parent.
+     */
+    public void remove() {
         if(parent!=null){
             parent.removeChild(this);
         }
     }
 
-    public void Update(){};
+    /**
+     * Called every frame to update the GameObject's state.
+     * Override in subclasses for custom behavior.
+     */
+    public void Update() {};
 
-    public void updateAnimation(){
+    /**
+     * Updates animation for this GameObject and its children.
+     */
+    public void updateAnimation() {
         for (Component comp : components.values()) {
             if (comp instanceof MonoBehaviour) {
                 ((MonoBehaviour) comp).Update();
@@ -110,7 +203,11 @@ public class GameObject {
         }
     }
 
-    public void updateGlobalPositions(boolean parentModified){
+    /**
+     * Updates global transforms and shader uniforms for this GameObject and its children.
+     * @param parentModified Whether the parent transform was modified.
+     */
+    public void updateGlobalPositions(boolean parentModified) {
 
         boolean modified=false;
         if(parentModified||transform.isModified())modified=true;
@@ -133,20 +230,37 @@ public class GameObject {
         }
     }
 
-    public void setShader(Shader s){
+    /**
+     * Sets the shader for this GameObject and all its children.
+     * @param s The shader to set.
+     */
+    public void setShader(Shader s) {
         addComponent(s);
         for (GameObject model : children) {
             model.setShader(s);
         }
     }
 
-    public void simulate(double elapsedDisplayTime, double perSec){};
+    /**
+     * Simulates the GameObject for the given time step.
+     * Override in subclasses for custom simulation.
+     * @param elapsedDisplayTime The elapsed display time.
+     * @param perSec The time per frame.
+     */
+    public void simulate(double elapsedDisplayTime, double perSec) {};
 
-    public void draw(){
+    /**
+     * Draws the GameObject using its shader.
+     */
+    public void draw() {
         draw(null);
     }
 
-    public void draw(Shader otherShader){
+    /**
+     * Draws the GameObject using the specified shader, or its own shader if null.
+     * @param otherShader The shader to use, or null for default.
+     */
+    public void draw(Shader otherShader) {
 
         if(!visible)return;
 

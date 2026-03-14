@@ -79,62 +79,8 @@ public class MainActivity extends GyroscopicActivity {
 
     }
 
-    int frame=0;
-
     public  void Update(){
-
-        frame+=1;
-
         earth.transform.rotateY(-2* J4Q.perSec());
-
-        //Trigger projectile from the right controller
-        if(J4Q.rightController.trigger.currentState && J4Q.rightController.trigger.changedSinceLastSync){
-            J4Q.rightController.vibrate(0.5f,0.1f,10000);
-            projectile[next_projectile].show();
-            projectile[next_projectile].transform.reset();
-            projectile[next_projectile].transform.translate(J4Q.rightController.aim.position);
-            projectile[next_projectile].transform.rotate(J4Q.rightController.aim.orientation);
-            projectile[next_projectile].transform.translate(0,0,-0.1f);
-            next_projectile+=1;
-            if(next_projectile>=projectile.length)next_projectile=0;
-        }
-
-        //Trigger projectile from the left controller
-        if(J4Q.leftController.trigger.currentState && J4Q.leftController.trigger.changedSinceLastSync){
-            J4Q.leftController.vibrate(0.5f,0.1f,10000);
-            projectile[next_projectile].show();
-            projectile[next_projectile].transform.reset();
-            projectile[next_projectile].transform.translate(J4Q.leftController.aim.position);
-            projectile[next_projectile].transform.rotate(J4Q.leftController.aim.orientation);
-            projectile[next_projectile].transform.translate(0,0,-0.1f);
-            next_projectile+=1;
-            if(next_projectile>=projectile.length)next_projectile=0;
-        }
-
-        //Animate all projectiles
-        for(int i=0;i<projectile.length;i++)
-            projectile[i].transform.translate(0,0,-20f*J4Q.perSec());
-
-
-        //Check collision between projectiles and spaceships
-        if(frame>1) {//FYI: In the first frame we do not have accurate globalTransform
-            for (int i = 0; i < projectile.length; i++) {
-                Vector3 p = projectile[i].globalTransform.getPosition();
-                for (int j = 0; j < my_level.segments.length; j++) {
-                    Vector3 p2 = my_level.segments[j].spaceship.globalTransform.getPosition();
-                    float d = p2.distance(p);
-                    if (p2.distance(p) < 0.2) {
-                        my_level.segments[j].spaceship.remove();
-                        projectile[i].hide();
-                        J4Q.rightController.vibrate(0.5f,0.5f,3000);
-                        J4Q.rightController.vibrate(0.5f,0.5f,3000);
-                    }
-                }
-            }
-        }
-
-
-
     }
 
 }

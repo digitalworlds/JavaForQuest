@@ -1,5 +1,14 @@
 package j4q.activities;
 
+import android.opengl.GLES30;
+import j4q.J4Q;
+
+/**
+ * Abstract base activity for Quest VR applications, integrating game engine lifecycle and input handling.
+ * <p>
+ * The {@code QuestActivity} class manages controllers, scene setup, simulation, and rendering for VR experiences.
+ * </p>
+ */
 import android.app.NativeActivity;
 import android.opengl.GLES30;
 import android.opengl.GLES31;
@@ -11,14 +20,30 @@ import j4q.physics.PhysicsEngine;
 
 public abstract class QuestActivity extends NativeActivity implements GameEngineActivity {
 
+    /**
+     * The main game engine scene for this activity.
+     */
+    public GameEngineScene scene;
+
+    /**
+     * The left VR controller.
+     */
+    public J4QLeftController leftController;
+
+    /**
+     * The right VR controller.
+     */
+    public J4QRightController rightController;
+
     static{
         System.loadLibrary("j4q_native");
     }
 
-    public GameEngineScene scene;
-    public J4QLeftController leftController;
-    public J4QRightController rightController;
-
+    /**
+     * Simulates controller input and updates the scene and physics engine.
+     * @param elapsedDisplayTime The elapsed display time.
+     * @param ... All controller and input state parameters.
+     */
     public void _simulate(double elapsedDisplayTime,
                           boolean toggleStateLeftTrigger_changedSinceLastSync,
                           boolean toggleStateLeftTrigger_currentState,
@@ -163,7 +188,11 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
     }
 
 
-    public int _setup(){
+    /**
+     * Sets up the activity, controllers, physics engine, and scene.
+     * @return 0 on success.
+     */
+    public int _setup() {
         J4Q.activity=this;
         rightController=new J4QRightController();
         leftController=new J4QLeftController();
@@ -180,7 +209,14 @@ public abstract class QuestActivity extends NativeActivity implements GameEngine
         return 0;
     }
 
-    public void _draw(int frameBufferWidth,int frameBufferHeight,float[] sceneMatrices,int eye){
+    /**
+     * Draws the scene for the specified eye, updating projection and view matrices.
+     * @param frameBufferWidth The width of the framebuffer.
+     * @param frameBufferHeight The height of the framebuffer.
+     * @param sceneMatrices The scene matrices array.
+     * @param eye The eye index (left/right).
+     */
+    public void _draw(int frameBufferWidth, int frameBufferHeight, float[] sceneMatrices, int eye) {
 
         //Log.d("Example",""+eye);
         /*GLES30.glBindBuffer( GLES30.GL_UNIFORM_BUFFER, sceneMatricesBuffer  );

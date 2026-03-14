@@ -5,8 +5,20 @@ import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
 
 import javax.vecmath.Vector3f;
 
+/**
+ * Represents a static plane rigid body for physics simulation.
+ * <p>
+ * Uses Bullet Physics StaticPlaneShape for immovable surfaces like floors and walls.
+ * </p>
+ */
 public class RigidPlane extends RigidBody{
 
+    /**
+     * Constructs a static plane rigid body with the specified normal vector.
+     * @param nx X component of the normal.
+     * @param ny Y component of the normal.
+     * @param nz Z component of the normal.
+     */
     public RigidPlane(float nx, float ny, float nz){
         StaticPlaneShape floorShape = new StaticPlaneShape(new Vector3f(nx,ny,nz),0f);
 

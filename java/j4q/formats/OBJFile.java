@@ -13,10 +13,24 @@ import j4q.J4Q;
 import j4q.models.GameObject;
 import j4q.models.Mesh;
 
+
+/**
+ * Loads and parses Wavefront OBJ files, including geometry, materials, and mesh data.
+ * <p>
+ * The {@code OBJFile} class provides methods for reading OBJ and MTL files, extracting mesh parts,
+ * materials, and converting them into GameObject instances for use in 3D scenes.
+ * </p>
+ */
 public class OBJFile {
 
+    /**
+     * The list of mesh parts parsed from the OBJ file.
+     */
     public ArrayList<Mesh> parts;
 
+    /**
+     * The map of material names to material properties parsed from the MTL file.
+     */
     public HashMap<String, OBJFileMaterial> materials;
 
     class OBJFileMaterial{
@@ -36,10 +50,20 @@ public class OBJFile {
         String material;
     }
 
-    public OBJFile(final String filename){
-        this(J4Q.activity,filename,null);
+    /**
+     * Constructs an OBJFile from a filename using the default activity context.
+     * @param filename The OBJ file name to load.
+     */
+    public OBJFile(final String filename) {
+        this(J4Q.activity, filename, null);
     }
 
+    /**
+     * Constructs an OBJFile from a context, filename, and optional material file.
+     * @param context The Android context to use for asset loading.
+     * @param filename The OBJ file name to load.
+     * @param mtl The material file name (MTL), or null if not used.
+     */
     public OBJFile(final Context context, final String filename, final String mtl) {
 
         materials=new HashMap<String, OBJFileMaterial>();
@@ -109,8 +133,16 @@ public class OBJFile {
     float[] max_box=new float[3];
     int center_i=0;
 
-    public float[] getCenter(){return center;}
-    public float[] getSize(){return new float[]{max_box[0]-min_box[0],max_box[1]-min_box[1],max_box[2]-min_box[2]};}
+    /**
+     * Returns the geometric center of the loaded model.
+     * @return The center as a float array [x, y, z].
+     */
+    public float[] getCenter() { return center; }
+    /**
+     * Returns the size of the bounding box of the loaded model.
+     * @return The size as a float array [width, height, depth].
+     */
+    public float[] getSize() { return new float[]{max_box[0] - min_box[0], max_box[1] - min_box[1], max_box[2] - min_box[2]}; }
 
     private void parseOBJ(BufferedReader reader) throws IOException {
 
@@ -510,11 +542,15 @@ public class OBJFile {
 
     }
 
-    public GameObject getModel(){
-        GameObject m=new GameObject();
+    /**
+     * Converts the parsed mesh parts into a hierarchical GameObject model.
+     * @return The root GameObject containing all mesh parts as children.
+     */
+    public GameObject getModel() {
+        GameObject m = new GameObject();
         for (Mesh part : parts) {
-            GameObject mp=new GameObject();
-            mp.mesh=part;
+            GameObject mp = new GameObject();
+            mp.mesh = part;
             m.appendChild(mp);
         }
         return m;

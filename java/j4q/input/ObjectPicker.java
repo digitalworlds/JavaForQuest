@@ -7,19 +7,53 @@ import java.nio.ByteOrder;
 
 import j4q.shaders.ColorPickerShader;
 
+/**
+ * Implements object picking using an offscreen framebuffer and color encoding.
+ * <p>
+ * The {@code ObjectPicker} class manages OpenGL resources for picking objects in a rendered scene
+ * by encoding object IDs into colors and reading pixels from the framebuffer.
+ * </p>
+ */
 public class ObjectPicker {
 
+    /**
+     * The shader used for color-based object picking.
+     */
     public ColorPickerShader shader;
 
-    private int width=2;
-    private int height=2;
+    /**
+     * The width of the picking framebuffer.
+     */
+    private int width = 2;
 
+    /**
+     * The height of the picking framebuffer.
+     */
+    private int height = 2;
+
+    /**
+     * The OpenGL framebuffer object ID.
+     */
     private int fboId;
+
+    /**
+     * The OpenGL color texture ID.
+     */
     private int colorTexId;
+
+    /**
+     * The OpenGL depth renderbuffer ID.
+     */
     private int depthRbId;
 
+    /**
+     * The pixel buffer used for reading object IDs.
+     */
     private ByteBuffer pixelBuffer;
 
+    /**
+     * Constructs an ObjectPicker and initializes OpenGL resources.
+     */
     public ObjectPicker() {
         shader=new ColorPickerShader();
         setupFBO();
@@ -103,6 +137,9 @@ public class ObjectPicker {
     }
 
     // Call before rendering picking pass
+    /**
+     * Begins the picking pass by binding the framebuffer and clearing buffers.
+     */
     public void begin() {
         GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, fboId);
         GLES30.glViewport(0, 0, width, height);
@@ -111,11 +148,20 @@ public class ObjectPicker {
     }
 
     // Call after picking
+    /**
+     * Ends the picking pass by unbinding the framebuffer.
+     */
     public void end() {
         GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);
     }
 
     // Reads pixel and returns object ID
+    /**
+     * Reads the pixel at the specified coordinates and returns the decoded object ID.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The decoded object ID.
+     */
     public int pick(int x, int y) {
 
         // Flip Y (Android touch origin is top-left)
@@ -146,6 +192,9 @@ public class ObjectPicker {
         return r | (g << 8) | (b << 16);
     }
 
+    /**
+     * Releases OpenGL resources used by the picker.
+     */
     public void release() {
         int[] ids = new int[1];
 
@@ -159,6 +208,11 @@ public class ObjectPicker {
         GLES30.glDeleteFramebuffers(1, ids, 0);
     }
 
+    /**
+     * Sets the size of the picking framebuffer and reallocates resources as needed.
+     * @param newWidth The new width.
+     * @param newHeight The new height.
+     */
     public void setSize(int newWidth, int newHeight) {
 
         if (newWidth == width && newHeight == height) {

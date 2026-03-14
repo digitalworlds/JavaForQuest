@@ -8,8 +8,19 @@ import java.util.List;
 import j4q.geometry.Transform;
 
 
+/**
+ * Utility class for constructing 3D objects and geometry buffers.
+ * <p>
+ * Provides methods to append vertex, normal, UV, color, and triangle data, and to generate common shapes.
+ * </p>
+ */
 public class ObjectMaker extends Transform {
 
+    /**
+     * Converts a list of Float values to a float array.
+     * @param floatList The list of Float values.
+     * @return The resulting float array.
+     */
     private float[] getArray(List<Float> floatList){
         float[] floatArray = new float[floatList.size()];
         int i = 0;
@@ -21,10 +32,22 @@ public class ObjectMaker extends Transform {
     }
 
     private final List<Float> xyz=new ArrayList<Float>();
+    /**
+     * Returns the XYZ vertex positions as a float array.
+     * @return The XYZ positions.
+     */
     public float[] getXYZ(){return getArray(xyz); }
     private final List<Float> nrm=new ArrayList<Float>();
+    /**
+     * Returns the normal vectors as a float array.
+     * @return The normal vectors.
+     */
     public float[] getNormals(){return getArray(nrm); }
     private final List<Integer> tri=new ArrayList<Integer>();
+    /**
+     * Returns the triangle indices as a short array.
+     * @return The triangle indices.
+     */
     public short[] getTriangles(){
         short[] intArray = new short[tri.size()];
         int i = 0;
@@ -35,11 +58,22 @@ public class ObjectMaker extends Transform {
         return intArray;
     }
     private final List<Float> uv=new ArrayList<Float>();
+    /**
+     * Returns the UV coordinates as a float array.
+     * @return The UV coordinates.
+     */
     public float[] getUV(){return getArray(uv); }
     private final List<Float> clr=new ArrayList<Float>();
+    /**
+     * Returns the color values as a float array.
+     * @return The color values.
+     */
     public float[] getColors(){return getArray(clr); }
     private float[] current_color=new float[]{1,1,1};
 
+    /**
+     * Constructs a new ObjectMaker instance.
+     */
     public ObjectMaker(){
         super();
     }
@@ -56,6 +90,10 @@ public class ObjectMaker extends Transform {
         if(opt.colors)this.appendColors(opt.colors)
         };*/
 
+    /**
+     * Appends XYZ vertex positions, transformed by the current matrix.
+     * @param v The array of vertex positions.
+     */
     public void appendXYZ(float[] v){
         int xyz_start=this.xyz.size();
         float[] a=new float[]{0,0,0,0};
@@ -71,6 +109,10 @@ public class ObjectMaker extends Transform {
         }
     }
 
+    /**
+     * Appends normal vectors, transformed by the current matrix.
+     * @param v The array of normal vectors.
+     */
     public void appendNormals(float[] v){
 
         int nrm_start=this.nrm.size();
@@ -96,6 +138,10 @@ public class ObjectMaker extends Transform {
 
     }
 
+    /**
+     * Appends UV coordinates.
+     * @param v The array of UV coordinates.
+     */
     public void appendUV(float[] v){
         int uv_start=this.uv.size();
         for(int i=0;i<v.length;i++)
@@ -104,6 +150,10 @@ public class ObjectMaker extends Transform {
         }
     }
 
+    /**
+     * Appends triangle indices from an int array.
+     * @param v The array of triangle indices.
+     */
     public void appendTriangles(int[] v){
         int v_length=this.xyz.size()/3;
         int tri_start=this.tri.size();
@@ -114,6 +164,10 @@ public class ObjectMaker extends Transform {
         }
     }
 
+    /**
+     * Appends triangle indices from a short array.
+     * @param v The array of triangle indices.
+     */
     public void appendTriangles(short[] v){
         int v_length=this.xyz.size()/3;
         int tri_start=this.tri.size();
@@ -124,6 +178,10 @@ public class ObjectMaker extends Transform {
         }
     }
 
+    /**
+     * Appends color values.
+     * @param v The array of color values.
+     */
     public void appendColors(float[] v){
         int color_start=this.clr.size();
         for(int i=0;i<v.length;i++)
@@ -144,14 +202,31 @@ public class ObjectMaker extends Transform {
      */
 
 
+    /**
+     * Sets the current color for subsequent geometry.
+     * @param color The RGB color array.
+     */
     public void color(float[] color){
         this.current_color=color;
     }
 
+    /**
+     * Sets the current color for subsequent geometry using individual RGB values.
+     * @param r Red component.
+     * @param g Green component.
+     * @param b Blue component.
+     */
     public void color(float r, float g, float b){
         this.current_color=new float[]{r,g,b};
     }
 
+    /**
+     * Appends a rectangle shape with specified width, height, and UV scaling.
+     * @param width The rectangle width.
+     * @param height The rectangle height.
+     * @param u The U texture scale.
+     * @param v The V texture scale.
+     */
     public void rectangle(float width,float height,float u,float v){
         float w=width;
         float h=height;
@@ -173,10 +248,21 @@ public class ObjectMaker extends Transform {
         }
     }
 
+    /**
+     * Appends a rectangle shape with specified width and height.
+     * @param width The rectangle width.
+     * @param height The rectangle height.
+     */
     public void rectangle(float width,float height){
         rectangle(width,height,1,1);
     }
 
+    /**
+     * Appends a box shape with specified dimensions.
+     * @param width The box width.
+     * @param height The box height.
+     * @param depth The box depth.
+     */
     public void box(float width, float height, float depth){
 
         float x=width;
@@ -245,10 +331,24 @@ public class ObjectMaker extends Transform {
         this.popMatrix();
     }
 
+    /**
+     * Appends a trapezoid shape with specified width, height, and depth.
+     * @param width The trapezoid width.
+     * @param height The trapezoid height.
+     * @param depth The trapezoid depth.
+     */
     public void trapezoid(float width, float height, float depth) {
         trapezoid(width,height,depth,width,depth);
     }
 
+    /**
+     * Appends a trapezoid shape with different top and bottom dimensions.
+     * @param width The bottom width.
+     * @param height The height.
+     * @param depth The bottom depth.
+     * @param width2 The top width.
+     * @param depth2 The top depth.
+     */
     public void trapezoid(float width, float height, float depth, float width2, float depth2){
 
         float x=width;
@@ -282,6 +382,12 @@ public class ObjectMaker extends Transform {
         this.popMatrix();
     }
 
+    /**
+     * Appends a pyramid shape with specified dimensions.
+     * @param width The pyramid width.
+     * @param height The pyramid height.
+     * @param depth The pyramid depth.
+     */
     public void pyramid(float width, float height, float depth){
         float x=width;
         float y=height;
@@ -313,6 +419,12 @@ public class ObjectMaker extends Transform {
         this.popMatrix();
     }
 
+    /**
+     * Appends a disc shape with specified width, height, and resolution.
+     * @param width The disc width.
+     * @param height The disc height.
+     * @param resolution The number of segments.
+     */
     public void disc(float width, float height, int resolution){
         float x=width;
         float y=1;
@@ -373,10 +485,23 @@ public class ObjectMaker extends Transform {
         this.popMatrix();
     }
 
+    /**
+     * Appends a cone shape with specified dimensions and default resolution.
+     * @param width The cone width.
+     * @param height The cone height.
+     * @param depth The cone depth.
+     */
     public void cone(float width, float height, float depth){
         cone(width,height,depth,16);
     }
 
+    /**
+     * Appends a cone shape with specified dimensions and resolution.
+     * @param width The cone width.
+     * @param height The cone height.
+     * @param depth The cone depth.
+     * @param resolution The number of segments.
+     */
     public void cone(float width, float height, float depth, int resolution){
         float x=width;
         float y=height;
@@ -435,6 +560,15 @@ public class ObjectMaker extends Transform {
         this.popMatrix();
     }
 
+    /**
+     * Appends a cylinder shape with specified dimensions, top/bottom radii, and resolution.
+     * @param width The bottom width.
+     * @param height The height.
+     * @param depth The bottom depth.
+     * @param width2 The top width.
+     * @param depth2 The top depth.
+     * @param resolution The number of segments.
+     */
     public void cylinder(float width, float height, float depth, float width2, float depth2, int resolution){
         float x=width;
         float y=height;
@@ -520,27 +654,62 @@ public class ObjectMaker extends Transform {
         this.popMatrix();
     }
 
+    /**
+     * Appends a cylinder shape with specified dimensions and top/bottom radii, using default resolution.
+     * @param width The bottom width.
+     * @param height The height.
+     * @param depth The bottom depth.
+     * @param width2 The top width.
+     * @param depth2 The top depth.
+     */
     public void cylinder(float width, float height, float depth,float width2, float depth2)
     {
         this.cylinder(width,height,depth,width2,depth2,16);
     }
 
+    /**
+     * Appends a cylinder shape with specified dimensions, using default resolution.
+     * @param width The cylinder width.
+     * @param height The cylinder height.
+     * @param depth The cylinder depth.
+     */
     public void cylinder(float width, float height, float depth)
     {
         this.cylinder(width,height,depth,width,depth,16);
     }
 
+    /**
+     * Appends a cylinder shape with specified dimensions and resolution.
+     * @param width The cylinder width.
+     * @param height The cylinder height.
+     * @param depth The cylinder depth.
+     * @param resolution The number of segments.
+     */
     public void cylinder(float width, float height, float depth, int resolution)
     {
         this.cylinder(width,height,depth,width,depth,resolution);
     }
 
+    /**
+     * Appends a cylinder shape aligned along the Y axis.
+     * @param width The cylinder width.
+     * @param height The cylinder height.
+     * @param depth The cylinder depth.
+     * @param resolution The number of segments.
+     */
     public void cylinderY(float width, float height, float depth, int resolution)
     {
         this.cylinder(width,height,depth,width,depth,resolution);
     }
 
 
+    /**
+     * Appends a cylinder shape aligned along the X axis.
+     * @param width The cylinder width.
+     * @param height The cylinder height.
+     * @param depth The cylinder depth.
+     * @param resolution The number of segments.
+     */
     public void cylinderX(float width, float height, float depth, int resolution)
     {
         this.pushMatrix();
@@ -550,17 +719,37 @@ public class ObjectMaker extends Transform {
     }
 
 
+    /**
+     * Appends a cylinder shape aligned along the Z axis.
+     * @param width The cylinder width.
+     * @param height The cylinder height.
+     * @param depth The cylinder depth.
+     * @param resolution The number of segments.
+     */
     public void cylinderZ(float width, float height, float depth, int resolution)
     {
         this.pushMatrix();
         this.rotate(90,1,0,0);
         this.cylinderY(width,depth,height,resolution);
         this.popMatrix();
-    };
+    }
 
+    /**
+     * Appends a sphere shape with specified dimensions and default resolution.
+     * @param width The sphere width.
+     * @param height The sphere height.
+     * @param depth The sphere depth.
+     */
     public void sphere(float width, float height, float depth){
         sphere(width,height,depth,16);
     }
+    /**
+     * Appends a sphere shape with specified dimensions and resolution.
+     * @param width The sphere width.
+     * @param height The sphere height.
+     * @param depth The sphere depth.
+     * @param resolution The number of segments.
+     */
     public void sphere(float width, float height, float depth, int resolution){
         float x=width;
         float y=height;
@@ -612,6 +801,9 @@ public class ObjectMaker extends Transform {
         this.popMatrix();
     }
 
+    /**
+     * Clears all geometry buffers (vertices, normals, triangles, UVs, colors).
+     */
     public void clear(){
         this.xyz.clear();
         this.nrm.clear();
@@ -621,15 +813,62 @@ public class ObjectMaker extends Transform {
         //this.current_color=null;
     };
 
+    /**
+     * Resets the current color to white.
+     */
     public void clearColor(){
         this.current_color=new float[]{1,1,1};
     }
 
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, optionally including normals, UVs, colors, and tangents.
+     * @param normals Whether to include normals.
+     * @param uv Whether to include UVs.
+     * @param colors Whether to include colors.
+     * @param tangents Whether to compute tangents.
+     * @return The created GameObject.
+     */
     public GameObject flushModel(boolean normals, boolean uv, boolean colors, boolean tangents){return flushModel(new GameObject(),normals,uv,colors,tangents);}
+
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, optionally including normals, UVs, and colors.
+     * @param normals Whether to include normals.
+     * @param uv Whether to include UVs.
+     * @param colors Whether to include colors.
+     * @return The created GameObject.
+     */
     public GameObject flushModel(boolean normals, boolean uv, boolean colors){return flushModel(new GameObject(),normals,uv,colors);}
+
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, optionally including normals and UVs.
+     * @param normals Whether to include normals.
+     * @param uv Whether to include UVs.
+     * @return The created GameObject.
+     */
     public GameObject flushModel(boolean normals, boolean uv){return flushModel(new GameObject(),normals,uv);}
+
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, optionally including normals.
+     * @param normals Whether to include normals.
+     * @return The created GameObject.
+     */
     public GameObject flushModel(boolean normals){return flushModel(new GameObject(),normals);}
+
+    /**
+     * Creates and returns a GameObject with the current geometry buffers.
+     * @return The created GameObject.
+     */
     public GameObject flushModel(){return flushModel(new GameObject());}
+
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, optionally including normals, UVs, colors, and tangents, using the provided GameObject.
+     * @param model The GameObject to populate.
+     * @param normals Whether to include normals.
+     * @param uv Whether to include UVs.
+     * @param colors Whether to include colors.
+     * @param tangents Whether to compute tangents.
+     * @return The populated GameObject.
+     */
     public GameObject flushModel(GameObject model, boolean normals, boolean uv, boolean colors, boolean tangents){
         if(model.mesh==null)model.addComponent(new Mesh());
         if(tangents)model.mesh.keepData(true);
@@ -645,18 +884,45 @@ public class ObjectMaker extends Transform {
         clear();
         return model;
     }
+
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, optionally including normals, UVs, and colors, using the provided GameObject.
+     * @param model The GameObject to populate.
+     * @param normals Whether to include normals.
+     * @param uv Whether to include UVs.
+     * @param colors Whether to include colors.
+     * @return The populated GameObject.
+     */
     public GameObject flushModel(GameObject model, boolean normals, boolean uv, boolean colors){
         return flushModel(model,normals,uv,colors,false);
     }
 
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, optionally including normals and UVs, using the provided GameObject.
+     * @param model The GameObject to populate.
+     * @param normals Whether to include normals.
+     * @param uv Whether to include UVs.
+     * @return The populated GameObject.
+     */
     public GameObject flushModel(GameObject model, boolean normals, boolean uv){
         return flushModel(model,normals,uv,false,false);
     }
 
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, optionally including normals, using the provided GameObject.
+     * @param model The GameObject to populate.
+     * @param normals Whether to include normals.
+     * @return The populated GameObject.
+     */
     public GameObject flushModel(GameObject model, boolean normals){
         return flushModel(model,normals,false,false,false);
     }
 
+    /**
+     * Creates and returns a GameObject with the current geometry buffers, using the provided GameObject.
+     * @param model The GameObject to populate.
+     * @return The populated GameObject.
+     */
     public GameObject flushModel(GameObject model){
         return flushModel(model,false,false,false,false);
     }

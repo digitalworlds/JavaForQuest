@@ -5,22 +5,40 @@ import android.opengl.GLES30;
 import j4q.shaders.Texture;
 import j4q.shaders.Background360Shader;
 
+/**
+ * Represents a 360-degree background sphere for VR rendering.
+ * <p>
+ * The {@code Background360} class creates a spherical mesh for panoramic backgrounds,
+ * supporting fisheye projection and texture assignment.
+ * </p>
+ */
 public class Background360 extends GameObject {
 
-    public Background360(){
-        ObjectMaker om=new ObjectMaker();
-        om.sphere(-100,100,100,32);
-        om.flushModel(this,false,true,false);
-        shader=new Background360Shader();
+    /**
+     * Constructs a standard 360-degree background sphere.
+     */
+    public Background360() {
+        ObjectMaker om = new ObjectMaker();
+        om.sphere(-100, 100, 100, 32);
+        om.flushModel(this, false, true, false);
+        shader = new Background360Shader();
     }
 
-    //FishEye format
-    public Background360(double FOV){
-        shader=new Background360Shader();
+    /**
+     * Constructs a fisheye 360-degree background sphere with the specified field of view.
+     * @param FOV The field of view in radians.
+     */
+    public Background360(double FOV) {
+        shader = new Background360Shader();
         makeFishEye(FOV);
     }
 
-    private void makeFishEye(double FOV){
+
+    /**
+     * Generates a fisheye sphere mesh for panoramic rendering.
+     * @param FOV The field of view in radians.
+     */
+    private void makeFishEye(double FOV) {
         double centerX=0.5;
         double centerY=0.5;
         //double FOV=2*Math.PI;//The field of view of the cameras in radians
@@ -91,15 +109,22 @@ public class Background360 extends GameObject {
         this.mesh.setUV(uv);
     }
 
+    /**
+     * Draws the background sphere, disabling depth test for proper rendering.
+     */
     @Override
-    public void draw(){
+    public void draw() {
         GLES30.glDisable(GLES30.GL_DEPTH_TEST);
         super.draw();
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
     }
 
-    public void setTexture(Texture t){
-        ((Background360Shader)shader).setTexture(t);
+    /**
+     * Sets the texture for the background sphere.
+     * @param t The texture to apply.
+     */
+    public void setTexture(Texture t) {
+        ((Background360Shader) shader).setTexture(t);
     }
 
 }

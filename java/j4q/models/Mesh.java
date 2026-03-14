@@ -10,18 +10,46 @@ import java.util.ArrayList;
 
 import j4q.J4Q;
 
+/**
+ * Represents a 3D mesh for rendering and geometry management.
+ * <p>
+ * Handles vertex buffers, triangles, normals, UVs, tangents, and OpenGL VAO/VBO setup.
+ * </p>
+ */
 public class Mesh extends Component{
 
+    /**
+     * Number of triangles in the mesh.
+     */
     public int triangleLength=0;
 
+    /**
+     * OpenGL Vertex Array Object (VAO) ID.
+     */
     public int vertexArrayObject;
+    /**
+     * OpenGL Index Buffer Object (IBO) ID.
+     */
     private int indexBuffer=0;
+    /**
+     * Array of OpenGL buffer IDs for vertex attributes.
+     */
     private int[] arrayBuffers;
 
+    /**
+     * Unique object ID for this mesh.
+     */
     private int ID;
 
+    /**
+     * Returns the unique object ID for this mesh.
+     * @return The mesh object ID.
+     */
     public int getObjectID(){return this.ID;}
 
+    /**
+     * Constructs a new Mesh and initializes OpenGL VAO.
+     */
     public Mesh() {
         int[] i=new int[1];
         GLES30.glGenVertexArrays( 1,i,0 );
@@ -30,6 +58,11 @@ public class Mesh extends Component{
         this.ID= J4Q.newObjectID(this);
     }
 
+    /**
+     * Retrieves or creates the OpenGL buffer for the given slot.
+     * @param slot The attribute slot index.
+     * @return The OpenGL buffer ID.
+     */
     private int getArrayBuffer(int slot){
         if(slot<arrayBuffers.length){
             if(arrayBuffers[slot]==0){
@@ -51,6 +84,10 @@ public class Mesh extends Component{
         }
     }
 
+    /**
+     * Sets the mesh vertex positions from an ArrayList.
+     * @param vertices The list of vertex positions.
+     */
     public void setXYZ(ArrayList<Float> vertices){
         if(vertices==null || vertices.size()==0)return;
 
@@ -62,26 +99,50 @@ public class Mesh extends Component{
         setXYZ(v);
     }
 
+    /**
+     * Sets the mesh vertex positions from a float array.
+     * @param vertices The array of vertex positions.
+     */
     public void setXYZ(float[] vertices){
         if(keep_data)this.xyz=vertices;
         setArrayBuffer3f(vertices,0); //slot 1 for positions
     }
+    /**
+     * Sets the mesh normals from a float array.
+     * @param normals The array of normal vectors.
+     */
     public void setNormals(float[] normals){
         if(keep_data) this.normals = normals;
         setArrayBuffer3f(normals,1); //slot 1 for normals
     }
+    /**
+     * Sets the mesh UV coordinates from a float array.
+     * @param uv The array of UV coordinates.
+     */
     public void setUV(float[] uv){
         if(keep_data) this.uv = uv;
         setArrayBuffer2f(uv,2); //slot 2 for uv
     }
+    /**
+     * Sets the mesh tangents from a float array.
+     * @param tangents The array of tangent vectors.
+     */
     public void setTangents(float[] tangents){
         if(keep_data) this.tangents = tangents;
         setArrayBuffer3f(tangents, 3); // slot 3 for tangents
     }
+    /**
+     * Sets the mesh colors from a float array.
+     * @param colors The array of color values.
+     */
     public void setColors(float[] colors){
         setArrayBuffer3f(colors,4); // slot 4 for colors
     }
 
+    /**
+     * Sets the mesh normals from an ArrayList.
+     * @param vertices The list of normal vectors.
+     */
     public void setNormals(ArrayList<Float> vertices){
         if(vertices==null || vertices.size()==0)return;
 
@@ -92,6 +153,10 @@ public class Mesh extends Component{
         }
         setNormals(v);
     }
+    /**
+     * Sets the mesh UV coordinates from an ArrayList.
+     * @param vertices The list of UV coordinates.
+     */
     public void setUV(ArrayList<Float> vertices){
         if(vertices==null || vertices.size()==0)return;
 
@@ -103,19 +168,45 @@ public class Mesh extends Component{
         setUV(v);
     }
 
+    /**
+     * Sets a 1-component float array buffer for the given slot.
+     * @param array The float array.
+     * @param slot The attribute slot index.
+     */
     public void setArrayBuffer1f(float[] array,int slot){
         setArrayBufferf(array,1,slot);
     }
+    /**
+     * Sets a 2-component float array buffer for the given slot.
+     * @param array The float array.
+     * @param slot The attribute slot index.
+     */
     public void setArrayBuffer2f(float[] array,int slot){
         setArrayBufferf(array,2,slot);
     }
+    /**
+     * Sets a 3-component float array buffer for the given slot.
+     * @param array The float array.
+     * @param slot The attribute slot index.
+     */
     public void setArrayBuffer3f(float[] array,int slot){
         setArrayBufferf(array,3,slot);
     }
+    /**
+     * Sets a 4-component float array buffer for the given slot.
+     * @param array The float array.
+     * @param slot The attribute slot index.
+     */
     public void setArrayBuffer4f(float[] array,int slot){
         setArrayBufferf(array,4,slot);
     }
 
+    /**
+     * Sets a float array buffer for the given slot and dimension.
+     * @param array The float array.
+     * @param dimensions The number of components per vertex.
+     * @param slot The attribute slot index.
+     */
     private void setArrayBufferf(float[] array,int dimensions,int slot){
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
@@ -143,6 +234,10 @@ public class Mesh extends Component{
     }
 
 
+    /**
+     * Sets the mesh triangle indices from an ArrayList.
+     * @param vertices The list of triangle indices.
+     */
     public void setTriangles(ArrayList<Short> vertices){
         if(vertices==null || vertices.size()==0)return;
 
@@ -156,6 +251,10 @@ public class Mesh extends Component{
 
 
 
+    /**
+     * Sets the mesh triangle indices from a short array.
+     * @param triangles The array of triangle indices.
+     */
     public void setTriangles(short[] triangles){
 
         if(keep_data)this.tri=triangles;
@@ -186,6 +285,10 @@ public class Mesh extends Component{
 
     private boolean keep_data=false;
 
+    /**
+     * Enables or disables keeping geometry data in memory.
+     * @param flag True to keep data, false to release.
+     */
     public void keepData(boolean flag){
         keep_data=flag;
         if(!keep_data){
@@ -198,20 +301,44 @@ public class Mesh extends Component{
     }
 
     private float[] xyz;
+    /**
+     * Returns the mesh vertex positions.
+     * @return The array of vertex positions.
+     */
     public float[] getXYZ(){return xyz;}
 
     private float[] uv;
+    /**
+     * Returns the mesh UV coordinates.
+     * @return The array of UV coordinates.
+     */
     public float[] getUV(){return uv;}
 
     private float[] normals;
+    /**
+     * Returns the mesh normal vectors.
+     * @return The array of normal vectors.
+     */
     public float[] getNormals(){return normals;}
 
     private float[] tangents;
+    /**
+     * Returns the mesh tangent vectors.
+     * @return The array of tangent vectors.
+     */
     public float[] getTangents(){return tangents;}
 
     short[] tri;
+    /**
+     * Returns the mesh triangle indices.
+     * @return The array of triangle indices.
+     */
     public short[] getTriangles(){return tri;}
 
+    /**
+     * Computes per-vertex normals for the mesh using positions and triangles.
+     * Stores and uploads them if keep_data is enabled.
+     */
     public void computeNormals(){
 
         float[] XYZ=this.getXYZ();

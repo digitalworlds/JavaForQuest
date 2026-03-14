@@ -4,15 +4,31 @@ import android.opengl.GLES30;
 
 import j4q.models.Mesh;
 
+/**
+ * Shader for rendering objects with MatCap texture lighting.
+ * <p>
+ * Handles MatCap texture binding and mesh rendering for stylized shading.
+ * </p>
+ */
 public class MatCapShader extends Shader {
 
+    /**
+     * Constructs a MatCapShader for stylized MatCap rendering.
+     */
     public MatCapShader() {
         super("shaders/matCap",new String[]{"aPosition","aNormal"});
-
     }
 
-    protected Texture matcap=null;
+    /**
+     * The MatCap texture used for stylized shading.
+     */
+    protected Texture matcap = null;
 
+    /**
+     * Sets the MatCap texture for the shader and binds it.
+     * @param matCap The MatCap texture to use.
+     * @return This shader instance for chaining.
+     */
     public MatCapShader setMatCap(Texture matCap){
         this.matcap=matCap;
         this.matcap.setActive(0);
@@ -22,11 +38,14 @@ public class MatCapShader extends Shader {
         return this;
     }
 
+    /**
+     * Renders the mesh using the MatCap shader and bound MatCap texture.
+     * @param mesh The mesh to render.
+     */
     @Override
     public void render(Mesh mesh) {
         GLES30.glUseProgram(shaderProgram);
         GLES30.glBindVertexArray( mesh.vertexArrayObject ) ;
-
 
         if(matcap!=null) {
             //shader.setUniformInteger("uTexture", texture.slot);

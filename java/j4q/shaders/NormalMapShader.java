@@ -4,15 +4,31 @@ import android.opengl.GLES30;
 
 import j4q.models.Mesh;
 
+/**
+ * Shader for rendering objects with normal mapping.
+ * <p>
+ * Supports binding a normal map texture and rendering meshes with enhanced surface detail.
+ * </p>
+ */
 public class NormalMapShader extends Shader {
 
+    /**
+     * Constructs a NormalMapShader with default configuration.
+     */
     public NormalMapShader() {
         super("shaders/normalMap",new String[]{"aPosition","aNormal","aUV","aTangent"});
-
     }
 
-    protected Texture normalmap=null;
+    /**
+     * The normal map texture used for surface detail.
+     */
+    protected Texture normalmap = null;
 
+    /**
+     * Sets the normal map texture for the shader and binds it.
+     * @param normalMap The normal map texture to use.
+     * @return This shader instance for chaining.
+     */
     public NormalMapShader setNormalMap(Texture normalMap){
         this.normalmap=normalMap;
         this.normalmap.setActive(1);
@@ -22,11 +38,14 @@ public class NormalMapShader extends Shader {
         return this;
     }
 
+    /**
+     * Renders the mesh using the normal map shader and bound normal map texture.
+     * @param mesh The mesh to render.
+     */
     @Override
     public void render(Mesh mesh) {
         GLES30.glUseProgram(shaderProgram);
         GLES30.glBindVertexArray( mesh.vertexArrayObject ) ;
-
 
         if(normalmap!=null) {
             //shader.setUniformInteger("uTexture", texture.slot);
