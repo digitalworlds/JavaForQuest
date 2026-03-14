@@ -51,7 +51,7 @@ You need to install the following software to be able to compile Android apps fo
 - [x] Update the headset to the latest firmware and software by going to Quick Settings (where the time and battery status is shown) -> Settings -> Software Update
 - [x] Enable Developer Mode by using the Meta Horizon app
 
-### 3. Run the J4Q (Java For Quest) Project
+### 3. Run the J4Q Projects
 
 - [x] There are many Android studio projects inside the folder `J4Q_XX.0/JavaForQuest/Projects`. Select a project and open in Android Studio the file `builde.gradle` located inside the project folder. For example for the EndlessUniverse project open the file: `J4Q_XX.0/JavaForQuest/Projects/EndlessUniverse/build.gradle`
 - [x] If there are errors during the build process, follow our troubleshooting guide at the end of this document.
@@ -60,6 +60,11 @@ You need to install the following software to be able to compile Android apps fo
 - [x] When the name of your headset device appears in the device list in the toolbar of Android Studio, click on the Run button to compile the project and install it on your headset.
 - [x] Test the J4Q Demo app in your headset. Make sure you use a version that is compatible with your headset: Meta Quest 1 (J4Q_46.0), Meta Quest 2 & 3 (J4Q_85.0).
 - [x] In general, you can find and run the app in your Quest headset in your Library in the category 'Unknown Sources'. 
+
+### 4. Create your own Project
+
+- [x] Start your own project using the Sandbox template, which is an empty project for you to use.
+- [x] Consult the J4Q Javadocs: [https://digitalworlds.github.io/JavaForQuest/doc/index.html](https://digitalworlds.github.io/JavaForQuest/doc/index.html) 
 
 ## 🧪 Tested with the following system configuration:
 
