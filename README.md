@@ -21,6 +21,7 @@ The project contains several sample VR apps located inside the `J4Q_XX.0/JavaFor
 - 🔭 EndlessUniverse: A full-scale demo of the J4Q API
 - ⚪ HelloPhysics: A basic demo of a physics engine in VR
 - ⏳ Sandbox: An empty project for you to start experimenting
+- ⏳ Sandbox for Phones: If you don't have access to a Quest headset you can still use J4Q in phones, tablets, or emulators, using the project setup inside the `J4Q_Phone` folder.
 - 🔷 HelloPolygon: An introduction on how to create 3D objects
 - 🎨 HelloTexture: An example on how to map textures onto 3D geometry
 - ♾️ HelloNormals: A tutorial on how to encode surface normal vectors
@@ -78,7 +79,7 @@ You need to install the following software to be able to compile Android apps fo
 
 ## 🚩 Troubleshooting
 
-### The application appear as a black window in the headset
+### The application appears as a black window in the headset
 
 The Meta Quest 1 headset can only run applications made with J4Q_46.0. If you try to run applications made with J4Q_85.0 they will appear as black windows due to incompatible Meta SDK version.
 
