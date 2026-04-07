@@ -61,7 +61,6 @@ public class MainActivity extends GyroscopicActivity {
         my_level.prependChild(background);
 
 
-
         projectile=new GameObject[10];
         for(int i=0;i<10;i++) {
             om.color(1,0,0);
