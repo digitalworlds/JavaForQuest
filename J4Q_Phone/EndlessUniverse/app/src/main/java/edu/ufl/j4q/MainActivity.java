@@ -33,7 +33,6 @@ public class MainActivity extends GyroscopicActivity {
 
     public void Start(){
 
-        scene.background(153/255f,	204/255f,	255/255f);
         scene.setLightDir(-0.5f,0.5f,-0.5f);
 
 
@@ -62,11 +61,6 @@ public class MainActivity extends GyroscopicActivity {
         my_level.prependChild(background);
 
 
-        //rc=new RightController();
-        //appendChild(rc);
-
-        //lc=new LeftController();
-        //appendChild(lc);
 
         projectile=new GameObject[10];
         for(int i=0;i<10;i++) {
