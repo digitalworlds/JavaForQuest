@@ -31,6 +31,10 @@ The project contains several sample VR apps located inside the `J4Q_XX.0/JavaFor
 - 🖲️ OBJViewer: This app demonstrates how to open a 3D model from an OBJ-formatted file
 - 🎮 HelloControllers: A tutorial on VR controllers and how to use their input (pose, buttons, squeezes, joysticks) and output (vibration) 
 
+<p align="center">
+  <img src="https://github.com/digitalworlds/JavaForQuest/blob/main/docs/img/EndlessUniverse2.png" width="100%">
+</p>
+
 ## ⚙️ How to setup and run J4Q:
 
 The following instructions will guide you step by step on how to setup and run J4Q in your system. The instructions include details for the following steps:
