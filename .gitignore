@@ -141,3 +141,7 @@ J4Q_Phone/Sandbox/local.properties
 J4Q_Phone/EndlessUniverse/local.properties
 J4Q_46.0/JavaForQuest/Projects/HelloPhysics/local.properties
 J4Q_85.0/JavaForQuest/Projects/HelloPhysics/local.properties
+/J4Q_85.0/JavaForQuest/Projects/HelloMultiplayer/.cxx
+/J4Q_85.0/JavaForQuest/Projects/HelloMultiplayer/.gradle
+/J4Q_85.0/JavaForQuest/Projects/HelloMultiplayer/.idea
+/J4Q_85.0/JavaForQuest/Projects/HelloMultiplayer/build

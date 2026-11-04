@@ -104,6 +104,11 @@ public class GameObject {
     private boolean visible = true;
 
     /**
+     * The name assigned to this object.
+     */
+    public String name="";
+
+    /**
      * Makes the GameObject visible.
      */
     public void show() { visible = true; }
@@ -124,6 +129,12 @@ public class GameObject {
      * @return The parent GameObject, or null if root.
      */
     public GameObject getParent() { return parent; }
+
+    /**
+     * Returns the list of children GameObjects.
+     * @return An ArrayList with the children GameObjects.
+     */
+    public ArrayList<GameObject> getChildren(){return children;}
 
     /**
      * The local transform of this GameObject.

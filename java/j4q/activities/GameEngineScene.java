@@ -29,20 +29,23 @@ public class GameEngineScene {
     /**
      * Appends a GameObject as a child to the root.
      * @param gameObject The GameObject to append.
+     * @return The GameObject that was appended.
      */
-    public void appendChild(GameObject gameObject) { root.appendChild(gameObject); }
+    public GameObject appendChild(GameObject gameObject) { return root.appendChild(gameObject); }
 
     /**
      * Prepends a GameObject as a child to the root.
      * @param gameObject The GameObject to prepend.
+     * @return The GameObject that was prepended.
      */
-    public void prependChild(GameObject gameObject) { root.prependChild(gameObject); }
+    public GameObject prependChild(GameObject gameObject) { return root.prependChild(gameObject); }
 
     /**
      * Removes a GameObject child from the root.
      * @param gameObject The GameObject to remove.
+     * @return The GameObject that was removed.
      */
-    public void removeChild(GameObject gameObject) { root.removeChild(gameObject); }
+    public GameObject removeChild(GameObject gameObject) { return root.removeChild(gameObject); }
 
     /**
      * The normal matrix used for lighting calculations.
