@@ -76,7 +76,7 @@ You need to install the following software to be able to compile Android apps fo
 - Android Studio Quail 3 | 2026.1.3 Patch 1
 - Android SDK Platform 14.0 (UpsideDownCake) API Level 34
 - Gradle 8.1.4
-- JDK 21 (jbr-21 JetBrains Runtime 21.0.6)
+- JVM 21 (jbr-21 JetBrains Runtime 21.0.6)
 - NDK 27.0.12077973
 - CMake 3.22.1
 - Operating Systems used for development: Tahoe 26.6.2
