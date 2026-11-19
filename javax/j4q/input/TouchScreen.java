@@ -1,6 +1,5 @@
 package j4q.input;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -45,19 +44,16 @@ public class TouchScreen extends InputDevice implements View.OnTouchListener{
             e.setGameObjects(g);
             switch(e.getType()){
                 case TouchScreenEvent.EVENT_POINTER_UP:
-                    Log.d("angelos", "PointerUp");
                     for (TouchScreenEventListener listener : listeners) {
                         listener.onPointerUp(e);
                     }
                 break;
                 case TouchScreenEvent.EVENT_POINTER_DOWN:
-                    Log.d("angelos", "PointerDown");
                     for (TouchScreenEventListener listener : listeners) {
                         listener.onPointerDown(e);
                     }
                     break;
                 case TouchScreenEvent.EVENT_POINTER_MOVE:
-                    Log.d("angelos", "PointerMove");
                     for (TouchScreenEventListener listener : listeners) {
                         listener.onPointerMove(e);
                     }

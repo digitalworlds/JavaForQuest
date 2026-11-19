@@ -80,8 +80,8 @@ public class RigidBody extends Component {
      * Updates the GameObject's transform to match the rigid body's world transform.
      */
     public void update(){
-        if(gameObject!=null)
-             gameObject.transform.reset(getModelMatrix());
+        if(gameObject()!=null)
+             gameObject().transform.reset(getModelMatrix());
     }
 
     /**

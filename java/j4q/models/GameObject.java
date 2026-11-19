@@ -28,16 +28,16 @@ public class GameObject {
      */
     public <T extends Component> void addComponent(T component) {
         if(component instanceof Mesh){
-            if(mesh!=null) components.remove(mesh);
+            if(mesh!=null) {components.remove(mesh);mesh.removedAsComponent();}
             mesh=(Mesh)component;
         }else if(component instanceof Shader){
-            if(shader!=null) components.remove(shader);
+            if(shader!=null) {components.remove(shader);shader.removedAsComponent();}
             shader=(Shader)component;
         }else if(component instanceof RigidBody){
-            if(rigidBody!=null) components.remove(rigidBody);
+            if(rigidBody!=null) {components.remove(rigidBody);rigidBody.removedAsComponent();}
             rigidBody=(RigidBody) component;
         }
-        component.gameObject = this;
+        component.addedAsComponentOf(this);
         components.put(component.getClass(), component);
     }
 
@@ -72,7 +72,7 @@ public class GameObject {
         else if (removed instanceof RigidBody && rigidBody == removed) {
             rigidBody = null;
         }
-        removed.gameObject = null;
+        removed.removedAsComponent();
         return type.cast(removed);
     }
 

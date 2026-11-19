@@ -79,7 +79,7 @@ public class J4Q {
     public static GameObject getObject(int ID) {
         Mesh m = objects.get(ID);
         if (m == null) return null;
-        else return m.gameObject;
+        else return m.gameObject();
     }
 
     /**

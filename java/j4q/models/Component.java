@@ -11,5 +11,10 @@ public abstract class Component {
     /**
      * The GameObject to which this component is attached.
      */
-    public GameObject gameObject;
+    private GameObject gameObject;
+
+    public GameObject gameObject(){return this.gameObject;}
+
+    public void addedAsComponentOf(GameObject gameObject){this.gameObject=gameObject;}
+    public void removedAsComponent(){gameObject=null;}
 }
