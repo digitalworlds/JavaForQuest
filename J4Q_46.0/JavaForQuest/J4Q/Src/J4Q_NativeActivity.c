@@ -2244,6 +2244,7 @@ typedef struct {
     ANativeWindow* NativeWindow;
     bool Resumed;
     bool Focused;
+    XrSessionState SessionState;
 
     XrInstance Instance;
     XrSession Session;
@@ -2321,10 +2322,13 @@ static void ovrApp_Destroy(ovrApp* app) {
 }
 
 static void ovrApp_HandleSessionStateChanges(ovrApp* app, XrSessionState state) {
+    app->SessionState = state;
     if (state == XR_SESSION_STATE_READY) {
-        assert(app->Resumed);
-        assert(app->NativeWindow != NULL);
-        assert(app->SessionActive == false);
+        if (!app->Resumed || app->NativeWindow == NULL || app->SessionActive) {
+            ALOGE("Session state READY but window not ready: Resumed=%d, NativeWindow=%p, SessionActive=%d",
+                  app->Resumed, app->NativeWindow, app->SessionActive);
+            return;
+        }
 
         XrSessionBeginInfo sessionBeginInfo;
         memset(&sessionBeginInfo, 0, sizeof(sessionBeginInfo));
@@ -2553,6 +2557,14 @@ static void app_handle_cmd(struct android_app* app, int32_t cmd) {
             break;
         }
     }
+
+    if (appState->NativeWindow == NULL && app->window != NULL) {
+        appState->NativeWindow = app->window;
+    }
+
+    if (appState->SessionState == XR_SESSION_STATE_READY && appState->Resumed && appState->NativeWindow != NULL && !appState->SessionActive) {
+        ovrApp_HandleSessionStateChanges(appState, XR_SESSION_STATE_READY);
+    }
 }
 
 void UpdateStageBounds(ovrApp* pappState) {
@@ -2773,6 +2785,9 @@ void android_main(struct android_app* app) {
     ALOGV("android_app_entry()");
     ALOGV("    android_main()");
 
+    app->userData = &appState;
+    app->onAppCmd = app_handle_cmd;
+
     JNIEnv* Env;
     (*app->activity->vm)->AttachCurrentThread(app->activity->vm, &Env, NULL);
 
@@ -2780,6 +2795,9 @@ void android_main(struct android_app* app) {
     prctl(PR_SET_NAME, (long)"OVR::Main", 0, 0, 0);
 
     ovrApp_Clear(&appState);
+    if (app->window != NULL) {
+        appState.NativeWindow = app->window;
+    }
 
     PFN_xrInitializeLoaderKHR xrInitializeLoaderKHR;
     xrGetInstanceProcAddr(
@@ -3650,6 +3668,14 @@ void android_main(struct android_app* app) {
         }
 
         ovrApp_HandleXrEvents(&appState);
+
+        if (appState.NativeWindow == NULL && app->window != NULL) {
+            appState.NativeWindow = app->window;
+        }
+
+        if (appState.SessionState == XR_SESSION_STATE_READY && appState.Resumed && appState.NativeWindow != NULL && !appState.SessionActive) {
+            ovrApp_HandleSessionStateChanges(&appState, XR_SESSION_STATE_READY);
+        }
 
         if (appState.SessionActive == false) {
             continue;
