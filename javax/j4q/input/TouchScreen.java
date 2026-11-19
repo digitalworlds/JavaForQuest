@@ -60,9 +60,15 @@ public class TouchScreen extends InputDevice implements View.OnTouchListener{
                     break;
             }
         }
+        for (FrameListener listener : frame_listeners) {
+            listener.onDraw();
+        }
     }
 
-    private List<TouchScreenEventListener> listeners = new CopyOnWriteArrayList<>();
+    private final List<TouchScreenEventListener> listeners = new CopyOnWriteArrayList<>();
+
+    private final List<FrameListener> frame_listeners = new CopyOnWriteArrayList<>();
+
 
     public void addTouchEventListener(TouchScreenEventListener listener) {
         if (listener != null && !listeners.contains(listener)) {
@@ -72,6 +78,16 @@ public class TouchScreen extends InputDevice implements View.OnTouchListener{
 
     public void removeTouchEventListener(TouchScreenEventListener listener) {
         listeners.remove(listener);
+    }
+
+    public void addFrameListener(FrameListener listener) {
+        if (listener != null && !frame_listeners.contains(listener)) {
+            frame_listeners.add(listener);
+        }
+    }
+
+    public void removeFrameListener(FrameListener listener) {
+        frame_listeners.remove(listener);
     }
 
     public int pick(int fingerSlot){
@@ -192,4 +208,6 @@ public class TouchScreen extends InputDevice implements View.OnTouchListener{
 
         return true;
     }
+
+
 }
