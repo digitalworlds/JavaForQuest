@@ -200,6 +200,8 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
 
     @Override
     public void onDrawFrame(GL10 unused) {
+        renderObjectPicker();
+
         scene.update();
 
         J4Q.physicsEngine.stepSimulation(J4Q.perSec());
@@ -207,7 +209,7 @@ public abstract class GyroscopicActivity extends GLActivity implements SensorEve
         scene.view.identity().multiply(currentRotation).multiply(initialRotation);
         scene.draw();
 
-        renderObjectPicker();
+
 
     }
 

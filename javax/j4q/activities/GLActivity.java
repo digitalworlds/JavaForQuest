@@ -122,9 +122,7 @@ public abstract class GLActivity extends Activity implements GameEngineActivity,
 
 
     public void renderObjectPicker(){
-        if(touchScreen.fingers_down>0) {
-            touchScreen.capture(scene);
-        }
+        touchScreen.capture(scene);
     }
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
