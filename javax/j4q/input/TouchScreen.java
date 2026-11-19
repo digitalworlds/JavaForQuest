@@ -30,12 +30,12 @@ public class TouchScreen extends InputDevice implements View.OnTouchListener{
         objectPicker.end();
     }
 
-    public int pick(int slot){
-        return id[slot];
+    public int pick(int fingerSlot){
+        return id[fingerSlot];
     }
 
-    public GameObject pickObject(int slot){
-        return J4Q.getObject(id[slot]);
+    public GameObject pickObject(int fingerSlot){
+        return J4Q.getObject(id[fingerSlot]);
     }
 
 

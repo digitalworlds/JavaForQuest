@@ -27,6 +27,14 @@ public abstract class GLActivity extends Activity implements GameEngineActivity,
 
     private TouchScreen touchScreen;
 
+    private float FOV=60;
+
+    public void setFOV(float fov){
+        this.FOV=fov;
+        this.onSurfaceChanged(null,this.getScreenWidth(),this.getScreenHeight());
+    }
+    public float getFOV(){return this.FOV;}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,14 +90,31 @@ public abstract class GLActivity extends Activity implements GameEngineActivity,
     public int getScreenWidth(){return screen_width;}
     public int getScreenHeight(){return screen_height;}
 
+    private static void perspectiveM(float[] matrix, float fov, float aspect, float near, float far) {
+
+        float top = near * (float)Math.tan(Math.toRadians(fov / 2.0));
+
+        float bottom = -top;
+        float left = bottom * aspect;
+        float right = top * aspect;
+
+        Matrix.frustumM(
+                matrix, 0,
+                left, right,
+                bottom, top,
+                near, far
+        );
+    }
     public void onSurfaceChanged(GL10 unused, int width, int height) {
+        if(width==0 || height==0)return;
         screen_width=width;
         screen_height=height;
         GLES30.glViewport(0, 0, width, height);
 
         float[] mProjectionMatrix=new float[16];
         float ratio = (float) width / height;
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio*0.1f, ratio*0.1f, -0.1f, 0.1f, 0.1f, 1024);
+        //Matrix.frustumM(mProjectionMatrix, 0, -ratio*0.1f, ratio*0.1f, -0.1f, 0.1f, 0.1f, 1024);
+        Matrix.perspectiveM(mProjectionMatrix,0,this.FOV,ratio,0.1f,1024);
 
         scene.setupProjection(mProjectionMatrix);
         touchScreen.setup(width,height);

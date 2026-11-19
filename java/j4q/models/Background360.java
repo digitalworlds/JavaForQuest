@@ -44,6 +44,7 @@ public class Background360 extends GameObject {
         //double FOV=2*Math.PI;//The field of view of the cameras in radians
         double use=1.0;
         int resolution=64;
+        double scale=1024;
 
 //The centers of the two fisheye circles in [0-1] pixel coordinates
         double camera_center_x=centerX;
@@ -75,9 +76,9 @@ public class Background360 extends GameObject {
 //xyz [ c1 ] = - 1 ; c1 += 1 ;
 
 //these lines create the shape of the sphere
-                xyz[c1]=-(float)(Math.cos(Math.PI*(j/(resy-1.0)-0.5))*Math.cos(Math.PI*(i-resolution+1.0)/(resolution-1.0)));c1+=1;
-                xyz[c1]=(float)(Math.cos(Math.PI*(j/(resy-1.0)-0.5))*Math.sin(Math.PI*(i-resolution+1.0)/(resolution-1.0)));c1+=1;
-                xyz[c1]=(float)(Math.sin(Math.PI*(j/(resy-1.0)-0.5)));c1+=1;
+                xyz[c1]=-(float)(scale*Math.cos(Math.PI*(j/(resy-1.0)-0.5))*Math.cos(Math.PI*(i-resolution+1.0)/(resolution-1.0)));c1+=1;
+                xyz[c1]=(float)(scale*Math.cos(Math.PI*(j/(resy-1.0)-0.5))*Math.sin(Math.PI*(i-resolution+1.0)/(resolution-1.0)));c1+=1;
+                xyz[c1]=(float)(scale*Math.sin(Math.PI*(j/(resy-1.0)-0.5)));c1+=1;
 
                 if(Math.PI*j/(resy-1)>FOV/2){
                     xyz[c1-1]=(float)Math.sin((FOV-Math.PI)/2);
@@ -104,6 +105,7 @@ public class Background360 extends GameObject {
                 uv[c2]=(float)(camera_center_y+r*Math.sin(theta)*0.5);c2+=1;
             }
 
+        if(this.mesh==null)this.addComponent(new Mesh());
         this.mesh.setXYZ(xyz);
         this.mesh.setTriangles(tri);
         this.mesh.setUV(uv);
